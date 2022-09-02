@@ -855,6 +855,9 @@ def main_process():
                             if stop_time != "":
                                 delta = today - datetime.datetime.strptime(stop_time, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=utc)
                                 days = str(delta.days)
+                            else:
+                                delta = today - to_time_limit.replace(tzinfo=utc)
+                                days = str(delta.days)                                
 
                             row_data = (
                                 instance.region,
