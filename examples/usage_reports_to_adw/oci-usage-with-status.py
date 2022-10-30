@@ -674,6 +674,50 @@ def main_process():
         raise SystemExit
 
     ############################################
+    # connect to database
+    ############################################
+    max_usage_file_id = ""
+    max_cost_file_id = ""
+    connection = None
+    try:
+        print("\nConnecting to database " + cmd.dname)
+        connection = cx_Oracle.connect(user=cmd.duser, password=cmd.dpass, dsn=cmd.dname, encoding="UTF-8", nencoding="UTF-8")
+        cursor = connection.cursor()
+        print("   Connected")
+
+        ###############################
+        # enable hints
+        ###############################
+        sql = "ALTER SESSION SET OPTIMIZER_IGNORE_HINTS=FALSE"
+        cursor.execute(sql)
+        sql = "ALTER SESSION SET OPTIMIZER_IGNORE_PARALLEL_HINTS=FALSE"
+        cursor.execute(sql)
+
+        ###############################
+        # fetch max file id processed
+        # for usage and cost
+        ###############################
+        print("\nChecking Last Loaded File...")
+        sql = "select /*+ full(a) parallel(a,4) */ nvl(max(file_id),'0') as file_id from OCI_USAGE a where TENANT_NAME=:tenant_name"
+        cursor.execute(sql, {"tenant_name": str(tenancy.name)})
+        max_usage_file_id, = cursor.fetchone()
+
+        sql = "select /*+ full(a) parallel(a,4) */ nvl(max(file_id),'0') as file_id from OCI_COST a where TENANT_NAME=:tenant_name"
+        cursor.execute(sql, {"tenant_name": str(tenancy.name)})
+        max_cost_file_id, = cursor.fetchone()
+
+        print("   Max Usage File Id Processed = " + str(max_usage_file_id))
+        print("   Max Cost  File Id Processed = " + str(max_cost_file_id))
+        cursor.close()
+
+    except cx_Oracle.DatabaseError as e:
+        print("\nError manipulating database - " + str(e) + "\n")
+        raise SystemExit
+
+    except Exception as e:
+        raise Exception("\nError manipulating database - " + str(e))        
+
+    ############################################
     # Download Usage, cost and insert to database
     ############################################
     try:
@@ -717,7 +761,9 @@ def main_process():
         #############################
         current_region = ""
         current_compartment_id = ""
+        # 실행일자 기준 90일 이전에 생성한 인스턴스에 대해서 정리 기준으로 정했을때
         start_datetime = datetime.datetime.now().replace(tzinfo=utc) + datetime.timedelta(days=-90)
+        today = datetime.datetime.now().replace(tzinfo=utc)
 
         data = []
         num_rows = 0
@@ -763,14 +809,13 @@ def main_process():
 
                     for instance in instances:
                         time_created = instance.time_created;
-                        
+                              
                         if time_created < start_datetime:
                             #print(time_created)
                             #print(start_datetime)
                             print("    " + instance.display_name)
                             print("      " + str(time_created))
 
-                            today = datetime.datetime.now().replace(tzinfo=utc)
                             to_time = today;
                             to_time_limit = today + datetime.timedelta(days=-365)
 
@@ -857,7 +902,13 @@ def main_process():
                                 days = str(delta.days)
                             else:
                                 delta = today - to_time_limit.replace(tzinfo=utc)
-                                days = str(delta.days)                                
+                                days = str(delta.days)  
+
+                            try:
+                                defined_tags = instance.defined_tags
+                                created_by = defined_tags['Oracle-Tags']['CreatedBy']
+                            except Exception as e:
+                                created_by = ''      
 
                             row_data = (
                                 instance.region,
@@ -872,6 +923,7 @@ def main_process():
                                 start_user,
                                 stop_time,
                                 stop_user,
+                                created_by,
                                 instance.lifecycle_state,
                                 days
                             )
