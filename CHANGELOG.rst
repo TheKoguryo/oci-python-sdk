@@ -4,6 +4,106 @@ All notable changes to this project will be documented in this file.
 
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 ====================
+2.85.0 - 2022-10-04
+====================
+
+Added
+-----
+* Support for calling Oracle Cloud Infrastructure services in the eu-dcc-milan-1 region
+* Support for target host identification and SOCKS support on dynamic port forwarding sessions in the Bastion service
+* Support for viewing top processes running at a particular point of time in the Operations Insights service
+* Support for filtering top processes by a single process to view that process's trend over time in the Operations Insights service
+* Support for creating Enterprise Manager-based Windows host targets in the Operations Insights service
+* Support for creating Management Agent Cloud-based Windows and Solaris host targets in the Operations Insights service
+
+Breaking
+--------
+* Parameter `target_resource_port` is removed from models `TargetResourceDetails` and `CreateSessionTargetResourceDetails`
+
+====================
+2.84.0 - 2022-09-27
+====================
+
+Added
+-----
+* Support for search capabilities for monitored resources in the Stack Monitoring service
+* Support for deleting monitored resources with their members in the Stack Monitoring service
+* Support for creating host-type monitored resources in the Stack Monitoring service
+* Support for associating external resources during creation of monitored resources in the Stack Monitoring service
+* Support for uploading bulk data in the NoSQL Database Cloud service
+* Support for examining query execution plans in the NoSQL Database Cloud service
+* Support for starting and stopping clusters in the Big Data service
+* Support for additional compute shapes in the Big Data service
+* Support for backwards pagination in the Search service
+* Support for elastic compute for Exadata Cloud at Customer in the Database service  
+ 
+Breaking
+--------
+* Support for default retries on operations of the NoSQL Database Cloud service
+ 
+====================
+2.83.0 - 2022-09-20
+====================
+
+Added
+-----
+* Support for the Cloud Bridge service
+* Support for the Cloud Migrations service
+* Support for display banners, trails, and sizes in the GoldenGate service
+* Support for generic REST data assets, flattening of data in Data Flow, and runtime information on pipelines in the Data Integration service
+* Support for expanded search functionality in the Threat Intelligence service
+* Support for ingest-time rules and specifying logsets and query strings during recalls in the Logging Analytics service
+* Support for repository mirroring from Visual Builder Studio in the DevOps service
+* Support for running a managed build stage with the source code hosted in a Visual Builder Studio repository in the DevOps service
+* Support for triggering a build run based on an event in a Visual Builder Studio repository in the DevOps service
+* Support for additional parameters during cost management scheduling in the Usage service
+
+Breaking
+--------
+* Support for retries by default on operations of the GoldenGate service
+* Support for retries by default on operations of the Threat Intelligence service
+* The property `threat_types` is change from an Array of `model.ThreatType` to an Array of `string` in the IndicatorSummary model in the Threat Intelligence service
+* The property `deploy_stage_id` was made a required parameter in `CreateSingleDeployStageDeploymentDetails` and `CreateSingleDeployStageRedeploymentDetails` model in the DevOps service
+* The property `PreviousDeploymentId` was made a required parameter in the `CreateDeployPipelineRedeploymentDetails` model in the DevOps service
+
+====================
+2.82.0 - 2022-09-13
+====================
+
+Added
+-----
+* Support for calling Oracle Cloud Infrastructure services in the eu-madrid-1 region
+* Support for exporting and importing larger model artifacts in the model catalog in the Data Science service
+* Support for Request Based Authorization in the API Gateway service
+* Support for Dynamic Authentication in the API Gateway service
+* Support for Dynamic Routing Backend in the API Gateway service
+ 
+Breaking
+--------
+* Support for retries by default on some operations of the Data Science service
+ 
+====================
+2.81.0 - 2022-09-06
+====================
+
+Added
+-----
+* Support for generic REST, OCI Streaming service, and Lake House connectors in the Data Connectivity Management service
+* Support for connecting to the Data Catalog service in the Data Connectivity Management service
+* Support for Kerberos and SSL for HDFS operations in the Data Connectivity Management service
+* Support for excel-formatted data and default columns in the Data Connectivity Management service
+* Support for reporting connector usage in the Data Connectivity Management service
+* Support for preferred credentials for performing privileged operations in the Database Management service
+* Support for passing a content encoding when posting metrics in the Monitoring service  
+ 
+Breaking
+--------
+* Support for retries by default on some operations of the Data Connectivity Management service
+* Model `ConnectionValidationSummaryCollection` removed from the Data Connectivity Management service
+* Operations `delete_connection_validation` and `list_connection_validations` removed from the `DataConnectivityManagementClient` of the Data Connectivity Management service
+* Parameter `resource_id` renamed to `registry_id` in `list_work_requests` operation from the `DataConnectivityManagementClient` of the Data Connectivity Management service
+ 
+====================
 2.80.1 - 2022-08-30
 ====================
 

@@ -35,6 +35,7 @@ REGIONS_SHORT_NAMES = {
     'jnb': 'af-johannesburg-1',
     'cdg': 'eu-paris-1',
     'qro': 'mx-queretaro-1',
+    'mad': 'eu-madrid-1',
     'lfi': 'us-langley-1',
     'luf': 'us-luke-1',
     'ric': 'us-gov-ashburn-1',
@@ -45,7 +46,8 @@ REGIONS_SHORT_NAMES = {
     'nja': 'ap-chiyoda-1',
     'ukb': 'ap-ibaraki-1',
     'mct': 'me-dcc-muscat-1',
-    'wga': 'ap-dcc-canberra-1'
+    'wga': 'ap-dcc-canberra-1',
+    'bgy': 'eu-dcc-milan-1'
 }
 REGION_REALMS = {
     'ap-chuncheon-1': 'oc1',
@@ -80,6 +82,7 @@ REGION_REALMS = {
     'af-johannesburg-1': 'oc1',
     'eu-paris-1': 'oc1',
     'mx-queretaro-1': 'oc1',
+    'eu-madrid-1': 'oc1',
 
     'us-langley-1': 'oc2',
     'us-luke-1': 'oc2',
@@ -96,7 +99,9 @@ REGION_REALMS = {
 
     'me-dcc-muscat-1': 'oc9',
 
-    'ap-dcc-canberra-1': 'oc10'
+    'ap-dcc-canberra-1': 'oc10',
+
+    'eu-dcc-milan-1': 'oc14'
 }
 REALMS = {
     'oc1': 'oraclecloud.com',
@@ -105,7 +110,8 @@ REALMS = {
     'oc4': 'oraclegovcloud.uk',
     'oc8': 'oraclecloud8.com',
     'oc9': 'oraclecloud9.com',
-    'oc10': 'oraclecloud10.com'
+    'oc10': 'oraclecloud10.com',
+    'oc14': 'oraclecloud14.com'
 }
 REGIONS = [
     'ap-chuncheon-1',
@@ -140,6 +146,7 @@ REGIONS = [
     'af-johannesburg-1',
     'eu-paris-1',
     'mx-queretaro-1',
+    'eu-madrid-1',
     'us-langley-1',
     'us-luke-1',
     'us-gov-ashburn-1',
@@ -150,5 +157,6 @@ REGIONS = [
     'ap-chiyoda-1',
     'ap-ibaraki-1',
     'me-dcc-muscat-1',
-    'ap-dcc-canberra-1'
+    'ap-dcc-canberra-1',
+    'eu-dcc-milan-1'
 ]
