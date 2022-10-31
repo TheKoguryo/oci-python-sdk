@@ -879,7 +879,6 @@ def main_process():
         #############################
         try:
             optimizer_client = oci.optimizer.OptimizerClient(config, signer=signer)
-            core_client = oci.core.BlockstorageClient(config, signer=signer)
 
             list_categories_response = optimizer_client.list_categories(
                 compartment_id=tenant_id,
@@ -891,7 +890,7 @@ def main_process():
             print("category_id: " + category_id)
 
             list_recommendations_response = optimizer_client.list_recommendations(
-                compartment_id=current_compartment_id,
+                compartment_id=tenant_id,
                 compartment_id_in_subtree=True,
                 limit=1000,
                 name="cost-management-block-volume-attachment-name",
@@ -903,7 +902,7 @@ def main_process():
             print("recommendation_id: " + recommendation_id)
 
             list_resource_actions_response = optimizer_client.list_resource_actions(
-                compartment_id=current_compartment_id,
+                compartment_id=tenant_id,
                 compartment_id_in_subtree=True,
                 limit=1000,
                 recommendation_id=recommendation_id
@@ -925,23 +924,31 @@ def main_process():
                 delta = today - unattachedSince.replace(tzinfo=utc)
                 days = str(delta.days) 
 
-                get_volume_response = core_client.get_volume(
-                    volume_id = item.resource_id)
+                # set the region in the config and signer
+                config['region'] = item.extended_metadata['region']
+                signer.region = item.extended_metadata['region']
+
+                core_client = oci.core.BlockstorageClient(config, signer=signer)
+                
+                try:
+                    get_volume_response = core_client.get_volume(
+                        volume_id = item.resource_id)
+                except Exception as e:
+                    print("\nError appeared - " + str(e))
+                    created_by = ''
 
                 try:
                     defined_tags = get_volume_response.data.defined_tags
                     created_by = defined_tags['Oracle-Tags']['CreatedBy']
                 except Exception as e:
                     print("\nError appeared - " + str(e))
-                    created_by = ''
+                    continue
 
                 print("created_by: " + created_by)
 
                 owner_email = ''
                 if created_by != '':
                     owner_email = created_by.split('/')[-1]
-                elif start_user != '':
-                    owner_email = start_user.split('/')[-1]
                 
                 obj = re.search(r'[\w.]+\@[\w.]+', owner_email)
                 if not obj:
@@ -950,10 +957,10 @@ def main_process():
                 row_data = (
                     str(tenancy.name),
                     short_tenant_id,
-                    region,
-                    compartment_path,
-                    current_compartment_name,
-                    compartment_id,
+                    item.extended_metadata['region'],
+                    None,
+                    item.compartment_name,
+                    item.compartment_id,
                     "BlockVolume",
                     item.name,
                     item.resource_id,
