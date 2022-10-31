@@ -904,87 +904,99 @@ def main_process():
             list_resource_actions_response = optimizer_client.list_resource_actions(
                 compartment_id=tenant_id,
                 compartment_id_in_subtree=True,
-                limit=1000,
+                limit=100,
                 recommendation_id=recommendation_id
             )
 
-            for item in list_resource_actions_response.data.items:
-                #print("name: " + item.name)
-                #print("resource_id: " + item.resource_id)
-                #print("timeCreated: " + item.extended_metadata['timeCreated'])
-                #print("unattachedSince: " + item.extended_metadata['unattachedSince'])
-                #print("sizeInGBs: " + item.extended_metadata['sizeInGBs'])
-                timeCreated = datetime.datetime.fromtimestamp(float(item.extended_metadata['timeCreated'])) + datetime.timedelta(hours=-9)
-                unattachedSince = datetime.datetime.fromtimestamp(float(item.extended_metadata['unattachedSince'])) + datetime.timedelta(hours=-9)
-                #print(timeCreated)
-                #print()
+            while True:
+                for item in list_resource_actions_response.data.items:
+                    #print("name: " + item.name)
+                    #print("resource_id: " + item.resource_id)
+                    #print("timeCreated: " + item.extended_metadata['timeCreated'])
+                    #print("unattachedSince: " + item.extended_metadata['unattachedSince'])
+                    #print("sizeInGBs: " + item.extended_metadata['sizeInGBs'])
+                    timeCreated = datetime.datetime.fromtimestamp(float(item.extended_metadata['timeCreated'])) + datetime.timedelta(hours=-9)
+                    unattachedSince = datetime.datetime.fromtimestamp(float(item.extended_metadata['unattachedSince'])) + datetime.timedelta(hours=-9)
+                    #print(timeCreated)
+                    #print()
 
-                days = "";
+                    days = "";
 
-                delta = today - unattachedSince.replace(tzinfo=utc)
-                days = str(delta.days) 
+                    delta = today - unattachedSince.replace(tzinfo=utc)
+                    days = str(delta.days) 
 
-                # set the region in the config and signer
-                config['region'] = item.extended_metadata['region']
-                signer.region = item.extended_metadata['region']
+                    # set the region in the config and signer
+                    config['region'] = item.extended_metadata['region']
+                    signer.region = item.extended_metadata['region']
 
-                core_client = oci.core.BlockstorageClient(config, signer=signer)
-                
-                try:
-                    get_volume_response = core_client.get_volume(
-                        volume_id = item.resource_id)
-                except Exception as e:
-                    print("\nError appeared - " + str(e))
-                    created_by = ''
+                    core_client = oci.core.BlockstorageClient(config, signer=signer)
+                    
+                    try:
+                        get_volume_response = core_client.get_volume(
+                            volume_id = item.resource_id)
+                    except Exception as e:
+                        print("\nError appeared - " + str(e))
+                        created_by = ''
 
-                try:
-                    defined_tags = get_volume_response.data.defined_tags
-                    created_by = defined_tags['Oracle-Tags']['CreatedBy']
-                except Exception as e:
-                    print("\nError appeared - " + str(e))
-                    continue
+                    try:
+                        defined_tags = get_volume_response.data.defined_tags
+                        created_by = defined_tags['Oracle-Tags']['CreatedBy']
+                    except Exception as e:
+                        print("\nError appeared - " + str(e))
+                        continue
 
-                print("created_by: " + created_by)
+                    print("created_by: " + created_by)
 
-                owner_email = ''
-                if created_by != '':
-                    owner_email = created_by.split('/')[-1]
-                
-                obj = re.search(r'[\w.]+\@[\w.]+', owner_email)
-                if not obj:
                     owner_email = ''
+                    if created_by != '':
+                        owner_email = created_by.split('/')[-1]
+                    
+                    obj = re.search(r'[\w.]+\@[\w.]+', owner_email)
+                    if not obj:
+                        owner_email = ''
 
-                row_data = (
-                    str(tenancy.name),
-                    short_tenant_id,
-                    item.extended_metadata['region'],
-                    None,
-                    item.compartment_name,
-                    item.compartment_id,
-                    "BlockVolume",
-                    item.name,
-                    item.resource_id,
-                    str(timeCreated)[0:18],
-                    created_by,
-                    None,
-                    None,
-                    None,
-                    None,
-                    "DETACHED",
-                    days,
-                    today,
-                    owner_email
-                )
+                    row_data = (
+                        str(tenancy.name),
+                        short_tenant_id,
+                        item.extended_metadata['region'],
+                        None,
+                        item.compartment_name,
+                        item.compartment_id,
+                        "BlockVolume",
+                        item.name,
+                        item.resource_id,
+                        str(timeCreated)[0:18],
+                        created_by,
+                        None,
+                        None,
+                        None,
+                        None,
+                        "DETACHED",
+                        days,
+                        today,
+                        owner_email
+                    )
 
-                print(row_data)
-                data.append(row_data)
-                num_rows += 1
+                    print(row_data)
+                    data.append(row_data)
+                    num_rows += 1
 
-                # executemany every batch size
-                if len(data) % batch_size == 0:
-                    cursor.executemany(sql, data)
-                    connection.commit()
-                    data = []
+                    # executemany every batch size
+                    if len(data) % batch_size == 0:
+                        cursor.executemany(sql, data)
+                        connection.commit()
+                        data = []
+
+                if (list_resource_actions_response.next_page):
+                    list_resource_actions_response = optimizer_client.list_resource_actions(
+                        compartment_id=tenant_id,
+                        compartment_id_in_subtree=True,
+                        limit=100,
+                        recommendation_id=recommendation_id,
+                        page=list_resource_actions_response.next_page
+                    )
+                else:
+                    break
 
         except Exception as e:
             print("\nError appeared - " + str(e))
