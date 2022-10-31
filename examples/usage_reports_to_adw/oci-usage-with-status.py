@@ -1072,113 +1072,120 @@ def main_process():
 
                 except Exception as e:
                     print("\nError appeared - " + str(e))
-                
-                # Block Storage
-                try:
-                    list_categories_response = optimizer_client.list_categories(
-                        compartment_id="ocid1.tenancy.oc1..aaaaaaaa6ma7kq3bsif76uzqidv22cajs3fpesgpqmmsgxihlbcemkklrsqa",
-                        compartment_id_in_subtree=True,
-                        name="cost-management-name")
-
-                    category_id = list_categories_response.data.items[0].id
-
-                    print("category_id: " + category_id)
-
-                    list_recommendations_response = optimizer_client.list_recommendations(
-                        compartment_id=current_compartment_id,
-                        compartment_id_in_subtree=True,
-                        limit=1000,
-                        name="cost-management-block-volume-attachment-name",
-                        category_id=category_id
-                    )
-
-                    recommendation_id = list_recommendations_response.data.items[0].id
-
-                    print("recommendation_id: " + recommendation_id)
-
-                    list_resource_actions_response = optimizer_client.list_resource_actions(
-                        compartment_id=current_compartment_id,
-                        compartment_id_in_subtree=True,
-                        limit=1000,
-                        recommendation_id=recommendation_id
-                    )
-
-                    for item in list_resource_actions_response.data.items:
-                        #print("name: " + item.name)
-                        #print("resource_id: " + item.resource_id)
-                        #print("timeCreated: " + item.extended_metadata['timeCreated'])
-                        #print("unattachedSince: " + item.extended_metadata['unattachedSince'])
-                        #print("sizeInGBs: " + item.extended_metadata['sizeInGBs'])
-                        timeCreated = datetime.datetime.fromtimestamp(float(item.extended_metadata['timeCreated'])) + datetime.timedelta(hours=-9)
-                        unattachedSince = datetime.datetime.fromtimestamp(float(item.extended_metadata['unattachedSince'])) + datetime.timedelta(hours=-9)
-                        #print(timeCreated)
-                        #print()
-
-                        days = "";
-
-                        delta = today - unattachedSince.replace(tzinfo=utc)
-                        days = str(delta.days) 
-
-                        get_volume_response = core_client.get_volume(
-                            volume_id = item.resource_id)
-
-                        try:
-                            defined_tags = get_volume_response.data.defined_tags
-                            created_by = defined_tags['Oracle-Tags']['CreatedBy']
-                        except Exception as e:
-                            print("\nError appeared - " + str(e))
-                            created_by = ''
-
-                        print("created_by: " + created_by)
-
-                        owner_email = ''
-                        if created_by != '':
-                            owner_email = created_by.split('/')[-1]
-                        elif start_user != '':
-                            owner_email = start_user.split('/')[-1]
-                        
-                        obj = re.search(r'[\w.]+\@[\w.]+', owner_email)
-                        if not obj:
-                            owner_email = ''
-
-                        row_data = (
-                            str(tenancy.name),
-                            short_tenant_id,
-                            region,
-                            compartment_path,
-                            current_compartment_name,
-                            compartment_id,
-                            "BlockVolume",
-                            item.name,
-                            item.resource_id,
-                            str(timeCreated)[0:18],
-                            created_by,
-                            ,
-                            ,
-                            ,
-                            ,
-                            "DETACHED",
-                            days,
-                            today,
-                            owner_email
-                        )
-
-                        print(row_data)
-                        data.append(row_data)
-                        num_rows += 1
-
-                        # executemany every batch size
-                        if len(data) % batch_size == 0:
-                            cursor.executemany(sql, data)
-                            connection.commit()
-                            data = []
-
-                except Exception as e:
-                    print("\nError appeared - " + str(e))
 
         # if data exist final execute
         if data:
             cursor.executemany(sql, data)
+
+        connection.commit()
+
+
+        #############################
+        # Cloud Advisor: Block Storage
+        #############################
+        try:
+            list_categories_response = optimizer_client.list_categories(
+                compartment_id=tenant_id,
+                compartment_id_in_subtree=True,
+                name="cost-management-name")
+
+            category_id = list_categories_response.data.items[0].id
+
+            print("category_id: " + category_id)
+
+            list_recommendations_response = optimizer_client.list_recommendations(
+                compartment_id=current_compartment_id,
+                compartment_id_in_subtree=True,
+                limit=1000,
+                name="cost-management-block-volume-attachment-name",
+                category_id=category_id
+            )
+
+            recommendation_id = list_recommendations_response.data.items[0].id
+
+            print("recommendation_id: " + recommendation_id)
+
+            list_resource_actions_response = optimizer_client.list_resource_actions(
+                compartment_id=current_compartment_id,
+                compartment_id_in_subtree=True,
+                limit=1000,
+                recommendation_id=recommendation_id
+            )
+
+            for item in list_resource_actions_response.data.items:
+                #print("name: " + item.name)
+                #print("resource_id: " + item.resource_id)
+                #print("timeCreated: " + item.extended_metadata['timeCreated'])
+                #print("unattachedSince: " + item.extended_metadata['unattachedSince'])
+                #print("sizeInGBs: " + item.extended_metadata['sizeInGBs'])
+                timeCreated = datetime.datetime.fromtimestamp(float(item.extended_metadata['timeCreated'])) + datetime.timedelta(hours=-9)
+                unattachedSince = datetime.datetime.fromtimestamp(float(item.extended_metadata['unattachedSince'])) + datetime.timedelta(hours=-9)
+                #print(timeCreated)
+                #print()
+
+                days = "";
+
+                delta = today - unattachedSince.replace(tzinfo=utc)
+                days = str(delta.days) 
+
+                get_volume_response = core_client.get_volume(
+                    volume_id = item.resource_id)
+
+                try:
+                    defined_tags = get_volume_response.data.defined_tags
+                    created_by = defined_tags['Oracle-Tags']['CreatedBy']
+                except Exception as e:
+                    print("\nError appeared - " + str(e))
+                    created_by = ''
+
+                print("created_by: " + created_by)
+
+                owner_email = ''
+                if created_by != '':
+                    owner_email = created_by.split('/')[-1]
+                elif start_user != '':
+                    owner_email = start_user.split('/')[-1]
+                
+                obj = re.search(r'[\w.]+\@[\w.]+', owner_email)
+                if not obj:
+                    owner_email = ''
+
+                row_data = (
+                    str(tenancy.name),
+                    short_tenant_id,
+                    region,
+                    compartment_path,
+                    current_compartment_name,
+                    compartment_id,
+                    "BlockVolume",
+                    item.name,
+                    item.resource_id,
+                    str(timeCreated)[0:18],
+                    created_by,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "DETACHED",
+                    days,
+                    today,
+                    owner_email
+                )
+
+                print(row_data)
+                data.append(row_data)
+                num_rows += 1
+
+                # executemany every batch size
+                if len(data) % batch_size == 0:
+                    cursor.executemany(sql, data)
+                    connection.commit()
+                    data = []
+
+        except Exception as e:
+            print("\nError appeared - " + str(e))
+
+
 
         connection.commit()
         cursor.close()
