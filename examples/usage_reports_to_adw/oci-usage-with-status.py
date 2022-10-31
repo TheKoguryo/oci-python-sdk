@@ -75,6 +75,7 @@ import time
 from operator import itemgetter
 import pytz
 import json
+import re
 
 utc=pytz.UTC
 
@@ -612,6 +613,64 @@ def load_usage_file(object_storage, object_file, max_file_id, cmd, tenancy, comp
         raise SystemExit
 
 ##########################################################################
+# 
+##########################################################################
+def check_existing_update_date(connection, resource_id):
+    try:
+        # open cursor
+        cursor = connection.cursor()
+        
+        sql = "select update_date from OCI_RECOMMENDATIONS_UNUSED_INSTANCES where RESOURCE_ID = '" + resource_id + "'"
+        cursor.execute(sql)
+        val = cursor.fetchone()
+        update_date = None
+
+        if val:
+            update_date = val[0]
+
+        # close cursor
+        cursor.close()
+
+        return update_date
+
+    except cx_Oracle.DatabaseError as e:
+        print("\nError manipulating database at check_existing_update_date() - " + str(e) + "\n")
+        raise SystemExit
+
+    except Exception as e:
+        raise Exception("\nError manipulating database at check_existing_update_date() - " + str(e))
+
+##########################################################################
+#
+##########################################################################
+def update_existing_update_date(connection, resource_id, update_date):
+    try:
+        # open cursor
+        cursor = connection.cursor()
+
+        sql = "update OCI_RECOMMENDATIONS_UNUSED_INSTANCES set UPDATE_DATE=:update_date where RESOURCE_ID = :resource_id"
+
+        sql_variables = {
+            "update_date": update_date,
+            "resource_id": resource_id
+        }
+        cursor.execute(sql, sql_variables)
+
+        connection.commit()
+        # close cursor
+        cursor.close()
+
+        return update_date
+
+    except cx_Oracle.DatabaseError as e:
+        print("\nError manipulating database at update_existing_update_date() - " + str(e) + "\n")
+        raise SystemExit
+
+    except Exception as e:
+        raise Exception("\nError manipulating database at update_existing_update_date*( - " + str(e))
+
+
+##########################################################################
 # Main
 ##########################################################################
 def main_process():
@@ -685,6 +744,12 @@ def main_process():
         cursor = connection.cursor()
         print("   Connected")
 
+        # Check tables structure
+        #print("\nChecking Database Structure...")
+        #check_database_table_structure_usage(connection, tenancy.name)
+        #check_database_table_structure_cost(connection, cmd.tagspecial, tenancy.name)
+        #check_database_table_structure_price_list(connection, tenancy.name)
+
         ###############################
         # enable hints
         ###############################
@@ -715,7 +780,7 @@ def main_process():
         raise SystemExit
 
     except Exception as e:
-        raise Exception("\nError manipulating database - " + str(e))        
+        raise Exception("\nError manipulating database - " + str(e))
 
     ############################################
     # Download Usage, cost and insert to database
@@ -767,6 +832,47 @@ def main_process():
 
         data = []
         num_rows = 0
+
+        # Adjust the batch size to meet memory and performance requirements for cx_oracle
+        batch_size = 1
+        array_size = 1
+
+        sql = "INSERT INTO OCI_RECOMMENDATIONS_UNUSED_INSTANCES ("
+        sql += "TENANT_NAME, "
+        sql += "TENANT_ID, "
+        sql += "REGION, "
+        sql += "COMPARTMENT_PATH, "
+        sql += "COMPARTMENT_NAME, "
+        # 6
+        sql += "COMPARTMENT_ID, "
+        sql += "RESOURCE_TYPE, "
+        sql += "RESOURCE_NAME, "
+        sql += "RESOURCE_ID, "
+        sql += "CREATE_DATE, " #2022-02-08 14:47:16.595000+00:00
+        # 11
+        sql += "CREATE_BY, "
+        sql += "START_DATE, "
+        sql += "START_USER, "
+        sql += "STOP_DATE, "
+        sql += "STOP_USER, "
+        # 16
+        sql += "STATE, "
+        sql += "STOPPED_DAYS, "
+        sql += "UPDATE_DATE, "
+        sql += "NTFY_OWNER_EMAIL "
+
+        sql += ") VALUES ("
+        sql += ":1, :2, :3, :4, :5, "
+        sql += ":6, :7, :8, :9, to_date(:10,'YYYY-MM-DD HH24:MI:SS'), "
+        sql += ":11, to_date(:12,'YYYY-MM-DD\"T\"HH24:MI:SS'), :13, to_date(:14,'YYYY-MM-DD\"T\"HH24:MI:SS'), :15, "
+        sql += ":16, to_number(:17), :18, :19 "
+        sql += ") "
+
+        # insert bulk to database
+        cursor = cx_Oracle.Cursor(connection)
+
+        # Predefine the memory areas to match the table definition
+        cursor.setinputsizes(None, array_size)
 
         for row_data in unique_cost_data:
             region = row_data[8]
@@ -828,6 +934,10 @@ def main_process():
                             stop_time = ""
                             start_user = ""
                             start_time = ""
+
+                            update_date = check_existing_update_date(connection, instance.id)
+                            if update_date:
+                                to_time_limit = update_date.replace(tzinfo=utc)
                             
                             while to_time_limit < to_time and counter < 2:
                                 from_time = to_time + datetime.timedelta(days=-14)
@@ -867,6 +977,11 @@ def main_process():
                                     break                             
                                 
                                 to_time = from_time
+
+                            if update_date:
+                                if to_time_limit >= to_time:
+                                    update_existing_update_date(connection, instance.id, today)
+                                    continue
 
                             #print("Region " + instance.region)
                             #print("CompartmentPath " + compartment_path)
@@ -910,7 +1025,19 @@ def main_process():
                             except Exception as e:
                                 created_by = ''      
 
+                            owner_email = ''
+                            if created_by != '':
+                                owner_email = created_by.split('/')[-1]
+                            elif start_user != '':
+                                owner_email = start_user.split('/')[-1]
+                            
+                            obj = re.search(r'[\w.]+\@[\w.]+', owner_email)
+                            if not obj:
+                                owner_email = ''
+
                             row_data = (
+                                str(tenancy.name),
+                                short_tenant_id,
                                 instance.region,
                                 compartment_path,
                                 current_compartment_name,
@@ -918,41 +1045,55 @@ def main_process():
                                 "COMPUTE",
                                 instance.display_name,
                                 instance.id,
-                                str(instance.time_created),
-                                start_time,
-                                start_user,
-                                stop_time,
-                                stop_user,
+                                str(instance.time_created)[0:18],
                                 created_by,
+                                str(start_time)[0:18],
+                                start_user,
+                                str(stop_time)[0:18],
+                                stop_user,
                                 instance.lifecycle_state,
-                                days
+                                days,
+                                today,
+                                owner_email
                             )
 
                             print(row_data)
                             data.append(row_data)
                             num_rows += 1
 
+                            # executemany every batch size
+                            if len(data) % batch_size == 0:
+                                cursor.executemany(sql, data)
+                                connection.commit()
+                                data = []
+
                 except Exception as e:
                     print("\nError appeared - " + str(e))
 
-        print("\n   Total " + str(cost_num) + " Cost Files Loaded")
 
-        print(data)
+        # if data exist final execute
+        if data:
+            cursor.executemany(sql, data)
+
+        connection.commit()
+        cursor.close()
+
+        print("\n   Total " + str(cost_num) + " Cost Files Loaded")
 
     except Exception as e:
         print("\nError appeared - " + str(e))
 
-    header = [ 'Region', 'CompartmentPath', 'CompartmentName', 'CompartmentID', 'Type', 'Name', 'InstanceID', 'CreatedDate', 'LastStartedDate', 'LastStartedUser', 'LastStopedDate', 'LastStopedUser', 'CurrentState', 'Days']
+    #header = [ 'Region', 'CompartmentPath', 'CompartmentName', 'CompartmentID', 'Type', 'Name', 'InstanceID', 'CreatedDate', 'LastStartedDate', 'LastStartedUser', 'LastStopedDate', 'LastStopedUser', 'CurrentState', 'Days']
 
-    with open('oci-usage-with-status.csv', 'w', encoding='UTF8') as f:
-        writer = csv.writer(f)
+    #with open('oci-usage-with-status.csv', 'w', encoding='UTF8') as f:
+    #    writer = csv.writer(f)
 
-        # write the header
-        writer.writerow(header)
+    #    # write the header
+    #    writer.writerow(header)
 
-        # write the data
-        for row_data in data:
-            writer.writerow(row_data)       
+    #    # write the data
+    #    for row_data in data:
+    #        writer.writerow(row_data)       
 
     ############################################
     # print completed
