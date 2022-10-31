@@ -1075,11 +1075,21 @@ def main_process():
                 
                 # Block Storage
                 try:
+                    list_categories_response = optimizer_client.list_categories(
+                        compartment_id="ocid1.tenancy.oc1..aaaaaaaa6ma7kq3bsif76uzqidv22cajs3fpesgpqmmsgxihlbcemkklrsqa",
+                        compartment_id_in_subtree=True,
+                        name="cost-management-name")
+
+                    category_id = list_categories_response.data.items[0].id
+
+                    print("category_id: " + category_id)
+
                     list_recommendations_response = optimizer_client.list_recommendations(
                         compartment_id=current_compartment_id,
                         compartment_id_in_subtree=True,
                         limit=1000,
-                        name="cost-management-block-volume-attachment-name"
+                        name="cost-management-block-volume-attachment-name",
+                        category_id=category_id
                     )
 
                     recommendation_id = list_recommendations_response.data.items[0].id
