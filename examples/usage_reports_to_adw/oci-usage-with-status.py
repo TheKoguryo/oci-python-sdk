@@ -667,8 +667,42 @@ def update_existing_update_date(connection, resource_id, update_date):
         raise SystemExit
 
     except Exception as e:
-        raise Exception("\nError manipulating database at update_existing_update_date*( - " + str(e))
+        raise Exception("\nError manipulating database at update_existing_update_date( - " + str(e))
 
+##########################################################################
+#
+##########################################################################
+def get_compartment_path(connection, compartment_id):
+    try:
+        # open cursor
+        cursor = connection.cursor()
+
+        sql = "select prd_compartment_path "
+        sql += "from "
+        sql += "( select distinct prd_compartment_path, usage_interval_start "
+        sql += "  from oci_usage "
+        sql += "  where prd_compartment_id = '" + compartment_id + "' "
+        sql += "  order by usage_interval_start desc) "
+        sql += "where rownum = 1 "
+
+        cursor.execute(sql)
+        val = cursor.fetchone()
+        compartment_path = None
+
+        if val:
+            compartment_path = val[0]
+
+        # close cursor
+        cursor.close()
+
+        return compartment_path
+
+    except cx_Oracle.DatabaseError as e:
+        print("\nError manipulating database at get_compartment_path() - " + str(e) + "\n")
+        raise SystemExit
+
+    except Exception as e:
+        raise Exception("\nError manipulating database at get_compartment_path( - " + str(e))
 
 ##########################################################################
 # Main
@@ -955,11 +989,13 @@ def main_process():
                     if not obj:
                         owner_email = ''
 
+                    compartment_path = get_compartment_path(connection, item.compartment_id)
+
                     row_data = (
                         str(tenancy.name),
                         short_tenant_id,
                         item.extended_metadata['region'],
-                        None,
+                        compartment_path,
                         item.compartment_name,
                         item.compartment_id,
                         "BlockVolume",
