@@ -620,7 +620,7 @@ def check_existing_update_date(connection, resource_id):
         # open cursor
         cursor = connection.cursor()
         
-        sql = "select update_date from OCI_RECOMMENDATIONS_UNUSED_INSTANCES where RESOURCE_ID = '" + resource_id + "'"
+        sql = "select update_date from OCI_COST_SAVING_UNUSED_RESOURCES where RESOURCE_ID = '" + resource_id + "'"
         cursor.execute(sql)
         val = cursor.fetchone()
         update_date = None
@@ -648,7 +648,7 @@ def update_existing_update_date(connection, resource_id, update_date):
         # open cursor
         cursor = connection.cursor()
 
-        sql = "update OCI_RECOMMENDATIONS_UNUSED_INSTANCES set UPDATE_DATE=:update_date where RESOURCE_ID = :resource_id"
+        sql = "update OCI_COST_SAVING_UNUSED_RESOURCES set UPDATE_DATE=:update_date where RESOURCE_ID = :resource_id"
 
         sql_variables = {
             "update_date": update_date,
@@ -871,7 +871,7 @@ def main_process():
         batch_size = 1
         array_size = 1
 
-        sql = "INSERT INTO OCI_RECOMMENDATIONS_UNUSED_INSTANCES ("
+        sql = "INSERT INTO OCI_COST_SAVING_UNUSED_RESOURCES ("
         sql += "TENANT_NAME, "
         sql += "TENANT_ID, "
         sql += "REGION, "
@@ -1005,7 +1005,7 @@ def main_process():
                         created_by,
                         None,
                         None,
-                        None,
+                        str(unattachedSince)[0:18],
                         None,
                         "DETACHED",
                         days,
