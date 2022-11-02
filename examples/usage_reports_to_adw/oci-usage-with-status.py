@@ -898,7 +898,7 @@ def main_process():
         sql += ") VALUES ("
         sql += ":1, :2, :3, :4, :5, "
         sql += ":6, :7, :8, :9, to_date(:10,'YYYY-MM-DD HH24:MI:SS'), "
-        sql += ":11, to_date(:12,'YYYY-MM-DD\"T\"HH24:MI:SS'), :13, to_date(:14,'YYYY-MM-DD\"T\"HH24:MI:SS'), :15, "
+        sql += ":11, to_date(:12,'YYYY-MM-DD HH24:MI:SS'), :13, to_date(:14,'YYYY-MM-DD HH24:MI:SS'), :15, "
         sql += ":16, to_number(:17), :18, :19 "
         sql += ") "
 
@@ -946,12 +946,13 @@ def main_process():
                 for item in list_resource_actions_response.data.items:
                     #print("name: " + item.name)
                     #print("resource_id: " + item.resource_id)
-                    #print("timeCreated: " + item.extended_metadata['timeCreated'])
-                    #print("unattachedSince: " + item.extended_metadata['unattachedSince'])
+                    print("timeCreated: " + item.extended_metadata['timeCreated'])
+                    print("unattachedSince: " + item.extended_metadata['unattachedSince'])
                     #print("sizeInGBs: " + item.extended_metadata['sizeInGBs'])
                     timeCreated = datetime.datetime.fromtimestamp(float(item.extended_metadata['timeCreated'])) + datetime.timedelta(hours=-9)
                     unattachedSince = datetime.datetime.fromtimestamp(float(item.extended_metadata['unattachedSince'])) + datetime.timedelta(hours=-9)
-                    #print(timeCreated)
+                    print(timeCreated)
+                    print(unattachedSince)
                     #print()
 
                     days = "";
@@ -970,14 +971,12 @@ def main_process():
                             volume_id = item.resource_id)
                     except Exception as e:
                         print("\nError appeared - " + str(e))
-                        created_by = ''
 
                     try:
                         defined_tags = get_volume_response.data.defined_tags
                         created_by = defined_tags['Oracle-Tags']['CreatedBy']
                     except Exception as e:
-                        print("\nError appeared - " + str(e))
-                        continue
+                        created_by = ''
 
                     print("created_by: " + created_by)
 
@@ -1001,11 +1000,11 @@ def main_process():
                         "BlockVolume",
                         item.name,
                         item.resource_id,
-                        str(timeCreated)[0:18],
+                        str(timeCreated)[0:19],
                         created_by,
                         None,
                         None,
-                        str(unattachedSince)[0:18],
+                        str(unattachedSince)[0:19],
                         None,
                         "DETACHED",
                         days,
@@ -1214,11 +1213,11 @@ def main_process():
                                 "COMPUTE",
                                 instance.display_name,
                                 instance.id,
-                                str(instance.time_created)[0:18],
+                                str(instance.time_created)[0:19],
                                 created_by,
-                                str(start_time)[0:18],
+                                str(start_time)[0:19].replace("T", " "),
                                 start_user,
-                                str(stop_time)[0:18],
+                                str(stop_time)[0:19].replace("T", " "),
                                 stop_user,
                                 instance.lifecycle_state,
                                 days,
