@@ -720,6 +720,8 @@ def add_oci_cost_saving_unused_resources_notes(connection):
         sql += "  from oci_cost_saving_unused_resources_notes n "
         sql += "  where n.resource_id=r.resource_id) "
 
+        cursor.execute(sql)
+
         connection.commit()
         # close cursor
         cursor.close()
