@@ -705,6 +705,33 @@ def get_compartment_path(connection, compartment_id):
         raise Exception("\nError manipulating database at get_compartment_path( - " + str(e))
 
 ##########################################################################
+#
+##########################################################################
+def add_oci_cost_saving_unused_resources_notes(connection):
+    try:
+        # open cursor
+        cursor = connection.cursor()
+
+        sql = "insert into oci_cost_saving_unused_resources_notes(resource_id) "
+        sql += "select distinct resource_id "
+        sql += "from oci_cost_saving_unused_resources r "
+        sql += "where not exists ( "
+        sql += "  select null "
+        sql += "  from oci_cost_saving_unused_resources_notes n "
+        sql += "  where n.resource_id=r.resource_id) "
+
+        connection.commit()
+        # close cursor
+        cursor.close()
+
+    except cx_Oracle.DatabaseError as e:
+        print("\nError manipulating database at get_compartment_path() - " + str(e) + "\n")
+        raise SystemExit
+
+    except Exception as e:
+        raise Exception("\nError manipulating database at get_compartment_path( - " + str(e))        
+
+##########################################################################
 # Main
 ##########################################################################
 def main_process():
@@ -1052,8 +1079,8 @@ def main_process():
 
                 print("\nRegion " + current_region + "...")
 
-                if current_region != "ap-seoul-1":
-                    continue;
+                #if current_region != "ap-seoul-1":
+                #    continue;
 
                 # set the region in the config and signer
                 config['region'] = current_region
@@ -1244,9 +1271,9 @@ def main_process():
 
         connection.commit()
 
-
-
         cursor.close()
+
+        add_oci_cost_saving_unused_resources_notes(connection)
 
         print("\n   Total " + str(cost_num) + " Cost Files Loaded")
 
