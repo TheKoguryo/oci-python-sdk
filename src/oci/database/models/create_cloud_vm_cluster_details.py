@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -45,6 +45,22 @@ class CreateCloudVmClusterDetails(object):
         :param ocpu_count:
             The value to assign to the ocpu_count property of this CreateCloudVmClusterDetails.
         :type ocpu_count: float
+
+        :param memory_size_in_gbs:
+            The value to assign to the memory_size_in_gbs property of this CreateCloudVmClusterDetails.
+        :type memory_size_in_gbs: int
+
+        :param db_node_storage_size_in_gbs:
+            The value to assign to the db_node_storage_size_in_gbs property of this CreateCloudVmClusterDetails.
+        :type db_node_storage_size_in_gbs: int
+
+        :param data_storage_size_in_tbs:
+            The value to assign to the data_storage_size_in_tbs property of this CreateCloudVmClusterDetails.
+        :type data_storage_size_in_tbs: float
+
+        :param db_servers:
+            The value to assign to the db_servers property of this CreateCloudVmClusterDetails.
+        :type db_servers: list[str]
 
         :param cluster_name:
             The value to assign to the cluster_name property of this CreateCloudVmClusterDetails.
@@ -99,6 +115,10 @@ class CreateCloudVmClusterDetails(object):
             The value to assign to the scan_listener_port_tcp_ssl property of this CreateCloudVmClusterDetails.
         :type scan_listener_port_tcp_ssl: int
 
+        :param private_zone_id:
+            The value to assign to the private_zone_id property of this CreateCloudVmClusterDetails.
+        :type private_zone_id: str
+
         :param nsg_ids:
             The value to assign to the nsg_ids property of this CreateCloudVmClusterDetails.
         :type nsg_ids: list[str]
@@ -130,6 +150,10 @@ class CreateCloudVmClusterDetails(object):
             'backup_subnet_id': 'str',
             'cpu_core_count': 'int',
             'ocpu_count': 'float',
+            'memory_size_in_gbs': 'int',
+            'db_node_storage_size_in_gbs': 'int',
+            'data_storage_size_in_tbs': 'float',
+            'db_servers': 'list[str]',
             'cluster_name': 'str',
             'data_storage_percentage': 'int',
             'display_name': 'str',
@@ -143,6 +167,7 @@ class CreateCloudVmClusterDetails(object):
             'time_zone': 'str',
             'scan_listener_port_tcp': 'int',
             'scan_listener_port_tcp_ssl': 'int',
+            'private_zone_id': 'str',
             'nsg_ids': 'list[str]',
             'backup_network_nsg_ids': 'list[str]',
             'gi_version': 'str',
@@ -157,6 +182,10 @@ class CreateCloudVmClusterDetails(object):
             'backup_subnet_id': 'backupSubnetId',
             'cpu_core_count': 'cpuCoreCount',
             'ocpu_count': 'ocpuCount',
+            'memory_size_in_gbs': 'memorySizeInGBs',
+            'db_node_storage_size_in_gbs': 'dbNodeStorageSizeInGBs',
+            'data_storage_size_in_tbs': 'dataStorageSizeInTBs',
+            'db_servers': 'dbServers',
             'cluster_name': 'clusterName',
             'data_storage_percentage': 'dataStoragePercentage',
             'display_name': 'displayName',
@@ -170,6 +199,7 @@ class CreateCloudVmClusterDetails(object):
             'time_zone': 'timeZone',
             'scan_listener_port_tcp': 'scanListenerPortTcp',
             'scan_listener_port_tcp_ssl': 'scanListenerPortTcpSsl',
+            'private_zone_id': 'privateZoneId',
             'nsg_ids': 'nsgIds',
             'backup_network_nsg_ids': 'backupNetworkNsgIds',
             'gi_version': 'giVersion',
@@ -183,6 +213,10 @@ class CreateCloudVmClusterDetails(object):
         self._backup_subnet_id = None
         self._cpu_core_count = None
         self._ocpu_count = None
+        self._memory_size_in_gbs = None
+        self._db_node_storage_size_in_gbs = None
+        self._data_storage_size_in_tbs = None
+        self._db_servers = None
         self._cluster_name = None
         self._data_storage_percentage = None
         self._display_name = None
@@ -196,6 +230,7 @@ class CreateCloudVmClusterDetails(object):
         self._time_zone = None
         self._scan_listener_port_tcp = None
         self._scan_listener_port_tcp_ssl = None
+        self._private_zone_id = None
         self._nsg_ids = None
         self._backup_network_nsg_ids = None
         self._gi_version = None
@@ -350,6 +385,102 @@ class CreateCloudVmClusterDetails(object):
         :type: float
         """
         self._ocpu_count = ocpu_count
+
+    @property
+    def memory_size_in_gbs(self):
+        """
+        Gets the memory_size_in_gbs of this CreateCloudVmClusterDetails.
+        The memory to be allocated in GBs.
+
+
+        :return: The memory_size_in_gbs of this CreateCloudVmClusterDetails.
+        :rtype: int
+        """
+        return self._memory_size_in_gbs
+
+    @memory_size_in_gbs.setter
+    def memory_size_in_gbs(self, memory_size_in_gbs):
+        """
+        Sets the memory_size_in_gbs of this CreateCloudVmClusterDetails.
+        The memory to be allocated in GBs.
+
+
+        :param memory_size_in_gbs: The memory_size_in_gbs of this CreateCloudVmClusterDetails.
+        :type: int
+        """
+        self._memory_size_in_gbs = memory_size_in_gbs
+
+    @property
+    def db_node_storage_size_in_gbs(self):
+        """
+        Gets the db_node_storage_size_in_gbs of this CreateCloudVmClusterDetails.
+        The local node storage to be allocated in GBs.
+
+
+        :return: The db_node_storage_size_in_gbs of this CreateCloudVmClusterDetails.
+        :rtype: int
+        """
+        return self._db_node_storage_size_in_gbs
+
+    @db_node_storage_size_in_gbs.setter
+    def db_node_storage_size_in_gbs(self, db_node_storage_size_in_gbs):
+        """
+        Sets the db_node_storage_size_in_gbs of this CreateCloudVmClusterDetails.
+        The local node storage to be allocated in GBs.
+
+
+        :param db_node_storage_size_in_gbs: The db_node_storage_size_in_gbs of this CreateCloudVmClusterDetails.
+        :type: int
+        """
+        self._db_node_storage_size_in_gbs = db_node_storage_size_in_gbs
+
+    @property
+    def data_storage_size_in_tbs(self):
+        """
+        Gets the data_storage_size_in_tbs of this CreateCloudVmClusterDetails.
+        The data disk group size to be allocated in TBs.
+
+
+        :return: The data_storage_size_in_tbs of this CreateCloudVmClusterDetails.
+        :rtype: float
+        """
+        return self._data_storage_size_in_tbs
+
+    @data_storage_size_in_tbs.setter
+    def data_storage_size_in_tbs(self, data_storage_size_in_tbs):
+        """
+        Sets the data_storage_size_in_tbs of this CreateCloudVmClusterDetails.
+        The data disk group size to be allocated in TBs.
+
+
+        :param data_storage_size_in_tbs: The data_storage_size_in_tbs of this CreateCloudVmClusterDetails.
+        :type: float
+        """
+        self._data_storage_size_in_tbs = data_storage_size_in_tbs
+
+    @property
+    def db_servers(self):
+        """
+        Gets the db_servers of this CreateCloudVmClusterDetails.
+        The list of DB servers.
+
+
+        :return: The db_servers of this CreateCloudVmClusterDetails.
+        :rtype: list[str]
+        """
+        return self._db_servers
+
+    @db_servers.setter
+    def db_servers(self, db_servers):
+        """
+        Sets the db_servers of this CreateCloudVmClusterDetails.
+        The list of DB servers.
+
+
+        :param db_servers: The db_servers of this CreateCloudVmClusterDetails.
+        :type: list[str]
+        """
+        self._db_servers = db_servers
 
     @property
     def cluster_name(self):
@@ -702,6 +833,30 @@ class CreateCloudVmClusterDetails(object):
         :type: int
         """
         self._scan_listener_port_tcp_ssl = scan_listener_port_tcp_ssl
+
+    @property
+    def private_zone_id(self):
+        """
+        Gets the private_zone_id of this CreateCloudVmClusterDetails.
+        The private zone id in which DNS records need to be created.
+
+
+        :return: The private_zone_id of this CreateCloudVmClusterDetails.
+        :rtype: str
+        """
+        return self._private_zone_id
+
+    @private_zone_id.setter
+    def private_zone_id(self, private_zone_id):
+        """
+        Sets the private_zone_id of this CreateCloudVmClusterDetails.
+        The private zone id in which DNS records need to be created.
+
+
+        :param private_zone_id: The private_zone_id of this CreateCloudVmClusterDetails.
+        :type: str
+        """
+        self._private_zone_id = private_zone_id
 
     @property
     def nsg_ids(self):

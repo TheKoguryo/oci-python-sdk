@@ -5,9 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 =====================
+23.01.31 - 23.01.31
+=====================
+* Added flag -skipdbhomes to skip database homes and databases
+* Added flag -readtimeout and -conntimeout for read and connection timeout, default=(20,150)
+* Added Autonomous Dedicated to the CSV file.
+
+=====================
+23.01.10 - 23.01.10
+=====================
+* Added ExaCS DB Servers
+
+=====================
+22.12.06 - 22.12.06
+=====================
+* Added Data Connection Registry
+
+=====================
+22.11.15 - 22.11.15
+=====================
+* Added privte ip addresses to subnet - json and csv
+
+=====================
+22.10.18 - 22.10.18
+=====================
+* Added csv for Monitoring: agents, events, alarm, db management and Notifications
+* Added Event Actions
+* Added application functions
+* Added auto backup flag in database.csv
+
+=====================
+22.10.11 - 22.10.11
+=====================
+* Added boot and volume intransit encryption
+* Added logs for subnets
+
+=====================
 22.10.04 - 22.10.04
 =====================
-* Add Compute Instance Plugin Status to the JSON output and CSV
+* Added Compute Instance Plugin Status to the JSON output and CSV
 
 =====================
 22.09.20 - 22.09.20

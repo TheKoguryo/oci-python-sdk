@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -10,7 +10,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class UpdateStackDetails(object):
     """
-    Specifies which fields and the data for each to update on the specified stack.
+    Update  details for a stack.
     """
 
     def __init__(self, **kwargs):
@@ -184,8 +184,7 @@ class UpdateStackDetails(object):
         When `true`, changes the stack's sourcing of third-party Terraform providers to
         `Terraform Registry`__ and allows
         :func:`custom_terraform_provider`.
-        Applies to older stacks that use Terraform version 0.12.x and 0.13.x only.
-        (Older stacks that use other Terraform versions are automatically updated.)
+        Applies to older stacks.
         Once set to `true`, cannot be reverted.
         For more information about stack sourcing of third-party Terraform providers, see
         `Third-party Provider Configuration`__.
@@ -206,8 +205,7 @@ class UpdateStackDetails(object):
         When `true`, changes the stack's sourcing of third-party Terraform providers to
         `Terraform Registry`__ and allows
         :func:`custom_terraform_provider`.
-        Applies to older stacks that use Terraform version 0.12.x and 0.13.x only.
-        (Older stacks that use other Terraform versions are automatically updated.)
+        Applies to older stacks.
         Once set to `true`, cannot be reverted.
         For more information about stack sourcing of third-party Terraform providers, see
         `Third-party Provider Configuration`__.

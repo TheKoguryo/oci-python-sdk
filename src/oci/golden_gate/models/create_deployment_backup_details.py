@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -238,7 +238,9 @@ class CreateDeploymentBackupDetails(object):
     def freeform_tags(self):
         """
         Gets the freeform_tags of this CreateDeploymentBackupDetails.
-        A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+        A simple key-value pair that is applied without any predefined name, type, or scope. Exists
+        for cross-compatibility only.
+
         Example: `{\"bar-key\": \"value\"}`
 
 
@@ -251,7 +253,9 @@ class CreateDeploymentBackupDetails(object):
     def freeform_tags(self, freeform_tags):
         """
         Sets the freeform_tags of this CreateDeploymentBackupDetails.
-        A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+        A simple key-value pair that is applied without any predefined name, type, or scope. Exists
+        for cross-compatibility only.
+
         Example: `{\"bar-key\": \"value\"}`
 
 
@@ -265,6 +269,7 @@ class CreateDeploymentBackupDetails(object):
         """
         Gets the defined_tags of this CreateDeploymentBackupDetails.
         Tags defined for this resource. Each key is predefined and scoped to a namespace.
+
         Example: `{\"foo-namespace\": {\"bar-key\": \"value\"}}`
 
 
@@ -278,6 +283,7 @@ class CreateDeploymentBackupDetails(object):
         """
         Sets the defined_tags of this CreateDeploymentBackupDetails.
         Tags defined for this resource. Each key is predefined and scoped to a namespace.
+
         Example: `{\"foo-namespace\": {\"bar-key\": \"value\"}}`
 
 

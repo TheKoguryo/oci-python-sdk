@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -10,7 +10,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class JobOperationDetailsSummary(object):
     """
-    Job details that are specific to the operation type.
+    A summary of job details that is specific to the operation type.
     """
 
     def __init__(self, **kwargs):
@@ -18,7 +18,9 @@ class JobOperationDetailsSummary(object):
         Initializes a new JobOperationDetailsSummary object with values from keyword arguments. This class has the following subclasses and if you are using this class as input
         to a service operations then you should favor using a subclass over the base class:
 
+        * :class:`~oci.resource_manager.models.ApplyRollbackJobOperationDetailsSummary`
         * :class:`~oci.resource_manager.models.ImportTfStateJobOperationDetailsSummary`
+        * :class:`~oci.resource_manager.models.PlanRollbackJobOperationDetailsSummary`
         * :class:`~oci.resource_manager.models.PlanJobOperationDetailsSummary`
         * :class:`~oci.resource_manager.models.DestroyJobOperationDetailsSummary`
         * :class:`~oci.resource_manager.models.ApplyJobOperationDetailsSummary`
@@ -48,8 +50,14 @@ class JobOperationDetailsSummary(object):
         """
         type = object_dictionary['operation']
 
+        if type == 'APPLY_ROLLBACK':
+            return 'ApplyRollbackJobOperationDetailsSummary'
+
         if type == 'IMPORT_TF_STATE':
             return 'ImportTfStateJobOperationDetailsSummary'
+
+        if type == 'PLAN_ROLLBACK':
+            return 'PlanRollbackJobOperationDetailsSummary'
 
         if type == 'PLAN':
             return 'PlanJobOperationDetailsSummary'

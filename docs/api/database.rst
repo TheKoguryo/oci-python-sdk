@@ -19,6 +19,7 @@ Database
     :template: autosummary/model_class.rst
 
     oci.database.models.ActivateExadataInfrastructureDetails
+    oci.database.models.AddVirtualMachineToCloudVmClusterDetails
     oci.database.models.AddVirtualMachineToVmClusterDetails
     oci.database.models.AssociatedDatabaseDetails
     oci.database.models.AutomatedMountDetails
@@ -67,10 +68,13 @@ Database
     oci.database.models.ChangeKeyStoreCompartmentDetails
     oci.database.models.ChangeVmClusterCompartmentDetails
     oci.database.models.CloudAutonomousVmCluster
+    oci.database.models.CloudAutonomousVmClusterResourceDetails
     oci.database.models.CloudAutonomousVmClusterSummary
     oci.database.models.CloudDatabaseManagementConfig
+    oci.database.models.CloudDbServerDetails
     oci.database.models.CloudExadataInfrastructure
     oci.database.models.CloudExadataInfrastructureSummary
+    oci.database.models.CloudExadataInfrastructureUnallocatedResources
     oci.database.models.CloudVmCluster
     oci.database.models.CloudVmClusterSummary
     oci.database.models.CompleteExternalBackupJobDetails
@@ -148,6 +152,7 @@ Database
     oci.database.models.DatabaseSoftwareImageSummary
     oci.database.models.DatabaseSslConnectionCredentials
     oci.database.models.DatabaseSummary
+    oci.database.models.DatabaseTool
     oci.database.models.DatabaseUpgradeHistoryEntry
     oci.database.models.DatabaseUpgradeHistoryEntrySummary
     oci.database.models.DatabaseUpgradeSourceBase
@@ -191,6 +196,7 @@ Database
     oci.database.models.EnableExternalPluggableDatabaseDatabaseManagementDetails
     oci.database.models.EnableExternalPluggableDatabaseOperationsInsightsDetails
     oci.database.models.EnableExternalPluggableDatabaseStackMonitoringDetails
+    oci.database.models.EnablePluggableDatabaseManagementDetails
     oci.database.models.EstimatedPatchingTime
     oci.database.models.ExadataDbSystemMigration
     oci.database.models.ExadataDbSystemMigrationSummary
@@ -239,6 +245,7 @@ Database
     oci.database.models.MaintenanceWindow
     oci.database.models.MigrateVaultKeyDetails
     oci.database.models.ModifyDatabaseManagementDetails
+    oci.database.models.ModifyPluggableDatabaseManagementDetails
     oci.database.models.Month
     oci.database.models.MountTypeDetails
     oci.database.models.NodeDetails
@@ -255,10 +262,14 @@ Database
     oci.database.models.PeerAutonomousContainerDatabaseBackupConfig
     oci.database.models.PluggableDatabase
     oci.database.models.PluggableDatabaseConnectionStrings
+    oci.database.models.PluggableDatabaseManagementConfig
     oci.database.models.PluggableDatabaseSummary
+    oci.database.models.RefreshableCloneCollection
+    oci.database.models.RefreshableCloneSummary
     oci.database.models.RegisterAutonomousDatabaseDataSafeDetails
     oci.database.models.ReinstateDataGuardAssociationDetails
     oci.database.models.RemoteClonePluggableDatabaseDetails
+    oci.database.models.RemoveVirtualMachineFromCloudVmClusterDetails
     oci.database.models.RemoveVirtualMachineFromVmClusterDetails
     oci.database.models.ResizeVmClusterNetworkDetails
     oci.database.models.RestoreAutonomousDatabaseDetails

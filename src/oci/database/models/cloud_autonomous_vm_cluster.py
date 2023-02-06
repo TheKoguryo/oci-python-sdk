@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -40,6 +40,14 @@ class CloudAutonomousVmCluster(object):
     #: A constant which can be used with the lifecycle_state property of a CloudAutonomousVmCluster.
     #: This constant has a value of "MAINTENANCE_IN_PROGRESS"
     LIFECYCLE_STATE_MAINTENANCE_IN_PROGRESS = "MAINTENANCE_IN_PROGRESS"
+
+    #: A constant which can be used with the compute_model property of a CloudAutonomousVmCluster.
+    #: This constant has a value of "ECPU"
+    COMPUTE_MODEL_ECPU = "ECPU"
+
+    #: A constant which can be used with the compute_model property of a CloudAutonomousVmCluster.
+    #: This constant has a value of "OCPU"
+    COMPUTE_MODEL_OCPU = "OCPU"
 
     #: A constant which can be used with the license_model property of a CloudAutonomousVmCluster.
     #: This constant has a value of "LICENSE_INCLUDED"
@@ -144,6 +152,16 @@ class CloudAutonomousVmCluster(object):
             The value to assign to the ocpu_count property of this CloudAutonomousVmCluster.
         :type ocpu_count: float
 
+        :param compute_model:
+            The value to assign to the compute_model property of this CloudAutonomousVmCluster.
+            Allowed values for this property are: "ECPU", "OCPU", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type compute_model: str
+
+        :param cpu_core_count_per_node:
+            The value to assign to the cpu_core_count_per_node property of this CloudAutonomousVmCluster.
+        :type cpu_core_count_per_node: int
+
         :param memory_size_in_gbs:
             The value to assign to the memory_size_in_gbs property of this CloudAutonomousVmCluster.
         :type memory_size_in_gbs: int
@@ -161,6 +179,10 @@ class CloudAutonomousVmCluster(object):
         :param next_maintenance_run_id:
             The value to assign to the next_maintenance_run_id property of this CloudAutonomousVmCluster.
         :type next_maintenance_run_id: str
+
+        :param maintenance_window:
+            The value to assign to the maintenance_window property of this CloudAutonomousVmCluster.
+        :type maintenance_window: oci.database.models.MaintenanceWindow
 
         :param freeform_tags:
             The value to assign to the freeform_tags property of this CloudAutonomousVmCluster.
@@ -226,10 +248,13 @@ class CloudAutonomousVmCluster(object):
             'data_storage_size_in_gbs': 'float',
             'cpu_core_count': 'int',
             'ocpu_count': 'float',
+            'compute_model': 'str',
+            'cpu_core_count_per_node': 'int',
             'memory_size_in_gbs': 'int',
             'license_model': 'str',
             'last_maintenance_run_id': 'str',
             'next_maintenance_run_id': 'str',
+            'maintenance_window': 'MaintenanceWindow',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'available_cpus': 'float',
@@ -265,10 +290,13 @@ class CloudAutonomousVmCluster(object):
             'data_storage_size_in_gbs': 'dataStorageSizeInGBs',
             'cpu_core_count': 'cpuCoreCount',
             'ocpu_count': 'ocpuCount',
+            'compute_model': 'computeModel',
+            'cpu_core_count_per_node': 'cpuCoreCountPerNode',
             'memory_size_in_gbs': 'memorySizeInGBs',
             'license_model': 'licenseModel',
             'last_maintenance_run_id': 'lastMaintenanceRunId',
             'next_maintenance_run_id': 'nextMaintenanceRunId',
+            'maintenance_window': 'maintenanceWindow',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'available_cpus': 'availableCpus',
@@ -303,10 +331,13 @@ class CloudAutonomousVmCluster(object):
         self._data_storage_size_in_gbs = None
         self._cpu_core_count = None
         self._ocpu_count = None
+        self._compute_model = None
+        self._cpu_core_count_per_node = None
         self._memory_size_in_gbs = None
         self._license_model = None
         self._last_maintenance_run_id = None
         self._next_maintenance_run_id = None
+        self._maintenance_window = None
         self._freeform_tags = None
         self._defined_tags = None
         self._available_cpus = None
@@ -852,7 +883,7 @@ class CloudAutonomousVmCluster(object):
     def cpu_core_count(self):
         """
         Gets the cpu_core_count of this CloudAutonomousVmCluster.
-        The number of CPU cores enabled on the cloud Autonomous VM cluster.
+        The number of CPU cores on the cloud Autonomous VM cluster.
 
 
         :return: The cpu_core_count of this CloudAutonomousVmCluster.
@@ -864,7 +895,7 @@ class CloudAutonomousVmCluster(object):
     def cpu_core_count(self, cpu_core_count):
         """
         Sets the cpu_core_count of this CloudAutonomousVmCluster.
-        The number of CPU cores enabled on the cloud Autonomous VM cluster.
+        The number of CPU cores on the cloud Autonomous VM cluster.
 
 
         :param cpu_core_count: The cpu_core_count of this CloudAutonomousVmCluster.
@@ -876,7 +907,7 @@ class CloudAutonomousVmCluster(object):
     def ocpu_count(self):
         """
         Gets the ocpu_count of this CloudAutonomousVmCluster.
-        The number of CPU cores enabled on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
+        The number of CPU cores on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
 
 
         :return: The ocpu_count of this CloudAutonomousVmCluster.
@@ -888,13 +919,67 @@ class CloudAutonomousVmCluster(object):
     def ocpu_count(self, ocpu_count):
         """
         Sets the ocpu_count of this CloudAutonomousVmCluster.
-        The number of CPU cores enabled on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
+        The number of CPU cores on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
 
 
         :param ocpu_count: The ocpu_count of this CloudAutonomousVmCluster.
         :type: float
         """
         self._ocpu_count = ocpu_count
+
+    @property
+    def compute_model(self):
+        """
+        Gets the compute_model of this CloudAutonomousVmCluster.
+        The compute model of the Cloud Autonomous VM Cluster.
+
+        Allowed values for this property are: "ECPU", "OCPU", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The compute_model of this CloudAutonomousVmCluster.
+        :rtype: str
+        """
+        return self._compute_model
+
+    @compute_model.setter
+    def compute_model(self, compute_model):
+        """
+        Sets the compute_model of this CloudAutonomousVmCluster.
+        The compute model of the Cloud Autonomous VM Cluster.
+
+
+        :param compute_model: The compute_model of this CloudAutonomousVmCluster.
+        :type: str
+        """
+        allowed_values = ["ECPU", "OCPU"]
+        if not value_allowed_none_or_none_sentinel(compute_model, allowed_values):
+            compute_model = 'UNKNOWN_ENUM_VALUE'
+        self._compute_model = compute_model
+
+    @property
+    def cpu_core_count_per_node(self):
+        """
+        Gets the cpu_core_count_per_node of this CloudAutonomousVmCluster.
+        The number of OCPU cores enabled per VM cluster node.
+
+
+        :return: The cpu_core_count_per_node of this CloudAutonomousVmCluster.
+        :rtype: int
+        """
+        return self._cpu_core_count_per_node
+
+    @cpu_core_count_per_node.setter
+    def cpu_core_count_per_node(self, cpu_core_count_per_node):
+        """
+        Sets the cpu_core_count_per_node of this CloudAutonomousVmCluster.
+        The number of OCPU cores enabled per VM cluster node.
+
+
+        :param cpu_core_count_per_node: The cpu_core_count_per_node of this CloudAutonomousVmCluster.
+        :type: int
+        """
+        self._cpu_core_count_per_node = cpu_core_count_per_node
 
     @property
     def memory_size_in_gbs(self):
@@ -1017,6 +1102,26 @@ class CloudAutonomousVmCluster(object):
         :type: str
         """
         self._next_maintenance_run_id = next_maintenance_run_id
+
+    @property
+    def maintenance_window(self):
+        """
+        Gets the maintenance_window of this CloudAutonomousVmCluster.
+
+        :return: The maintenance_window of this CloudAutonomousVmCluster.
+        :rtype: oci.database.models.MaintenanceWindow
+        """
+        return self._maintenance_window
+
+    @maintenance_window.setter
+    def maintenance_window(self, maintenance_window):
+        """
+        Sets the maintenance_window of this CloudAutonomousVmCluster.
+
+        :param maintenance_window: The maintenance_window of this CloudAutonomousVmCluster.
+        :type: oci.database.models.MaintenanceWindow
+        """
+        self._maintenance_window = maintenance_window
 
     @property
     def freeform_tags(self):

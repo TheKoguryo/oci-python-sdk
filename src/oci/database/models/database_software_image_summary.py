@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -570,7 +570,7 @@ class DatabaseSoftwareImageSummary(object):
     def included_patches_summary(self):
         """
         Gets the included_patches_summary of this DatabaseSoftwareImageSummary.
-        The patches included in the image and the version of the image
+        The patches included in the image and the version of the image.
 
 
         :return: The included_patches_summary of this DatabaseSoftwareImageSummary.
@@ -582,7 +582,7 @@ class DatabaseSoftwareImageSummary(object):
     def included_patches_summary(self, included_patches_summary):
         """
         Sets the included_patches_summary of this DatabaseSoftwareImageSummary.
-        The patches included in the image and the version of the image
+        The patches included in the image and the version of the image.
 
 
         :param included_patches_summary: The included_patches_summary of this DatabaseSoftwareImageSummary.

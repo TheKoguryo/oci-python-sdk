@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -19,6 +19,8 @@ class ConfigurationSourceProviderSummary(object):
         to a service operations then you should favor using a subclass over the base class:
 
         * :class:`~oci.resource_manager.models.GitlabAccessTokenConfigurationSourceProviderSummary`
+        * :class:`~oci.resource_manager.models.BitbucketCloudUsernameAppPasswordConfigurationSourceProviderSummary`
+        * :class:`~oci.resource_manager.models.BitbucketServerAccessTokenConfigurationSourceProviderSummary`
         * :class:`~oci.resource_manager.models.GithubAccessTokenConfigurationSourceProviderSummary`
 
         The following keyword arguments are supported (corresponding to the getters/setters of this class):
@@ -111,6 +113,12 @@ class ConfigurationSourceProviderSummary(object):
 
         if type == 'GITLAB_ACCESS_TOKEN':
             return 'GitlabAccessTokenConfigurationSourceProviderSummary'
+
+        if type == 'BITBUCKET_CLOUD_USERNAME_APPPASSWORD':
+            return 'BitbucketCloudUsernameAppPasswordConfigurationSourceProviderSummary'
+
+        if type == 'BITBUCKET_SERVER_ACCESS_TOKEN':
+            return 'BitbucketServerAccessTokenConfigurationSourceProviderSummary'
 
         if type == 'GITHUB_ACCESS_TOKEN':
             return 'GithubAccessTokenConfigurationSourceProviderSummary'
@@ -291,7 +299,10 @@ class ConfigurationSourceProviderSummary(object):
     def config_source_provider_type(self):
         """
         **[Required]** Gets the config_source_provider_type of this ConfigurationSourceProviderSummary.
-        The type of configuration source provider. The `GITLAB_ACCESS_TOKEN` type corresponds to GitLab.
+        The type of configuration source provider.
+        The `BITBUCKET_CLOUD_USERNAME_APPPASSWORD` type corresponds to Bitbucket Cloud.
+        The `BITBUCKET_SERVER_ACCESS_TOKEN` type corresponds to Bitbucket Server.
+        The `GITLAB_ACCESS_TOKEN` type corresponds to GitLab.
         The `GITHUB_ACCESS_TOKEN` type corresponds to GitHub.
 
 
@@ -304,7 +315,10 @@ class ConfigurationSourceProviderSummary(object):
     def config_source_provider_type(self, config_source_provider_type):
         """
         Sets the config_source_provider_type of this ConfigurationSourceProviderSummary.
-        The type of configuration source provider. The `GITLAB_ACCESS_TOKEN` type corresponds to GitLab.
+        The type of configuration source provider.
+        The `BITBUCKET_CLOUD_USERNAME_APPPASSWORD` type corresponds to Bitbucket Cloud.
+        The `BITBUCKET_SERVER_ACCESS_TOKEN` type corresponds to Bitbucket Server.
+        The `GITLAB_ACCESS_TOKEN` type corresponds to GitLab.
         The `GITHUB_ACCESS_TOKEN` type corresponds to GitHub.
 
 

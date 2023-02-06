@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -88,6 +88,46 @@ class CloudExadataInfrastructure(object):
             The value to assign to the available_storage_size_in_gbs property of this CloudExadataInfrastructure.
         :type available_storage_size_in_gbs: int
 
+        :param cpu_count:
+            The value to assign to the cpu_count property of this CloudExadataInfrastructure.
+        :type cpu_count: int
+
+        :param max_cpu_count:
+            The value to assign to the max_cpu_count property of this CloudExadataInfrastructure.
+        :type max_cpu_count: int
+
+        :param memory_size_in_gbs:
+            The value to assign to the memory_size_in_gbs property of this CloudExadataInfrastructure.
+        :type memory_size_in_gbs: int
+
+        :param max_memory_in_gbs:
+            The value to assign to the max_memory_in_gbs property of this CloudExadataInfrastructure.
+        :type max_memory_in_gbs: int
+
+        :param db_node_storage_size_in_gbs:
+            The value to assign to the db_node_storage_size_in_gbs property of this CloudExadataInfrastructure.
+        :type db_node_storage_size_in_gbs: int
+
+        :param max_db_node_storage_in_gbs:
+            The value to assign to the max_db_node_storage_in_gbs property of this CloudExadataInfrastructure.
+        :type max_db_node_storage_in_gbs: int
+
+        :param data_storage_size_in_tbs:
+            The value to assign to the data_storage_size_in_tbs property of this CloudExadataInfrastructure.
+        :type data_storage_size_in_tbs: float
+
+        :param max_data_storage_in_tbs:
+            The value to assign to the max_data_storage_in_tbs property of this CloudExadataInfrastructure.
+        :type max_data_storage_in_tbs: float
+
+        :param additional_storage_count:
+            The value to assign to the additional_storage_count property of this CloudExadataInfrastructure.
+        :type additional_storage_count: int
+
+        :param activated_storage_count:
+            The value to assign to the activated_storage_count property of this CloudExadataInfrastructure.
+        :type activated_storage_count: int
+
         :param time_created:
             The value to assign to the time_created property of this CloudExadataInfrastructure.
         :type time_created: datetime
@@ -120,6 +160,22 @@ class CloudExadataInfrastructure(object):
             The value to assign to the customer_contacts property of this CloudExadataInfrastructure.
         :type customer_contacts: list[oci.database.models.CustomerContact]
 
+        :param storage_server_version:
+            The value to assign to the storage_server_version property of this CloudExadataInfrastructure.
+        :type storage_server_version: str
+
+        :param db_server_version:
+            The value to assign to the db_server_version property of this CloudExadataInfrastructure.
+        :type db_server_version: str
+
+        :param monthly_storage_server_version:
+            The value to assign to the monthly_storage_server_version property of this CloudExadataInfrastructure.
+        :type monthly_storage_server_version: str
+
+        :param monthly_db_server_version:
+            The value to assign to the monthly_db_server_version property of this CloudExadataInfrastructure.
+        :type monthly_db_server_version: str
+
         """
         self.swagger_types = {
             'id': 'str',
@@ -132,6 +188,16 @@ class CloudExadataInfrastructure(object):
             'storage_count': 'int',
             'total_storage_size_in_gbs': 'int',
             'available_storage_size_in_gbs': 'int',
+            'cpu_count': 'int',
+            'max_cpu_count': 'int',
+            'memory_size_in_gbs': 'int',
+            'max_memory_in_gbs': 'int',
+            'db_node_storage_size_in_gbs': 'int',
+            'max_db_node_storage_in_gbs': 'int',
+            'data_storage_size_in_tbs': 'float',
+            'max_data_storage_in_tbs': 'float',
+            'additional_storage_count': 'int',
+            'activated_storage_count': 'int',
             'time_created': 'datetime',
             'lifecycle_details': 'str',
             'maintenance_window': 'MaintenanceWindow',
@@ -139,7 +205,11 @@ class CloudExadataInfrastructure(object):
             'next_maintenance_run_id': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
-            'customer_contacts': 'list[CustomerContact]'
+            'customer_contacts': 'list[CustomerContact]',
+            'storage_server_version': 'str',
+            'db_server_version': 'str',
+            'monthly_storage_server_version': 'str',
+            'monthly_db_server_version': 'str'
         }
 
         self.attribute_map = {
@@ -153,6 +223,16 @@ class CloudExadataInfrastructure(object):
             'storage_count': 'storageCount',
             'total_storage_size_in_gbs': 'totalStorageSizeInGBs',
             'available_storage_size_in_gbs': 'availableStorageSizeInGBs',
+            'cpu_count': 'cpuCount',
+            'max_cpu_count': 'maxCpuCount',
+            'memory_size_in_gbs': 'memorySizeInGBs',
+            'max_memory_in_gbs': 'maxMemoryInGBs',
+            'db_node_storage_size_in_gbs': 'dbNodeStorageSizeInGBs',
+            'max_db_node_storage_in_gbs': 'maxDbNodeStorageInGBs',
+            'data_storage_size_in_tbs': 'dataStorageSizeInTBs',
+            'max_data_storage_in_tbs': 'maxDataStorageInTBs',
+            'additional_storage_count': 'additionalStorageCount',
+            'activated_storage_count': 'activatedStorageCount',
             'time_created': 'timeCreated',
             'lifecycle_details': 'lifecycleDetails',
             'maintenance_window': 'maintenanceWindow',
@@ -160,7 +240,11 @@ class CloudExadataInfrastructure(object):
             'next_maintenance_run_id': 'nextMaintenanceRunId',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
-            'customer_contacts': 'customerContacts'
+            'customer_contacts': 'customerContacts',
+            'storage_server_version': 'storageServerVersion',
+            'db_server_version': 'dbServerVersion',
+            'monthly_storage_server_version': 'monthlyStorageServerVersion',
+            'monthly_db_server_version': 'monthlyDbServerVersion'
         }
 
         self._id = None
@@ -173,6 +257,16 @@ class CloudExadataInfrastructure(object):
         self._storage_count = None
         self._total_storage_size_in_gbs = None
         self._available_storage_size_in_gbs = None
+        self._cpu_count = None
+        self._max_cpu_count = None
+        self._memory_size_in_gbs = None
+        self._max_memory_in_gbs = None
+        self._db_node_storage_size_in_gbs = None
+        self._max_db_node_storage_in_gbs = None
+        self._data_storage_size_in_tbs = None
+        self._max_data_storage_in_tbs = None
+        self._additional_storage_count = None
+        self._activated_storage_count = None
         self._time_created = None
         self._lifecycle_details = None
         self._maintenance_window = None
@@ -181,6 +275,10 @@ class CloudExadataInfrastructure(object):
         self._freeform_tags = None
         self._defined_tags = None
         self._customer_contacts = None
+        self._storage_server_version = None
+        self._db_server_version = None
+        self._monthly_storage_server_version = None
+        self._monthly_db_server_version = None
 
     @property
     def id(self):
@@ -437,6 +535,246 @@ class CloudExadataInfrastructure(object):
         self._available_storage_size_in_gbs = available_storage_size_in_gbs
 
     @property
+    def cpu_count(self):
+        """
+        Gets the cpu_count of this CloudExadataInfrastructure.
+        The total number of CPU cores allocated.
+
+
+        :return: The cpu_count of this CloudExadataInfrastructure.
+        :rtype: int
+        """
+        return self._cpu_count
+
+    @cpu_count.setter
+    def cpu_count(self, cpu_count):
+        """
+        Sets the cpu_count of this CloudExadataInfrastructure.
+        The total number of CPU cores allocated.
+
+
+        :param cpu_count: The cpu_count of this CloudExadataInfrastructure.
+        :type: int
+        """
+        self._cpu_count = cpu_count
+
+    @property
+    def max_cpu_count(self):
+        """
+        Gets the max_cpu_count of this CloudExadataInfrastructure.
+        The total number of CPU cores available.
+
+
+        :return: The max_cpu_count of this CloudExadataInfrastructure.
+        :rtype: int
+        """
+        return self._max_cpu_count
+
+    @max_cpu_count.setter
+    def max_cpu_count(self, max_cpu_count):
+        """
+        Sets the max_cpu_count of this CloudExadataInfrastructure.
+        The total number of CPU cores available.
+
+
+        :param max_cpu_count: The max_cpu_count of this CloudExadataInfrastructure.
+        :type: int
+        """
+        self._max_cpu_count = max_cpu_count
+
+    @property
+    def memory_size_in_gbs(self):
+        """
+        Gets the memory_size_in_gbs of this CloudExadataInfrastructure.
+        The memory allocated in GBs.
+
+
+        :return: The memory_size_in_gbs of this CloudExadataInfrastructure.
+        :rtype: int
+        """
+        return self._memory_size_in_gbs
+
+    @memory_size_in_gbs.setter
+    def memory_size_in_gbs(self, memory_size_in_gbs):
+        """
+        Sets the memory_size_in_gbs of this CloudExadataInfrastructure.
+        The memory allocated in GBs.
+
+
+        :param memory_size_in_gbs: The memory_size_in_gbs of this CloudExadataInfrastructure.
+        :type: int
+        """
+        self._memory_size_in_gbs = memory_size_in_gbs
+
+    @property
+    def max_memory_in_gbs(self):
+        """
+        Gets the max_memory_in_gbs of this CloudExadataInfrastructure.
+        The total memory available in GBs.
+
+
+        :return: The max_memory_in_gbs of this CloudExadataInfrastructure.
+        :rtype: int
+        """
+        return self._max_memory_in_gbs
+
+    @max_memory_in_gbs.setter
+    def max_memory_in_gbs(self, max_memory_in_gbs):
+        """
+        Sets the max_memory_in_gbs of this CloudExadataInfrastructure.
+        The total memory available in GBs.
+
+
+        :param max_memory_in_gbs: The max_memory_in_gbs of this CloudExadataInfrastructure.
+        :type: int
+        """
+        self._max_memory_in_gbs = max_memory_in_gbs
+
+    @property
+    def db_node_storage_size_in_gbs(self):
+        """
+        Gets the db_node_storage_size_in_gbs of this CloudExadataInfrastructure.
+        The local node storage allocated in GBs.
+
+
+        :return: The db_node_storage_size_in_gbs of this CloudExadataInfrastructure.
+        :rtype: int
+        """
+        return self._db_node_storage_size_in_gbs
+
+    @db_node_storage_size_in_gbs.setter
+    def db_node_storage_size_in_gbs(self, db_node_storage_size_in_gbs):
+        """
+        Sets the db_node_storage_size_in_gbs of this CloudExadataInfrastructure.
+        The local node storage allocated in GBs.
+
+
+        :param db_node_storage_size_in_gbs: The db_node_storage_size_in_gbs of this CloudExadataInfrastructure.
+        :type: int
+        """
+        self._db_node_storage_size_in_gbs = db_node_storage_size_in_gbs
+
+    @property
+    def max_db_node_storage_in_gbs(self):
+        """
+        Gets the max_db_node_storage_in_gbs of this CloudExadataInfrastructure.
+        The total local node storage available in GBs.
+
+
+        :return: The max_db_node_storage_in_gbs of this CloudExadataInfrastructure.
+        :rtype: int
+        """
+        return self._max_db_node_storage_in_gbs
+
+    @max_db_node_storage_in_gbs.setter
+    def max_db_node_storage_in_gbs(self, max_db_node_storage_in_gbs):
+        """
+        Sets the max_db_node_storage_in_gbs of this CloudExadataInfrastructure.
+        The total local node storage available in GBs.
+
+
+        :param max_db_node_storage_in_gbs: The max_db_node_storage_in_gbs of this CloudExadataInfrastructure.
+        :type: int
+        """
+        self._max_db_node_storage_in_gbs = max_db_node_storage_in_gbs
+
+    @property
+    def data_storage_size_in_tbs(self):
+        """
+        Gets the data_storage_size_in_tbs of this CloudExadataInfrastructure.
+        Size, in terabytes, of the DATA disk group.
+
+
+        :return: The data_storage_size_in_tbs of this CloudExadataInfrastructure.
+        :rtype: float
+        """
+        return self._data_storage_size_in_tbs
+
+    @data_storage_size_in_tbs.setter
+    def data_storage_size_in_tbs(self, data_storage_size_in_tbs):
+        """
+        Sets the data_storage_size_in_tbs of this CloudExadataInfrastructure.
+        Size, in terabytes, of the DATA disk group.
+
+
+        :param data_storage_size_in_tbs: The data_storage_size_in_tbs of this CloudExadataInfrastructure.
+        :type: float
+        """
+        self._data_storage_size_in_tbs = data_storage_size_in_tbs
+
+    @property
+    def max_data_storage_in_tbs(self):
+        """
+        Gets the max_data_storage_in_tbs of this CloudExadataInfrastructure.
+        The total available DATA disk group size.
+
+
+        :return: The max_data_storage_in_tbs of this CloudExadataInfrastructure.
+        :rtype: float
+        """
+        return self._max_data_storage_in_tbs
+
+    @max_data_storage_in_tbs.setter
+    def max_data_storage_in_tbs(self, max_data_storage_in_tbs):
+        """
+        Sets the max_data_storage_in_tbs of this CloudExadataInfrastructure.
+        The total available DATA disk group size.
+
+
+        :param max_data_storage_in_tbs: The max_data_storage_in_tbs of this CloudExadataInfrastructure.
+        :type: float
+        """
+        self._max_data_storage_in_tbs = max_data_storage_in_tbs
+
+    @property
+    def additional_storage_count(self):
+        """
+        Gets the additional_storage_count of this CloudExadataInfrastructure.
+        The requested number of additional storage servers for the Exadata infrastructure.
+
+
+        :return: The additional_storage_count of this CloudExadataInfrastructure.
+        :rtype: int
+        """
+        return self._additional_storage_count
+
+    @additional_storage_count.setter
+    def additional_storage_count(self, additional_storage_count):
+        """
+        Sets the additional_storage_count of this CloudExadataInfrastructure.
+        The requested number of additional storage servers for the Exadata infrastructure.
+
+
+        :param additional_storage_count: The additional_storage_count of this CloudExadataInfrastructure.
+        :type: int
+        """
+        self._additional_storage_count = additional_storage_count
+
+    @property
+    def activated_storage_count(self):
+        """
+        Gets the activated_storage_count of this CloudExadataInfrastructure.
+        The requested number of additional storage servers activated for the Exadata infrastructure.
+
+
+        :return: The activated_storage_count of this CloudExadataInfrastructure.
+        :rtype: int
+        """
+        return self._activated_storage_count
+
+    @activated_storage_count.setter
+    def activated_storage_count(self, activated_storage_count):
+        """
+        Sets the activated_storage_count of this CloudExadataInfrastructure.
+        The requested number of additional storage servers activated for the Exadata infrastructure.
+
+
+        :param activated_storage_count: The activated_storage_count of this CloudExadataInfrastructure.
+        :type: int
+        """
+        self._activated_storage_count = activated_storage_count
+
+    @property
     def time_created(self):
         """
         Gets the time_created of this CloudExadataInfrastructure.
@@ -651,6 +989,110 @@ class CloudExadataInfrastructure(object):
         :type: list[oci.database.models.CustomerContact]
         """
         self._customer_contacts = customer_contacts
+
+    @property
+    def storage_server_version(self):
+        """
+        Gets the storage_server_version of this CloudExadataInfrastructure.
+        The software version of the storage servers (cells) in the cloud Exadata infrastructure.
+        Example: 20.1.15
+
+
+        :return: The storage_server_version of this CloudExadataInfrastructure.
+        :rtype: str
+        """
+        return self._storage_server_version
+
+    @storage_server_version.setter
+    def storage_server_version(self, storage_server_version):
+        """
+        Sets the storage_server_version of this CloudExadataInfrastructure.
+        The software version of the storage servers (cells) in the cloud Exadata infrastructure.
+        Example: 20.1.15
+
+
+        :param storage_server_version: The storage_server_version of this CloudExadataInfrastructure.
+        :type: str
+        """
+        self._storage_server_version = storage_server_version
+
+    @property
+    def db_server_version(self):
+        """
+        Gets the db_server_version of this CloudExadataInfrastructure.
+        The software version of the database servers (dom0) in the cloud Exadata infrastructure.
+        Example: 20.1.15
+
+
+        :return: The db_server_version of this CloudExadataInfrastructure.
+        :rtype: str
+        """
+        return self._db_server_version
+
+    @db_server_version.setter
+    def db_server_version(self, db_server_version):
+        """
+        Sets the db_server_version of this CloudExadataInfrastructure.
+        The software version of the database servers (dom0) in the cloud Exadata infrastructure.
+        Example: 20.1.15
+
+
+        :param db_server_version: The db_server_version of this CloudExadataInfrastructure.
+        :type: str
+        """
+        self._db_server_version = db_server_version
+
+    @property
+    def monthly_storage_server_version(self):
+        """
+        Gets the monthly_storage_server_version of this CloudExadataInfrastructure.
+        The monthly software version of the storage servers (cells) in the cloud Exadata infrastructure.
+        Example: 20.1.15
+
+
+        :return: The monthly_storage_server_version of this CloudExadataInfrastructure.
+        :rtype: str
+        """
+        return self._monthly_storage_server_version
+
+    @monthly_storage_server_version.setter
+    def monthly_storage_server_version(self, monthly_storage_server_version):
+        """
+        Sets the monthly_storage_server_version of this CloudExadataInfrastructure.
+        The monthly software version of the storage servers (cells) in the cloud Exadata infrastructure.
+        Example: 20.1.15
+
+
+        :param monthly_storage_server_version: The monthly_storage_server_version of this CloudExadataInfrastructure.
+        :type: str
+        """
+        self._monthly_storage_server_version = monthly_storage_server_version
+
+    @property
+    def monthly_db_server_version(self):
+        """
+        Gets the monthly_db_server_version of this CloudExadataInfrastructure.
+        The monthly software version of the database servers (dom0) in the cloud Exadata infrastructure.
+        Example: 20.1.15
+
+
+        :return: The monthly_db_server_version of this CloudExadataInfrastructure.
+        :rtype: str
+        """
+        return self._monthly_db_server_version
+
+    @monthly_db_server_version.setter
+    def monthly_db_server_version(self, monthly_db_server_version):
+        """
+        Sets the monthly_db_server_version of this CloudExadataInfrastructure.
+        The monthly software version of the database servers (dom0) in the cloud Exadata infrastructure.
+        Example: 20.1.15
+
+
+        :param monthly_db_server_version: The monthly_db_server_version of this CloudExadataInfrastructure.
+        :type: str
+        """
+        self._monthly_db_server_version = monthly_db_server_version
 
     def __repr__(self):
         return formatted_flat_dict(self)

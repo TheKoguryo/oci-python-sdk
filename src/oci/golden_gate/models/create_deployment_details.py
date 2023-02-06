@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -24,6 +24,22 @@ class CreateDeploymentDetails(object):
     #: A constant which can be used with the deployment_type property of a CreateDeploymentDetails.
     #: This constant has a value of "OGG"
     DEPLOYMENT_TYPE_OGG = "OGG"
+
+    #: A constant which can be used with the deployment_type property of a CreateDeploymentDetails.
+    #: This constant has a value of "DATABASE_ORACLE"
+    DEPLOYMENT_TYPE_DATABASE_ORACLE = "DATABASE_ORACLE"
+
+    #: A constant which can be used with the deployment_type property of a CreateDeploymentDetails.
+    #: This constant has a value of "BIGDATA"
+    DEPLOYMENT_TYPE_BIGDATA = "BIGDATA"
+
+    #: A constant which can be used with the deployment_type property of a CreateDeploymentDetails.
+    #: This constant has a value of "DATABASE_MYSQL"
+    DEPLOYMENT_TYPE_DATABASE_MYSQL = "DATABASE_MYSQL"
+
+    #: A constant which can be used with the deployment_type property of a CreateDeploymentDetails.
+    #: This constant has a value of "DATABASE_POSTGRESQL"
+    DEPLOYMENT_TYPE_DATABASE_POSTGRESQL = "DATABASE_POSTGRESQL"
 
     def __init__(self, **kwargs):
         """
@@ -85,7 +101,7 @@ class CreateDeploymentDetails(object):
 
         :param deployment_type:
             The value to assign to the deployment_type property of this CreateDeploymentDetails.
-            Allowed values for this property are: "OGG"
+            Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MYSQL", "DATABASE_POSTGRESQL"
         :type deployment_type: str
 
         :param ogg_data:
@@ -257,7 +273,9 @@ class CreateDeploymentDetails(object):
     def freeform_tags(self):
         """
         Gets the freeform_tags of this CreateDeploymentDetails.
-        A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+        A simple key-value pair that is applied without any predefined name, type, or scope. Exists
+        for cross-compatibility only.
+
         Example: `{\"bar-key\": \"value\"}`
 
 
@@ -270,7 +288,9 @@ class CreateDeploymentDetails(object):
     def freeform_tags(self, freeform_tags):
         """
         Sets the freeform_tags of this CreateDeploymentDetails.
-        A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+        A simple key-value pair that is applied without any predefined name, type, or scope. Exists
+        for cross-compatibility only.
+
         Example: `{\"bar-key\": \"value\"}`
 
 
@@ -284,6 +304,7 @@ class CreateDeploymentDetails(object):
         """
         Gets the defined_tags of this CreateDeploymentDetails.
         Tags defined for this resource. Each key is predefined and scoped to a namespace.
+
         Example: `{\"foo-namespace\": {\"bar-key\": \"value\"}}`
 
 
@@ -297,6 +318,7 @@ class CreateDeploymentDetails(object):
         """
         Sets the defined_tags of this CreateDeploymentDetails.
         Tags defined for this resource. Each key is predefined and scoped to a namespace.
+
         Example: `{\"foo-namespace\": {\"bar-key\": \"value\"}}`
 
 
@@ -389,9 +411,7 @@ class CreateDeploymentDetails(object):
     def nsg_ids(self):
         """
         Gets the nsg_ids of this CreateDeploymentDetails.
-        An array of `Network Security Group`__ OCIDs used to define network access for a deployment.
-
-        __ https://docs.cloud.oracle.com/Content/Network/Concepts/networksecuritygroups.htm
+        An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 
 
         :return: The nsg_ids of this CreateDeploymentDetails.
@@ -403,9 +423,7 @@ class CreateDeploymentDetails(object):
     def nsg_ids(self, nsg_ids):
         """
         Sets the nsg_ids of this CreateDeploymentDetails.
-        An array of `Network Security Group`__ OCIDs used to define network access for a deployment.
-
-        __ https://docs.cloud.oracle.com/Content/Network/Concepts/networksecuritygroups.htm
+        An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 
 
         :param nsg_ids: The nsg_ids of this CreateDeploymentDetails.
@@ -489,10 +507,11 @@ class CreateDeploymentDetails(object):
     def deployment_type(self):
         """
         **[Required]** Gets the deployment_type of this CreateDeploymentDetails.
-        The type of deployment, the value determines the exact 'type' of service executed in the Deployment. NOTE: Use of the value OGG is maintained for backward compatibility purposes.  Its use is discouraged
-              in favor of the equivalent DATABASE_ORACLE value.
+        The type of deployment, the value determines the exact 'type' of service executed in the Deployment.
+        NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged
+              in favor of the equivalent 'DATABASE_ORACLE' value.
 
-        Allowed values for this property are: "OGG"
+        Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MYSQL", "DATABASE_POSTGRESQL"
 
 
         :return: The deployment_type of this CreateDeploymentDetails.
@@ -504,14 +523,15 @@ class CreateDeploymentDetails(object):
     def deployment_type(self, deployment_type):
         """
         Sets the deployment_type of this CreateDeploymentDetails.
-        The type of deployment, the value determines the exact 'type' of service executed in the Deployment. NOTE: Use of the value OGG is maintained for backward compatibility purposes.  Its use is discouraged
-              in favor of the equivalent DATABASE_ORACLE value.
+        The type of deployment, the value determines the exact 'type' of service executed in the Deployment.
+        NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged
+              in favor of the equivalent 'DATABASE_ORACLE' value.
 
 
         :param deployment_type: The deployment_type of this CreateDeploymentDetails.
         :type: str
         """
-        allowed_values = ["OGG"]
+        allowed_values = ["OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MYSQL", "DATABASE_POSTGRESQL"]
         if not value_allowed_none_or_none_sentinel(deployment_type, allowed_values):
             raise ValueError(
                 "Invalid value for `deployment_type`, must be None or one of {0}"

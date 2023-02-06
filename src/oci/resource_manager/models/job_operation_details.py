@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -20,6 +20,8 @@ class JobOperationDetails(object):
 
         * :class:`~oci.resource_manager.models.ImportTfStateJobOperationDetails`
         * :class:`~oci.resource_manager.models.PlanJobOperationDetails`
+        * :class:`~oci.resource_manager.models.ApplyRollbackJobOperationDetails`
+        * :class:`~oci.resource_manager.models.PlanRollbackJobOperationDetails`
         * :class:`~oci.resource_manager.models.ApplyJobOperationDetails`
         * :class:`~oci.resource_manager.models.DestroyJobOperationDetails`
 
@@ -53,6 +55,12 @@ class JobOperationDetails(object):
 
         if type == 'PLAN':
             return 'PlanJobOperationDetails'
+
+        if type == 'APPLY_ROLLBACK':
+            return 'ApplyRollbackJobOperationDetails'
+
+        if type == 'PLAN_ROLLBACK':
+            return 'PlanRollbackJobOperationDetails'
 
         if type == 'APPLY':
             return 'ApplyJobOperationDetails'

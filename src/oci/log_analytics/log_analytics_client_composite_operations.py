@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 import oci  # noqa: F401
@@ -48,6 +48,47 @@ class LogAnalyticsClientCompositeOperations(object):
             as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
         """
         operation_result = self.client.append_lookup_data(namespace_name, lookup_name, append_lookup_file_body, **operation_kwargs)
+        if not wait_for_states:
+            return operation_result
+
+        lowered_wait_for_states = [w.lower() for w in wait_for_states]
+        wait_for_resource_id = operation_result.headers['opc-work-request-id']
+
+        try:
+            waiter_result = oci.wait_until(
+                self.client,
+                self.client.get_work_request(wait_for_resource_id),
+                evaluate_response=lambda r: getattr(r.data, 'status') and getattr(r.data, 'status').lower() in lowered_wait_for_states,
+                **waiter_kwargs
+            )
+            result_to_return = waiter_result
+
+            return result_to_return
+        except Exception as e:
+            raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
+
+    def assign_encryption_key_and_wait_for_state(self, namespace_name, assign_encryption_key_details, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
+        """
+        Calls :py:func:`~oci.log_analytics.LogAnalyticsClient.assign_encryption_key` and waits for the :py:class:`~oci.log_analytics.models.WorkRequest`
+        to enter the given state(s).
+
+        :param str namespace_name: (required)
+            The Logging Analytics namespace used for the request.
+
+        :param oci.log_analytics.models.AssignEncryptionKeyDetails assign_encryption_key_details: (required)
+            This is the input to assign customer encryption key.
+
+        :param list[str] wait_for_states:
+            An array of states to wait on. These should be valid values for :py:attr:`~oci.log_analytics.models.WorkRequest.status`
+
+        :param dict operation_kwargs:
+            A dictionary of keyword arguments to pass to :py:func:`~oci.log_analytics.LogAnalyticsClient.assign_encryption_key`
+
+        :param dict waiter_kwargs:
+            A dictionary of keyword arguments to pass to the :py:func:`oci.wait_until` function. For example, you could pass ``max_interval_seconds`` or ``max_interval_seconds``
+            as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
+        """
+        operation_result = self.client.assign_encryption_key(namespace_name, assign_encryption_key_details, **operation_kwargs)
         if not wait_for_states:
             return operation_result
 

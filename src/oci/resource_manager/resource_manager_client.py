@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from __future__ import absolute_import
@@ -471,7 +471,11 @@ class ResourceManagerClient(object):
 
     def change_stack_compartment(self, stack_id, change_stack_compartment_details, **kwargs):
         """
-        Moves a Stack and it's associated Jobs into a different compartment.
+        Moves a stack (and its associated jobs) into a different compartment within the same tenancy.
+        For information about moving resources between compartments, see
+        `Moving Resources to a Different Compartment`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str stack_id: (required)
@@ -1001,12 +1005,12 @@ class ResourceManagerClient(object):
         Creates a stack in the specified compartment.
         You can create a stack from a Terraform configuration.
         The Terraform configuration can be directly uploaded or referenced from a source code control system.
-        You can also create a stack from an existing compartment.
+        You can also create a stack from an existing compartment, which generates a Terraform configuration.
         You can also upload the Terraform configuration from an Object Storage bucket.
         For more information, see
-        `To create a stack`__.
+        `Creating Stacks`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#createstack-all
+        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack.htm
 
 
         :param oci.resource_manager.models.CreateStackDetails create_stack_details: (required)
@@ -1400,7 +1404,7 @@ class ResourceManagerClient(object):
 
     def delete_stack(self, stack_id, **kwargs):
         """
-        Deletes the specified stack object.
+        Deletes the specified stack.
 
 
         :param str stack_id: (required)
@@ -1819,7 +1823,7 @@ class ResourceManagerClient(object):
 
     def get_job(self, job_id, **kwargs):
         """
-        Returns the specified job along with the job details.
+        Gets the properties of the specified job.
 
 
         :param str job_id: (required)
@@ -2181,7 +2185,8 @@ class ResourceManagerClient(object):
 
     def get_job_logs_content(self, job_id, **kwargs):
         """
-        Returns a raw log file for the specified job. The raw log file contains console log entries in text format. The maximum number of entries in a file is 100,000.
+        Returns the raw log file for the specified job in text format.
+        The file includes a maximum of 100,000 log entries.
 
 
         :param str job_id: (required)
@@ -2278,8 +2283,8 @@ class ResourceManagerClient(object):
 
     def get_job_tf_config(self, job_id, **kwargs):
         """
-        Returns the Terraform configuration file for the specified job in .zip format.
-        Returns an error if no zip file is found.
+        Returns the Terraform configuration for the specified job in zip format.
+        If no zip file is found, returns an error.
 
 
         :param str job_id: (required)
@@ -2378,9 +2383,9 @@ class ResourceManagerClient(object):
         """
         Returns the output of the specified Terraform plan job in binary or JSON format.
         For information about running Terraform plan jobs, see
-        `To run a plan job`__.
+        `Creating Plan Jobs`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#PlanJobRun
+        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-job.htm
 
 
         :param str job_id: (required)
@@ -2809,7 +2814,7 @@ class ResourceManagerClient(object):
 
     def get_stack(self, stack_id, **kwargs):
         """
-        Gets a stack using the stack ID.
+        Gets the specified stack.
 
 
         :param str stack_id: (required)
@@ -2906,7 +2911,7 @@ class ResourceManagerClient(object):
 
     def get_stack_tf_config(self, stack_id, **kwargs):
         """
-        Returns the Terraform configuration file in .zip format for the specified stack.
+        Returns the Terraform configuration file for the specified stack in zip format.
         Returns an error if no zip file is found.
 
 
@@ -3296,7 +3301,7 @@ class ResourceManagerClient(object):
 
     def get_template_tf_config(self, template_id, **kwargs):
         """
-        Returns the Terraform configuration file in .zip format for the specified template.
+        Returns the Terraform configuration file in zip format for the specified template.
         Returns an error if no zip file is found.
 
 
@@ -3394,7 +3399,7 @@ class ResourceManagerClient(object):
 
     def get_work_request(self, work_request_id, **kwargs):
         """
-        Return the given work request.
+        Returns the specified work request.
 
 
         :param str work_request_id: (required)
@@ -3650,13 +3655,273 @@ class ResourceManagerClient(object):
                 operation_name=operation_name,
                 api_reference_link=api_reference_link)
 
+    def list_job_associated_resources(self, job_id, **kwargs):
+        """
+        Gets the list of resources associated with the specified job.
+
+
+        :param str job_id: (required)
+            The `OCID`__ of the job.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+            particular request, please provide the request ID.
+
+        :param str compartment_id: (optional)
+            A filter to return only resources that exist in the compartment, identified by `OCID`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str terraform_resource_type: (optional)
+            A filter to return only specified resource types.
+            For more information about resource types supported for the Oracle Cloud Infrastructure `OCI] provider, see [Oracle Cloud Infrastructure Provider`__.
+
+            __ https://registry.terraform.io/providers/oracle/oci/latest/docs
+
+        :param int limit: (optional)
+            The number of items returned in a paginated `List` call. For information about pagination, see
+            `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            The value of the `opc-next-page` response header from the preceding `List` call.
+            For information about pagination, see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.resource_manager.models.AssociatedResourcesCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_job_associated_resources.py.html>`__ to see an example of how to use list_job_associated_resources API.
+        """
+        resource_path = "/jobs/{jobId}/associatedResources"
+        method = "GET"
+        operation_name = "list_job_associated_resources"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/AssociatedResourceSummary/ListJobAssociatedResources"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id",
+            "compartment_id",
+            "terraform_resource_type",
+            "limit",
+            "page"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_job_associated_resources got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "jobId": job_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        query_params = {
+            "compartmentId": kwargs.get("compartment_id", missing),
+            "terraformResourceType": kwargs.get("terraform_resource_type", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AssociatedResourcesCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AssociatedResourcesCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link)
+
+    def list_job_outputs(self, job_id, **kwargs):
+        """
+        Gets the list of outputs associated with the specified job.
+
+
+        :param str job_id: (required)
+            The `OCID`__ of the job.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+            particular request, please provide the request ID.
+
+        :param str compartment_id: (optional)
+            A filter to return only resources that exist in the compartment, identified by `OCID`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param int limit: (optional)
+            The number of items returned in a paginated `List` call. For information about pagination, see
+            `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            The value of the `opc-next-page` response header from the preceding `List` call.
+            For information about pagination, see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.resource_manager.models.JobOutputsCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_job_outputs.py.html>`__ to see an example of how to use list_job_outputs API.
+        """
+        resource_path = "/jobs/{jobId}/outputs"
+        method = "GET"
+        operation_name = "list_job_outputs"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/JobOutputSummary/ListJobOutputs"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id",
+            "compartment_id",
+            "limit",
+            "page"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_job_outputs got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "jobId": job_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        query_params = {
+            "compartmentId": kwargs.get("compartment_id", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="JobOutputsCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="JobOutputsCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link)
+
     def list_jobs(self, **kwargs):
         """
-        Returns a list of jobs in a stack or compartment, ordered by time created.
+        Lists jobs according to the specified filter. By default, the list is ordered by time created.
 
         - To list all jobs in a stack, provide the stack `OCID`__.
         - To list all jobs in a compartment, provide the compartment `OCID`__.
-        - To return a specific job, provide the job `OCID`__.
+        - To return a specific job, provide the job `OCID`__. (Equivalent to :func:`get_stack`.)
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
@@ -4007,8 +4272,10 @@ class ResourceManagerClient(object):
 
     def list_resource_discovery_services(self, **kwargs):
         """
-        Returns a list of supported services for Resource Discovery. For reference on service names, see the `Terraform provider documentation`__.
+        Returns a list of supported services for `Resource Discovery`__.
+        For reference on service names, see the `Terraform provider documentation`__.
 
+        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resource-discovery.htm
         __ https://www.terraform.io/docs/providers/oci/guides/resource_discovery.html#services
 
 
@@ -4096,6 +4363,140 @@ class ResourceManagerClient(object):
                 query_params=query_params,
                 header_params=header_params,
                 response_type="ResourceDiscoveryServiceCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link)
+
+    def list_stack_associated_resources(self, stack_id, **kwargs):
+        """
+        Gets the list of resources associated with the specified stack.
+
+
+        :param str stack_id: (required)
+            The `OCID`__ of the stack.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+            particular request, please provide the request ID.
+
+        :param str terraform_resource_type: (optional)
+            A filter to return only specified resource types.
+            For more information about resource types supported for the Oracle Cloud Infrastructure `OCI] provider, see [Oracle Cloud Infrastructure Provider`__.
+
+            __ https://registry.terraform.io/providers/oracle/oci/latest/docs
+
+        :param str compartment_id: (optional)
+            A filter to return only resources that exist in the compartment, identified by `OCID`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param int limit: (optional)
+            The number of items returned in a paginated `List` call. For information about pagination, see
+            `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            The value of the `opc-next-page` response header from the preceding `List` call.
+            For information about pagination, see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.resource_manager.models.AssociatedResourcesCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_stack_associated_resources.py.html>`__ to see an example of how to use list_stack_associated_resources API.
+        """
+        resource_path = "/stacks/{stackId}/associatedResources"
+        method = "GET"
+        operation_name = "list_stack_associated_resources"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/AssociatedResourceSummary/ListStackAssociatedResources"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id",
+            "terraform_resource_type",
+            "compartment_id",
+            "limit",
+            "page"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_stack_associated_resources got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "stackId": stack_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        query_params = {
+            "terraformResourceType": kwargs.get("terraform_resource_type", missing),
+            "compartmentId": kwargs.get("compartment_id", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AssociatedResourcesCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AssociatedResourcesCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link)
@@ -4242,9 +4643,9 @@ class ResourceManagerClient(object):
 
     def list_stacks(self, **kwargs):
         """
-        Returns a list of stacks.
+        Lists stacks according to the specified filter.
         - If called using the compartment ID, returns all stacks in the specified compartment.
-        - If called using the stack ID, returns the specified stack.
+        - If called using the stack ID, returns the specified stack. (See also :func:`get_stack`.)
 
 
         :param str opc_request_id: (optional)
@@ -4518,8 +4919,11 @@ class ResourceManagerClient(object):
             __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str template_category_id: (optional)
-            Unique identifier of the template category.
-            Possible values are `0` (Quick Starts), `1` (Service), `2` (Architecture), and `3` (Private).
+            Unique identifier for the template category.
+            Possible values are `0` (Quickstarts), `1` (Service), `2` (Architecture), and `3` (Private).
+            Template category labels are displayed in the Console page listing templates.
+            Quickstarts, Service, and Architecture templates (categories 0, 1, and 2) are available in all compartments.
+            Each private template (category 3) is available in the compartment where it was created.
 
         :param str template_id: (optional)
             The `OCID`__ of the template.
@@ -4758,7 +5162,7 @@ class ResourceManagerClient(object):
 
     def list_work_request_errors(self, work_request_id, **kwargs):
         """
-        Return a (paginated) list of errors for a given work request.
+        Returns a paginated list of errors for the specified work request.
 
 
         :param str work_request_id: (required)
@@ -4898,7 +5302,7 @@ class ResourceManagerClient(object):
 
     def list_work_request_logs(self, work_request_id, **kwargs):
         """
-        Return a (paginated) list of logs for a given work request.
+        Returns a paginated list of logs for the specified work request.
 
 
         :param str work_request_id: (required)
@@ -5038,7 +5442,7 @@ class ResourceManagerClient(object):
 
     def list_work_requests(self, compartment_id, **kwargs):
         """
-        Lists the work requests in a given compartment or for a given resource.
+        Lists the work requests in the specified compartment or for the specified resource.
 
 
         :param str compartment_id: (required)
@@ -5484,15 +5888,13 @@ class ResourceManagerClient(object):
 
     def update_stack(self, stack_id, update_stack_details, **kwargs):
         """
-        Updates the specified stack object.
+        Updates the specified stack.
         Use `UpdateStack` when you update your Terraform configuration
         and want your changes to be reflected in the execution plan.
         For more information, see
-        `To update a stack`__ and
-        `To edit a stack`__.
+        `Updating Stacks`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#UpdateStack
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#EditStack
+        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack.htm
 
 
         :param str stack_id: (required)
@@ -5501,7 +5903,7 @@ class ResourceManagerClient(object):
             __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.resource_manager.models.UpdateStackDetails update_stack_details: (required)
-            Updated information provided for the stack.
+            The details for updating a stack.
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

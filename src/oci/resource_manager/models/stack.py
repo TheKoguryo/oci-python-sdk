@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -10,8 +10,15 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class Stack(object):
     """
-    The stack object. Stacks represent definitions of groups of Oracle Cloud Infrastructure
-    resources that you can act upon as a group. You take action on stacks by using jobs.
+    The properties that define a stack.
+    A stack is the collection of Oracle Cloud Infrastructure resources corresponding to a given Terraform configuration.
+    For instructions on managing stacks, see
+    `Managing Stacks`__.
+    For more information about stacks, see
+    `Key Concepts`__.
+
+    __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/stacks.htm
+    __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__stackdefinition
     """
 
     #: A constant which can be used with the lifecycle_state property of a Stack.

@@ -1,10 +1,11 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from __future__ import absolute_import
 
 from .activate_exadata_infrastructure_details import ActivateExadataInfrastructureDetails
+from .add_virtual_machine_to_cloud_vm_cluster_details import AddVirtualMachineToCloudVmClusterDetails
 from .add_virtual_machine_to_vm_cluster_details import AddVirtualMachineToVmClusterDetails
 from .associated_database_details import AssociatedDatabaseDetails
 from .automated_mount_details import AutomatedMountDetails
@@ -53,10 +54,13 @@ from .change_exadata_infrastructure_compartment_details import ChangeExadataInfr
 from .change_key_store_compartment_details import ChangeKeyStoreCompartmentDetails
 from .change_vm_cluster_compartment_details import ChangeVmClusterCompartmentDetails
 from .cloud_autonomous_vm_cluster import CloudAutonomousVmCluster
+from .cloud_autonomous_vm_cluster_resource_details import CloudAutonomousVmClusterResourceDetails
 from .cloud_autonomous_vm_cluster_summary import CloudAutonomousVmClusterSummary
 from .cloud_database_management_config import CloudDatabaseManagementConfig
+from .cloud_db_server_details import CloudDbServerDetails
 from .cloud_exadata_infrastructure import CloudExadataInfrastructure
 from .cloud_exadata_infrastructure_summary import CloudExadataInfrastructureSummary
+from .cloud_exadata_infrastructure_unallocated_resources import CloudExadataInfrastructureUnallocatedResources
 from .cloud_vm_cluster import CloudVmCluster
 from .cloud_vm_cluster_summary import CloudVmClusterSummary
 from .complete_external_backup_job_details import CompleteExternalBackupJobDetails
@@ -134,6 +138,7 @@ from .database_software_image import DatabaseSoftwareImage
 from .database_software_image_summary import DatabaseSoftwareImageSummary
 from .database_ssl_connection_credentials import DatabaseSslConnectionCredentials
 from .database_summary import DatabaseSummary
+from .database_tool import DatabaseTool
 from .database_upgrade_history_entry import DatabaseUpgradeHistoryEntry
 from .database_upgrade_history_entry_summary import DatabaseUpgradeHistoryEntrySummary
 from .database_upgrade_source_base import DatabaseUpgradeSourceBase
@@ -177,6 +182,7 @@ from .enable_external_non_container_database_stack_monitoring_details import Ena
 from .enable_external_pluggable_database_database_management_details import EnableExternalPluggableDatabaseDatabaseManagementDetails
 from .enable_external_pluggable_database_operations_insights_details import EnableExternalPluggableDatabaseOperationsInsightsDetails
 from .enable_external_pluggable_database_stack_monitoring_details import EnableExternalPluggableDatabaseStackMonitoringDetails
+from .enable_pluggable_database_management_details import EnablePluggableDatabaseManagementDetails
 from .estimated_patching_time import EstimatedPatchingTime
 from .exadata_db_system_migration import ExadataDbSystemMigration
 from .exadata_db_system_migration_summary import ExadataDbSystemMigrationSummary
@@ -225,6 +231,7 @@ from .maintenance_run_summary import MaintenanceRunSummary
 from .maintenance_window import MaintenanceWindow
 from .migrate_vault_key_details import MigrateVaultKeyDetails
 from .modify_database_management_details import ModifyDatabaseManagementDetails
+from .modify_pluggable_database_management_details import ModifyPluggableDatabaseManagementDetails
 from .month import Month
 from .mount_type_details import MountTypeDetails
 from .node_details import NodeDetails
@@ -241,10 +248,14 @@ from .pdb_conversion_to_new_database_details import PdbConversionToNewDatabaseDe
 from .peer_autonomous_container_database_backup_config import PeerAutonomousContainerDatabaseBackupConfig
 from .pluggable_database import PluggableDatabase
 from .pluggable_database_connection_strings import PluggableDatabaseConnectionStrings
+from .pluggable_database_management_config import PluggableDatabaseManagementConfig
 from .pluggable_database_summary import PluggableDatabaseSummary
+from .refreshable_clone_collection import RefreshableCloneCollection
+from .refreshable_clone_summary import RefreshableCloneSummary
 from .register_autonomous_database_data_safe_details import RegisterAutonomousDatabaseDataSafeDetails
 from .reinstate_data_guard_association_details import ReinstateDataGuardAssociationDetails
 from .remote_clone_pluggable_database_details import RemoteClonePluggableDatabaseDetails
+from .remove_virtual_machine_from_cloud_vm_cluster_details import RemoveVirtualMachineFromCloudVmClusterDetails
 from .remove_virtual_machine_from_vm_cluster_details import RemoveVirtualMachineFromVmClusterDetails
 from .resize_vm_cluster_network_details import ResizeVmClusterNetworkDetails
 from .restore_autonomous_database_details import RestoreAutonomousDatabaseDetails
@@ -305,6 +316,7 @@ from .workload_type import WorkloadType
 # Maps type names to classes for database services.
 database_type_mapping = {
     "ActivateExadataInfrastructureDetails": ActivateExadataInfrastructureDetails,
+    "AddVirtualMachineToCloudVmClusterDetails": AddVirtualMachineToCloudVmClusterDetails,
     "AddVirtualMachineToVmClusterDetails": AddVirtualMachineToVmClusterDetails,
     "AssociatedDatabaseDetails": AssociatedDatabaseDetails,
     "AutomatedMountDetails": AutomatedMountDetails,
@@ -353,10 +365,13 @@ database_type_mapping = {
     "ChangeKeyStoreCompartmentDetails": ChangeKeyStoreCompartmentDetails,
     "ChangeVmClusterCompartmentDetails": ChangeVmClusterCompartmentDetails,
     "CloudAutonomousVmCluster": CloudAutonomousVmCluster,
+    "CloudAutonomousVmClusterResourceDetails": CloudAutonomousVmClusterResourceDetails,
     "CloudAutonomousVmClusterSummary": CloudAutonomousVmClusterSummary,
     "CloudDatabaseManagementConfig": CloudDatabaseManagementConfig,
+    "CloudDbServerDetails": CloudDbServerDetails,
     "CloudExadataInfrastructure": CloudExadataInfrastructure,
     "CloudExadataInfrastructureSummary": CloudExadataInfrastructureSummary,
+    "CloudExadataInfrastructureUnallocatedResources": CloudExadataInfrastructureUnallocatedResources,
     "CloudVmCluster": CloudVmCluster,
     "CloudVmClusterSummary": CloudVmClusterSummary,
     "CompleteExternalBackupJobDetails": CompleteExternalBackupJobDetails,
@@ -434,6 +449,7 @@ database_type_mapping = {
     "DatabaseSoftwareImageSummary": DatabaseSoftwareImageSummary,
     "DatabaseSslConnectionCredentials": DatabaseSslConnectionCredentials,
     "DatabaseSummary": DatabaseSummary,
+    "DatabaseTool": DatabaseTool,
     "DatabaseUpgradeHistoryEntry": DatabaseUpgradeHistoryEntry,
     "DatabaseUpgradeHistoryEntrySummary": DatabaseUpgradeHistoryEntrySummary,
     "DatabaseUpgradeSourceBase": DatabaseUpgradeSourceBase,
@@ -477,6 +493,7 @@ database_type_mapping = {
     "EnableExternalPluggableDatabaseDatabaseManagementDetails": EnableExternalPluggableDatabaseDatabaseManagementDetails,
     "EnableExternalPluggableDatabaseOperationsInsightsDetails": EnableExternalPluggableDatabaseOperationsInsightsDetails,
     "EnableExternalPluggableDatabaseStackMonitoringDetails": EnableExternalPluggableDatabaseStackMonitoringDetails,
+    "EnablePluggableDatabaseManagementDetails": EnablePluggableDatabaseManagementDetails,
     "EstimatedPatchingTime": EstimatedPatchingTime,
     "ExadataDbSystemMigration": ExadataDbSystemMigration,
     "ExadataDbSystemMigrationSummary": ExadataDbSystemMigrationSummary,
@@ -525,6 +542,7 @@ database_type_mapping = {
     "MaintenanceWindow": MaintenanceWindow,
     "MigrateVaultKeyDetails": MigrateVaultKeyDetails,
     "ModifyDatabaseManagementDetails": ModifyDatabaseManagementDetails,
+    "ModifyPluggableDatabaseManagementDetails": ModifyPluggableDatabaseManagementDetails,
     "Month": Month,
     "MountTypeDetails": MountTypeDetails,
     "NodeDetails": NodeDetails,
@@ -541,10 +559,14 @@ database_type_mapping = {
     "PeerAutonomousContainerDatabaseBackupConfig": PeerAutonomousContainerDatabaseBackupConfig,
     "PluggableDatabase": PluggableDatabase,
     "PluggableDatabaseConnectionStrings": PluggableDatabaseConnectionStrings,
+    "PluggableDatabaseManagementConfig": PluggableDatabaseManagementConfig,
     "PluggableDatabaseSummary": PluggableDatabaseSummary,
+    "RefreshableCloneCollection": RefreshableCloneCollection,
+    "RefreshableCloneSummary": RefreshableCloneSummary,
     "RegisterAutonomousDatabaseDataSafeDetails": RegisterAutonomousDatabaseDataSafeDetails,
     "ReinstateDataGuardAssociationDetails": ReinstateDataGuardAssociationDetails,
     "RemoteClonePluggableDatabaseDetails": RemoteClonePluggableDatabaseDetails,
+    "RemoveVirtualMachineFromCloudVmClusterDetails": RemoveVirtualMachineFromCloudVmClusterDetails,
     "RemoveVirtualMachineFromVmClusterDetails": RemoveVirtualMachineFromVmClusterDetails,
     "ResizeVmClusterNetworkDetails": ResizeVmClusterNetworkDetails,
     "RestoreAutonomousDatabaseDetails": RestoreAutonomousDatabaseDetails,

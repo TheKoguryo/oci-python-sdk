@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -40,6 +40,14 @@ class AutonomousVmCluster(object):
     #: A constant which can be used with the lifecycle_state property of a AutonomousVmCluster.
     #: This constant has a value of "MAINTENANCE_IN_PROGRESS"
     LIFECYCLE_STATE_MAINTENANCE_IN_PROGRESS = "MAINTENANCE_IN_PROGRESS"
+
+    #: A constant which can be used with the compute_model property of a AutonomousVmCluster.
+    #: This constant has a value of "ECPU"
+    COMPUTE_MODEL_ECPU = "ECPU"
+
+    #: A constant which can be used with the compute_model property of a AutonomousVmCluster.
+    #: This constant has a value of "OCPU"
+    COMPUTE_MODEL_OCPU = "OCPU"
 
     #: A constant which can be used with the license_model property of a AutonomousVmCluster.
     #: This constant has a value of "LICENSE_INCLUDED"
@@ -99,6 +107,12 @@ class AutonomousVmCluster(object):
         :param cpus_enabled:
             The value to assign to the cpus_enabled property of this AutonomousVmCluster.
         :type cpus_enabled: int
+
+        :param compute_model:
+            The value to assign to the compute_model property of this AutonomousVmCluster.
+            Allowed values for this property are: "ECPU", "OCPU", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type compute_model: str
 
         :param ocpus_enabled:
             The value to assign to the ocpus_enabled property of this AutonomousVmCluster.
@@ -182,6 +196,18 @@ class AutonomousVmCluster(object):
             The value to assign to the available_autonomous_data_storage_size_in_tbs property of this AutonomousVmCluster.
         :type available_autonomous_data_storage_size_in_tbs: float
 
+        :param scan_listener_port_tls:
+            The value to assign to the scan_listener_port_tls property of this AutonomousVmCluster.
+        :type scan_listener_port_tls: int
+
+        :param scan_listener_port_non_tls:
+            The value to assign to the scan_listener_port_non_tls property of this AutonomousVmCluster.
+        :type scan_listener_port_non_tls: int
+
+        :param is_mtls_enabled:
+            The value to assign to the is_mtls_enabled property of this AutonomousVmCluster.
+        :type is_mtls_enabled: bool
+
         """
         self.swagger_types = {
             'id': 'str',
@@ -195,6 +221,7 @@ class AutonomousVmCluster(object):
             'vm_cluster_network_id': 'str',
             'is_local_backup_enabled': 'bool',
             'cpus_enabled': 'int',
+            'compute_model': 'str',
             'ocpus_enabled': 'float',
             'available_cpus': 'int',
             'total_container_databases': 'int',
@@ -214,7 +241,10 @@ class AutonomousVmCluster(object):
             'defined_tags': 'dict(str, dict(str, object))',
             'reclaimable_cpus': 'int',
             'available_container_databases': 'int',
-            'available_autonomous_data_storage_size_in_tbs': 'float'
+            'available_autonomous_data_storage_size_in_tbs': 'float',
+            'scan_listener_port_tls': 'int',
+            'scan_listener_port_non_tls': 'int',
+            'is_mtls_enabled': 'bool'
         }
 
         self.attribute_map = {
@@ -229,6 +259,7 @@ class AutonomousVmCluster(object):
             'vm_cluster_network_id': 'vmClusterNetworkId',
             'is_local_backup_enabled': 'isLocalBackupEnabled',
             'cpus_enabled': 'cpusEnabled',
+            'compute_model': 'computeModel',
             'ocpus_enabled': 'ocpusEnabled',
             'available_cpus': 'availableCpus',
             'total_container_databases': 'totalContainerDatabases',
@@ -248,7 +279,10 @@ class AutonomousVmCluster(object):
             'defined_tags': 'definedTags',
             'reclaimable_cpus': 'reclaimableCpus',
             'available_container_databases': 'availableContainerDatabases',
-            'available_autonomous_data_storage_size_in_tbs': 'availableAutonomousDataStorageSizeInTBs'
+            'available_autonomous_data_storage_size_in_tbs': 'availableAutonomousDataStorageSizeInTBs',
+            'scan_listener_port_tls': 'scanListenerPortTls',
+            'scan_listener_port_non_tls': 'scanListenerPortNonTls',
+            'is_mtls_enabled': 'isMtlsEnabled'
         }
 
         self._id = None
@@ -262,6 +296,7 @@ class AutonomousVmCluster(object):
         self._vm_cluster_network_id = None
         self._is_local_backup_enabled = None
         self._cpus_enabled = None
+        self._compute_model = None
         self._ocpus_enabled = None
         self._available_cpus = None
         self._total_container_databases = None
@@ -282,6 +317,9 @@ class AutonomousVmCluster(object):
         self._reclaimable_cpus = None
         self._available_container_databases = None
         self._available_autonomous_data_storage_size_in_tbs = None
+        self._scan_listener_port_tls = None
+        self._scan_listener_port_non_tls = None
+        self._is_mtls_enabled = None
 
     @property
     def id(self):
@@ -574,6 +612,36 @@ class AutonomousVmCluster(object):
         self._cpus_enabled = cpus_enabled
 
     @property
+    def compute_model(self):
+        """
+        Gets the compute_model of this AutonomousVmCluster.
+        The compute model of the Autonomous VM Cluster.
+
+        Allowed values for this property are: "ECPU", "OCPU", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The compute_model of this AutonomousVmCluster.
+        :rtype: str
+        """
+        return self._compute_model
+
+    @compute_model.setter
+    def compute_model(self, compute_model):
+        """
+        Sets the compute_model of this AutonomousVmCluster.
+        The compute model of the Autonomous VM Cluster.
+
+
+        :param compute_model: The compute_model of this AutonomousVmCluster.
+        :type: str
+        """
+        allowed_values = ["ECPU", "OCPU"]
+        if not value_allowed_none_or_none_sentinel(compute_model, allowed_values):
+            compute_model = 'UNKNOWN_ENUM_VALUE'
+        self._compute_model = compute_model
+
+    @property
     def ocpus_enabled(self):
         """
         Gets the ocpus_enabled of this AutonomousVmCluster.
@@ -673,7 +741,7 @@ class AutonomousVmCluster(object):
     def cpu_core_count_per_node(self):
         """
         Gets the cpu_core_count_per_node of this AutonomousVmCluster.
-        The number of OCPU cores enabled per VM cluster node.
+        The number of CPU cores enabled per VM cluster node.
 
 
         :return: The cpu_core_count_per_node of this AutonomousVmCluster.
@@ -685,7 +753,7 @@ class AutonomousVmCluster(object):
     def cpu_core_count_per_node(self, cpu_core_count_per_node):
         """
         Sets the cpu_core_count_per_node of this AutonomousVmCluster.
-        The number of OCPU cores enabled per VM cluster node.
+        The number of CPU cores enabled per VM cluster node.
 
 
         :param cpu_core_count_per_node: The cpu_core_count_per_node of this AutonomousVmCluster.
@@ -1078,6 +1146,78 @@ class AutonomousVmCluster(object):
         :type: float
         """
         self._available_autonomous_data_storage_size_in_tbs = available_autonomous_data_storage_size_in_tbs
+
+    @property
+    def scan_listener_port_tls(self):
+        """
+        Gets the scan_listener_port_tls of this AutonomousVmCluster.
+        The SCAN Listener TLS port number. Default value is 2484.
+
+
+        :return: The scan_listener_port_tls of this AutonomousVmCluster.
+        :rtype: int
+        """
+        return self._scan_listener_port_tls
+
+    @scan_listener_port_tls.setter
+    def scan_listener_port_tls(self, scan_listener_port_tls):
+        """
+        Sets the scan_listener_port_tls of this AutonomousVmCluster.
+        The SCAN Listener TLS port number. Default value is 2484.
+
+
+        :param scan_listener_port_tls: The scan_listener_port_tls of this AutonomousVmCluster.
+        :type: int
+        """
+        self._scan_listener_port_tls = scan_listener_port_tls
+
+    @property
+    def scan_listener_port_non_tls(self):
+        """
+        Gets the scan_listener_port_non_tls of this AutonomousVmCluster.
+        The SCAN Listener Non TLS port number. Default value is 1521.
+
+
+        :return: The scan_listener_port_non_tls of this AutonomousVmCluster.
+        :rtype: int
+        """
+        return self._scan_listener_port_non_tls
+
+    @scan_listener_port_non_tls.setter
+    def scan_listener_port_non_tls(self, scan_listener_port_non_tls):
+        """
+        Sets the scan_listener_port_non_tls of this AutonomousVmCluster.
+        The SCAN Listener Non TLS port number. Default value is 1521.
+
+
+        :param scan_listener_port_non_tls: The scan_listener_port_non_tls of this AutonomousVmCluster.
+        :type: int
+        """
+        self._scan_listener_port_non_tls = scan_listener_port_non_tls
+
+    @property
+    def is_mtls_enabled(self):
+        """
+        Gets the is_mtls_enabled of this AutonomousVmCluster.
+        Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
+
+
+        :return: The is_mtls_enabled of this AutonomousVmCluster.
+        :rtype: bool
+        """
+        return self._is_mtls_enabled
+
+    @is_mtls_enabled.setter
+    def is_mtls_enabled(self, is_mtls_enabled):
+        """
+        Sets the is_mtls_enabled of this AutonomousVmCluster.
+        Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
+
+
+        :param is_mtls_enabled: The is_mtls_enabled of this AutonomousVmCluster.
+        :type: bool
+        """
+        self._is_mtls_enabled = is_mtls_enabled
 
     def __repr__(self):
         return formatted_flat_dict(self)

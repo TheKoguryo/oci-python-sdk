@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -68,6 +68,10 @@ class RunSummary(object):
     #: A constant which can be used with the type property of a RunSummary.
     #: This constant has a value of "STREAMING"
     TYPE_STREAMING = "STREAMING"
+
+    #: A constant which can be used with the type property of a RunSummary.
+    #: This constant has a value of "SESSION"
+    TYPE_SESSION = "SESSION"
 
     def __init__(self, **kwargs):
         """
@@ -152,7 +156,7 @@ class RunSummary(object):
 
         :param type:
             The value to assign to the type property of this RunSummary.
-            Allowed values for this property are: "BATCH", "STREAMING", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "BATCH", "STREAMING", "SESSION", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type type: str
 
@@ -701,7 +705,7 @@ class RunSummary(object):
         Gets the type of this RunSummary.
         The Spark application processing type.
 
-        Allowed values for this property are: "BATCH", "STREAMING", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "BATCH", "STREAMING", "SESSION", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -720,7 +724,7 @@ class RunSummary(object):
         :param type: The type of this RunSummary.
         :type: str
         """
-        allowed_values = ["BATCH", "STREAMING"]
+        allowed_values = ["BATCH", "STREAMING", "SESSION"]
         if not value_allowed_none_or_none_sentinel(type, allowed_values):
             type = 'UNKNOWN_ENUM_VALUE'
         self._type = type

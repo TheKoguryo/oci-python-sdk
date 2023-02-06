@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -76,6 +76,10 @@ class MaintenanceRunSummary(object):
     #: A constant which can be used with the target_resource_type property of a MaintenanceRunSummary.
     #: This constant has a value of "AUTONOMOUS_DATABASE"
     TARGET_RESOURCE_TYPE_AUTONOMOUS_DATABASE = "AUTONOMOUS_DATABASE"
+
+    #: A constant which can be used with the target_resource_type property of a MaintenanceRunSummary.
+    #: This constant has a value of "CLOUD_AUTONOMOUS_VM_CLUSTER"
+    TARGET_RESOURCE_TYPE_CLOUD_AUTONOMOUS_VM_CLUSTER = "CLOUD_AUTONOMOUS_VM_CLUSTER"
 
     #: A constant which can be used with the maintenance_type property of a MaintenanceRunSummary.
     #: This constant has a value of "PLANNED"
@@ -178,7 +182,7 @@ class MaintenanceRunSummary(object):
 
         :param target_resource_type:
             The value to assign to the target_resource_type property of this MaintenanceRunSummary.
-            Allowed values for this property are: "AUTONOMOUS_EXADATA_INFRASTRUCTURE", "AUTONOMOUS_CONTAINER_DATABASE", "EXADATA_DB_SYSTEM", "CLOUD_EXADATA_INFRASTRUCTURE", "EXACC_INFRASTRUCTURE", "AUTONOMOUS_VM_CLUSTER", "AUTONOMOUS_DATABASE", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "AUTONOMOUS_EXADATA_INFRASTRUCTURE", "AUTONOMOUS_CONTAINER_DATABASE", "EXADATA_DB_SYSTEM", "CLOUD_EXADATA_INFRASTRUCTURE", "EXACC_INFRASTRUCTURE", "AUTONOMOUS_VM_CLUSTER", "AUTONOMOUS_DATABASE", "CLOUD_AUTONOMOUS_VM_CLUSTER", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type target_resource_type: str
 
@@ -582,7 +586,7 @@ class MaintenanceRunSummary(object):
         Gets the target_resource_type of this MaintenanceRunSummary.
         The type of the target resource on which the maintenance run occurs.
 
-        Allowed values for this property are: "AUTONOMOUS_EXADATA_INFRASTRUCTURE", "AUTONOMOUS_CONTAINER_DATABASE", "EXADATA_DB_SYSTEM", "CLOUD_EXADATA_INFRASTRUCTURE", "EXACC_INFRASTRUCTURE", "AUTONOMOUS_VM_CLUSTER", "AUTONOMOUS_DATABASE", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "AUTONOMOUS_EXADATA_INFRASTRUCTURE", "AUTONOMOUS_CONTAINER_DATABASE", "EXADATA_DB_SYSTEM", "CLOUD_EXADATA_INFRASTRUCTURE", "EXACC_INFRASTRUCTURE", "AUTONOMOUS_VM_CLUSTER", "AUTONOMOUS_DATABASE", "CLOUD_AUTONOMOUS_VM_CLUSTER", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -601,7 +605,7 @@ class MaintenanceRunSummary(object):
         :param target_resource_type: The target_resource_type of this MaintenanceRunSummary.
         :type: str
         """
-        allowed_values = ["AUTONOMOUS_EXADATA_INFRASTRUCTURE", "AUTONOMOUS_CONTAINER_DATABASE", "EXADATA_DB_SYSTEM", "CLOUD_EXADATA_INFRASTRUCTURE", "EXACC_INFRASTRUCTURE", "AUTONOMOUS_VM_CLUSTER", "AUTONOMOUS_DATABASE"]
+        allowed_values = ["AUTONOMOUS_EXADATA_INFRASTRUCTURE", "AUTONOMOUS_CONTAINER_DATABASE", "EXADATA_DB_SYSTEM", "CLOUD_EXADATA_INFRASTRUCTURE", "EXACC_INFRASTRUCTURE", "AUTONOMOUS_VM_CLUSTER", "AUTONOMOUS_DATABASE", "CLOUD_AUTONOMOUS_VM_CLUSTER"]
         if not value_allowed_none_or_none_sentinel(target_resource_type, allowed_values):
             target_resource_type = 'UNKNOWN_ENUM_VALUE'
         self._target_resource_type = target_resource_type

@@ -4,6 +4,222 @@ All notable changes to this project will be documented in this file.
 
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 ====================
+2.90.4 - 2023-01-31
+====================
+
+Added
+-----
+* Support for ECPU billing for autonomous databases and dedicated autonomous databases on Exadata Cloud at Customer in the Database service
+* Support for providing a vault secret ID when creating or updating autonomous shared databases in the Database service
+* Support for including machine learning notebook, ORDS, and database transform URLs as autonomous database connections in the Database service
+* Support for role*based access control on OpenSearch clusters in the Search service
+* Support for managed shell stages on deployments in the DevOps service
+* Support for memory encryption on confidential VMs in the Compute service
+* Support for configuration items, and reporting ownership of configuration items, in the Application Performance Monitoring service
+
+====================
+2.90.3 - 2023-01-24
+====================
+
+Added
+-----
+* Support for the Cloud Migrations service
+* Support for setting up custom private IPs while creating private endpoints in the Database service
+* Support for machine learning pipelines in the Data Science service
+* Support for personally identifiable information detection in the AI Language service  
+ 
+====================
+2.90.2 - 2023-01-17
+====================
+
+Added
+-----
+* Support for calling Oracle Cloud Infrastructure services in the us-chicago-1 region
+* Support for cross-region replication in the File Storage service
+* Support for setting up private DNS on ExaCS systems during provisioning in the Database service
+* Support for elastic storage expansion on infrastructure resources for Exadata Cloud at Customer in the Database service
+* Support for target versions during infrastructure patching on Cloud Exadata infrastructure in the Database service
+* Support for creating model version sets in the model catalog in the Data Science service
+* Support for associating a model with a model version set in the Data Science service
+* Support for custom key/value annotations on documents in the Data Labeling service
+* Support for configurable timeouts in the Service Mesh service  
+ 
+====================
+2.90.1 - 2023-01-10
+====================
+
+Security
+--------
+* Upgrade wheel version for applicable Python versions to fix security vulnerability as mentioned in https://github.com/oracle/oci-python-sdk/pull/502
+2.90.0 - 2022-12-13
+====================
+
+Added
+-----
+* Support for the Queue service
+* Support for Intel X9 shapes when launching VM database systems in the Database service
+* Support for enabling, disabling, and editing Database Management service connections on pluggable databases in the Database service
+* Support for availability configurations and maintenance window schedules on synthetic monitors in the Application Performance Monitoring service
+* Support for scheduling cascading deletes on a project in the DevOps service
+* Support for cancelling a scheduled cascading delete on a project in the DevOps service
+* Support for issue and action fields on job phases of validation and migration processes in the Database Migration service
+* Support for cluster profiles in the Big Data service
+* Support for egress-only services in the Service Mesh service
+* Support for optional listeners and service discovery metadata on virtual deployments in the Service Mesh service
+* Support for canceling work requests in the accepted state in the Service Mesh service
+* Support for filtering work requests on associated resource id and operation status in the Service Mesh service
+* Support for sorting while listing work requests, listing work request logs, and listing work request errors in the Service Mesh service
+* Support for Oracle Managed Access integration in the Fusion Apps as a Service service
+* Support for refresh scheduling in the Fusion Apps as a Service service
+* Support for additional connections types on database resources in the GoldenGate service
+* Support for retries by default on operations of the Fusion Apps as a Service service
+* Support for retries by default on operations of the Database Migration service
+* Support for retries by default on operations of the Service Mesh service    
+ 
+Breaking
+--------
+* Support for default retries on operations of the Service Mesh service
+* Support for default retries on operations of the Database Migration service
+* Support for default retries on operations of the Fusion Apps as a Service service
+* The property `service_instance_type` changed from optional to required in the model `AttachExistingInstanceDetails` in Fusion Apps as a Service service
+* The property `instance_id` changed from optional to required in the model `AttachExistingInstanceDetails` in Fusion Apps as a Service service
+* The property `details` changed from optional to required in the model `CreateNewInstanceDetails` in Fusion Apps as a Service service
+* The property `name` changed from optional to required in the model `CreateOaxServiceInstanceDetails` in Fusion Apps as a Service service
+* The property `adw_admin_pass` changed from optional to required in the model `FawAdminInfoDetails` in Fusion Apps as a Service service
+* The property `notification_email` changed from optional to required in the model `FawAdminInfoDetails` in Fusion Apps as a Service service
+* The type of property `rules` changed from a list of `AccessPolicyRule` to list of `AccessPolicyRuleDetails` for model `CreateAccessPolicyDetails` in the Service Mesh service
+* The type of property `rules` changed from a list of `AccessPolicyRule` to list of `AccessPolicyRuleDetails` for model `UpdateAccessPolicyDetails` in the Service Mesh service
+* The type of property `mtls` changed from `CreateIngressGatewayMutualTransportLayerSecurityDetails` to `IngressGatewayMutualTransportLayerSecurityDetails` for model `CreateIngressGatewayDetails` in the Service Mesh service
+* The type of property `mtls` changed from `CreateIngressGatewayMutualTransportLayerSecurityDetails` to `IngressGatewayMutualTransportLayerSecurityDetails` for model `UpdateIngressGatewayDetails` in the Service Mesh service
+* The type of property `mtls` changed from `CreateMutualTransportLayerSecurityDetails` to `VirtualServiceMutualTransportLayerSecurityDetails` for model `CreateVirtualServiceDetails` in the Service Mesh service
+* The type of property `mtls` changed from `CreateMutualTransportLayerSecurityDetails` to `VirtualServiceMutualTransportLayerSecurityDetails` for model `UpdateVirtualServiceDetails` in the Service Mesh service
+* The type of property `route_rules` changed from list of `IngressGatewayTrafficRouteRule` to list of `IngressGatewayTrafficRouteRuleDetails` for model `CreateIngressGatewayRouteTableDetails` in the Service Mesh service
+* The type of property `route_rules` changed from list of `IngressGatewayTrafficRouteRule` to list of `IngressGatewayTrafficRouteRuleDetails` for model `UpdateIngressGatewayRouteTableDetails` in the Service Mesh service
+* The type of property `route_rules` changed from list of `VirtualServiceTrafficRouteRule` to list of `VirtualServiceTrafficRouteRuleDetails` for model `CreateVirtualServiceRouteTableDetails` in the Service Mesh service
+* The type of property `route_rules` changed from list of `VirtualServiceTrafficRouteRule` to list of `VirtualServiceTrafficRouteRuleDetails` for model `UpdateVirtualServiceRouteTableDetails` in the Service Mesh service
+ 
+====================
+2.89.0 - 2022-12-06
+====================
+
+Added
+-----
+* Support for the Container Instances service
+* Support for the Document Understanding service
+* Support for creating stacks from OCI DevOps service and Bitbucket Cloud/Server as source control management in the Resource Manager service
+* Support for deployment stage level parameters in the DevOps service
+* Support for PeopleSoft discovery in the Stack Monitoring service
+* Support for Apache Tomcat discovery in the Stack Monitoring service
+* Support for SQL Server discovery in the Stack Monitoring service
+* Support for OpenId Connect in the API Gateway service
+* Support for returning compartment ids when listing backups in the MySQL Database service
+* Support for adding a load balancer endpoint to a DB system in the MySQL Database service
+* Support for managed read replicas in the MySQL Database service
+* Support for setting replication filters on channels in the MySQL Database service
+* Support for replicating from a source configured without global transaction identifiers into a channel in the MySQL Database service
+* Support for time zone and language preferences in the Announcements service
+* Support for adding report schedules for activity auditing and alerts reports in the Data Safe service
+* Support for bulk operations on alerts in the Data Safe service
+* Support for Java server usage reporting in the Java Management service
+* Support for Java library usage reporting in the Java Management service
+* Support for cryptographic roadmap impact analysis in the Java Management service
+* Support for Java Flight Recorder recordings in the Java Management service
+* Support for post-installation steps in the Java Management service
+* Support for restricting management of advanced functionality in the Java Management service
+* Support for plugin improvements in the Java Management service
+* Support for collecting diagnostics on deployments in the GoldenGate service
+* Support for onboarding Exadata Public Cloud (ExaCS) targets to the Operations Insights service  
+ 
+Breaking
+--------
+* Parameter `autonomous_database_id` of model `AutonomousDatabaseDetails` changed from optional to required in the Data Safe service
+* Parameter `listener_port` of model `InstalledDatabaseDetails` changed from optional to required in the Data Safe service
+* Parameter `service_name` of model `InstalledDatabaseDetails` changed from optional to required in the Data Safe service
+* Parameter `compartment_id` of model `PatchAlertsDetails` changed from optional to required in the Data Safe service
+ 
+====================
+2.88.2 - 2022-11-22
+====================
+
+Added
+-----
+* Support for Resource Principals version 2.1 and 2.1.1
+* Support for disabling Lazy Imports introduced in version `2.88.1` by setting the environment variable `OCI_PYTHON_SDK_LAZY_IMPORTS_DISABLED` to `True`
+ 
+Changed
+-------
+* The upper bound for `cryptography` dependency has changed from `37.0.2` to versions less than `39.0.0`
+
+====================
+2.88.1 - 2022-11-15
+====================
+
+Added
+-----
+* Support for mTLS authentication with listeners during Autonomous VM Cluster creation on Exadata Cloud at Customer in the Database service
+* Support for providing custom values for TLS and non-TLS ports during Autonomous VM Cluster creation on Exadata Cloud at Customer in the Database service
+* Support for creating multiple Autonomous VM Clusters in the same Exadata infrastructure in the Database service
+* Support for listing resources associated with a job in the Resource Manager service
+* Support for listing resources associated with a stack in the Resource Manager service
+* Support for listing outputs associated with a job in the Resource Manager service
+* Support for the Oracle distribution of Apache Hadoop 2.0 in the Big Data service
+ 
+Changed
+-------
+* Lazy Imports (based on `PEP 562 <https://peps.python.org/pep-0562/>`_) have been enabled by default for OCI modules when using a Python version 3.7 or up to reduce start up times.
+ 
+====================
+2.88.0 - 2022-11-08
+====================
+
+Added
+-----
+* Support for listing local and cross-region refreshable clones in the Database service
+* Support for adding multiple cloud VM clusters in the Database service
+* Support for creating rollback jobs in the Resource Manager service
+* Support for edge nodes in the Big Data service
+* Support for Single Client Access Name (SCAN) in the Data Flow service
+* Support for additional filters when listing application dependencies in the Application Dependency Management service
+* Support for additional properties when reading Vulnerability Audit resources in the Application Dependency Management service
+* Support for optionally passing compartment IDs when creating Vulnerability Audit resources in the Application Dependency Management service  
+
+Breaking
+--------
+* Property `certificate_id` changed from optional to required for model `PrivateServerConfigDetails` in the Resource Manager service
+
+====================
+2.87.0 - 2022-11-01
+====================
+
+Added
+-----
+* Support for cloning from a backup from the last available timestamp in the Database service
+* Support for third-party scanning using Qualys in the Vulnerability Scanning service
+* Support for customer-provided encryption keys in the Logging Analytics service
+* Support for connections for database resources in the GoldenGate service  
+ 
+Breaking
+--------
+* The properties `dataType`, `timeDataEnded`, `compartmentId` is made from required to optional from the `StorageWorkRequestSummary` model in Log Analytics service 
+ 
+====================
+2.86.0 - 2022-10-25
+====================
+
+Added
+-----
+* Support for the Disaster Recovery service
+* Support for running code interactively with session applications using statements in the Data Flow service
+* Support for language custom models and language translation in the AI Language service
+ 
+Breaking
+--------
+* type `documents` is changed from `TextClassificationDocument` to `TextDocument` in `BatchDetectLanguageTextClassificationDetails` model in the AI Language service
+* type `documents` is changed from `SentimentsDocument` to `TextDocument` in `BatchDetectLanguageSentimentsDetails` model in the AI Language service
+* type `documents` is changed from `KeyPhraseDocument` to `TextDocument` in `BatchDetectLanguageKeyPhrasesDetails` model in the AI Language service
+* type `documents` is changed from `EntityDocument` to `TextDocument` in `BatchDetectLanguageEntitiesDetails` model in the AI Language service
+ 
+====================
 2.85.0 - 2022-10-04
 ====================
 

@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -82,7 +82,10 @@ class UpdateOggDeploymentDetails(object):
     def admin_password(self):
         """
         Gets the admin_password of this UpdateOggDeploymentDetails.
-        The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as \u2018$\u2019, \u2018^\u2019, or \u2018?\u2019 are not allowed.
+        The password associated with the GoldenGate deployment console username.
+        The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric,
+        and 1 special character. Special characters such as \u2018$\u2019, \u2018^\u2019, or \u2018?\u2019 are not allowed.
+        This field will be deprecated and replaced by \"passwordSecretId\".
 
 
         :return: The admin_password of this UpdateOggDeploymentDetails.
@@ -94,7 +97,10 @@ class UpdateOggDeploymentDetails(object):
     def admin_password(self, admin_password):
         """
         Sets the admin_password of this UpdateOggDeploymentDetails.
-        The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as \u2018$\u2019, \u2018^\u2019, or \u2018?\u2019 are not allowed.
+        The password associated with the GoldenGate deployment console username.
+        The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric,
+        and 1 special character. Special characters such as \u2018$\u2019, \u2018^\u2019, or \u2018?\u2019 are not allowed.
+        This field will be deprecated and replaced by \"passwordSecretId\".
 
 
         :param admin_password: The admin_password of this UpdateOggDeploymentDetails.

@@ -21,6 +21,18 @@ Resource Manager
     oci.resource_manager.models.ApplyJobOperationDetails
     oci.resource_manager.models.ApplyJobOperationDetailsSummary
     oci.resource_manager.models.ApplyJobPlanResolution
+    oci.resource_manager.models.ApplyRollbackJobOperationDetails
+    oci.resource_manager.models.ApplyRollbackJobOperationDetailsSummary
+    oci.resource_manager.models.AssociatedResourceSummary
+    oci.resource_manager.models.AssociatedResourcesCollection
+    oci.resource_manager.models.BitbucketCloudConfigSource
+    oci.resource_manager.models.BitbucketCloudConfigSourceRecord
+    oci.resource_manager.models.BitbucketCloudUsernameAppPasswordConfigurationSourceProvider
+    oci.resource_manager.models.BitbucketCloudUsernameAppPasswordConfigurationSourceProviderSummary
+    oci.resource_manager.models.BitbucketServerAccessTokenConfigurationSourceProvider
+    oci.resource_manager.models.BitbucketServerAccessTokenConfigurationSourceProviderSummary
+    oci.resource_manager.models.BitbucketServerConfigSource
+    oci.resource_manager.models.BitbucketServerConfigSourceRecord
     oci.resource_manager.models.CancellationDetails
     oci.resource_manager.models.ChangeConfigurationSourceProviderCompartmentDetails
     oci.resource_manager.models.ChangePrivateEndpointCompartmentDetails
@@ -33,10 +45,16 @@ Resource Manager
     oci.resource_manager.models.ConfigurationSourceProviderCollection
     oci.resource_manager.models.ConfigurationSourceProviderSummary
     oci.resource_manager.models.CreateApplyJobOperationDetails
+    oci.resource_manager.models.CreateApplyRollbackJobOperationDetails
+    oci.resource_manager.models.CreateBitbucketCloudConfigSourceDetails
+    oci.resource_manager.models.CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails
+    oci.resource_manager.models.CreateBitbucketServerAccessTokenConfigurationSourceProviderDetails
+    oci.resource_manager.models.CreateBitbucketServerConfigSourceDetails
     oci.resource_manager.models.CreateCompartmentConfigSourceDetails
     oci.resource_manager.models.CreateConfigSourceDetails
     oci.resource_manager.models.CreateConfigurationSourceProviderDetails
     oci.resource_manager.models.CreateDestroyJobOperationDetails
+    oci.resource_manager.models.CreateDevOpsConfigSourceDetails
     oci.resource_manager.models.CreateGitConfigSourceDetails
     oci.resource_manager.models.CreateGithubAccessTokenConfigurationSourceProviderDetails
     oci.resource_manager.models.CreateGitlabAccessTokenConfigurationSourceProviderDetails
@@ -45,6 +63,7 @@ Resource Manager
     oci.resource_manager.models.CreateJobOperationDetails
     oci.resource_manager.models.CreateObjectStorageConfigSourceDetails
     oci.resource_manager.models.CreatePlanJobOperationDetails
+    oci.resource_manager.models.CreatePlanRollbackJobOperationDetails
     oci.resource_manager.models.CreatePrivateEndpointDetails
     oci.resource_manager.models.CreateStackDetails
     oci.resource_manager.models.CreateStackTemplateConfigSourceDetails
@@ -56,6 +75,8 @@ Resource Manager
     oci.resource_manager.models.DestroyJobOperationDetails
     oci.resource_manager.models.DestroyJobOperationDetailsSummary
     oci.resource_manager.models.DetectStackDriftDetails
+    oci.resource_manager.models.DevOpsConfigSource
+    oci.resource_manager.models.DevOpsConfigSourceRecord
     oci.resource_manager.models.FailureDetails
     oci.resource_manager.models.GitConfigSource
     oci.resource_manager.models.GitConfigSourceRecord
@@ -68,12 +89,16 @@ Resource Manager
     oci.resource_manager.models.Job
     oci.resource_manager.models.JobOperationDetails
     oci.resource_manager.models.JobOperationDetailsSummary
+    oci.resource_manager.models.JobOutputSummary
+    oci.resource_manager.models.JobOutputsCollection
     oci.resource_manager.models.JobSummary
     oci.resource_manager.models.LogEntry
     oci.resource_manager.models.ObjectStorageConfigSource
     oci.resource_manager.models.ObjectStorageConfigSourceRecord
     oci.resource_manager.models.PlanJobOperationDetails
     oci.resource_manager.models.PlanJobOperationDetailsSummary
+    oci.resource_manager.models.PlanRollbackJobOperationDetails
+    oci.resource_manager.models.PlanRollbackJobOperationDetailsSummary
     oci.resource_manager.models.PrivateEndpoint
     oci.resource_manager.models.PrivateEndpointCollection
     oci.resource_manager.models.PrivateEndpointSummary
@@ -95,8 +120,13 @@ Resource Manager
     oci.resource_manager.models.TerraformAdvancedOptions
     oci.resource_manager.models.TerraformVersionCollection
     oci.resource_manager.models.TerraformVersionSummary
+    oci.resource_manager.models.UpdateBitbucketCloudConfigSourceDetails
+    oci.resource_manager.models.UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails
+    oci.resource_manager.models.UpdateBitbucketServerAccessTokenConfigurationSourceProviderDetails
+    oci.resource_manager.models.UpdateBitbucketServerConfigSourceDetails
     oci.resource_manager.models.UpdateConfigSourceDetails
     oci.resource_manager.models.UpdateConfigurationSourceProviderDetails
+    oci.resource_manager.models.UpdateDevOpsConfigSourceDetails
     oci.resource_manager.models.UpdateGitConfigSourceDetails
     oci.resource_manager.models.UpdateGithubAccessTokenConfigurationSourceProviderDetails
     oci.resource_manager.models.UpdateGitlabAccessTokenConfigurationSourceProviderDetails

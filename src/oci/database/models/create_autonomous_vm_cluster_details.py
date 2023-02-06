@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -20,6 +20,14 @@ class CreateAutonomousVmClusterDetails(object):
     #: A constant which can be used with the license_model property of a CreateAutonomousVmClusterDetails.
     #: This constant has a value of "BRING_YOUR_OWN_LICENSE"
     LICENSE_MODEL_BRING_YOUR_OWN_LICENSE = "BRING_YOUR_OWN_LICENSE"
+
+    #: A constant which can be used with the compute_model property of a CreateAutonomousVmClusterDetails.
+    #: This constant has a value of "ECPU"
+    COMPUTE_MODEL_ECPU = "ECPU"
+
+    #: A constant which can be used with the compute_model property of a CreateAutonomousVmClusterDetails.
+    #: This constant has a value of "OCPU"
+    COMPUTE_MODEL_OCPU = "OCPU"
 
     def __init__(self, **kwargs):
         """
@@ -63,6 +71,11 @@ class CreateAutonomousVmClusterDetails(object):
             The value to assign to the cpu_core_count_per_node property of this CreateAutonomousVmClusterDetails.
         :type cpu_core_count_per_node: int
 
+        :param compute_model:
+            The value to assign to the compute_model property of this CreateAutonomousVmClusterDetails.
+            Allowed values for this property are: "ECPU", "OCPU"
+        :type compute_model: str
+
         :param memory_per_oracle_compute_unit_in_gbs:
             The value to assign to the memory_per_oracle_compute_unit_in_gbs property of this CreateAutonomousVmClusterDetails.
         :type memory_per_oracle_compute_unit_in_gbs: int
@@ -83,6 +96,18 @@ class CreateAutonomousVmClusterDetails(object):
             The value to assign to the defined_tags property of this CreateAutonomousVmClusterDetails.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param scan_listener_port_tls:
+            The value to assign to the scan_listener_port_tls property of this CreateAutonomousVmClusterDetails.
+        :type scan_listener_port_tls: int
+
+        :param scan_listener_port_non_tls:
+            The value to assign to the scan_listener_port_non_tls property of this CreateAutonomousVmClusterDetails.
+        :type scan_listener_port_non_tls: int
+
+        :param is_mtls_enabled:
+            The value to assign to the is_mtls_enabled property of this CreateAutonomousVmClusterDetails.
+        :type is_mtls_enabled: bool
+
         """
         self.swagger_types = {
             'compartment_id': 'str',
@@ -94,11 +119,15 @@ class CreateAutonomousVmClusterDetails(object):
             'license_model': 'str',
             'total_container_databases': 'int',
             'cpu_core_count_per_node': 'int',
+            'compute_model': 'str',
             'memory_per_oracle_compute_unit_in_gbs': 'int',
             'autonomous_data_storage_size_in_tbs': 'float',
             'maintenance_window_details': 'MaintenanceWindow',
             'freeform_tags': 'dict(str, str)',
-            'defined_tags': 'dict(str, dict(str, object))'
+            'defined_tags': 'dict(str, dict(str, object))',
+            'scan_listener_port_tls': 'int',
+            'scan_listener_port_non_tls': 'int',
+            'is_mtls_enabled': 'bool'
         }
 
         self.attribute_map = {
@@ -111,11 +140,15 @@ class CreateAutonomousVmClusterDetails(object):
             'license_model': 'licenseModel',
             'total_container_databases': 'totalContainerDatabases',
             'cpu_core_count_per_node': 'cpuCoreCountPerNode',
+            'compute_model': 'computeModel',
             'memory_per_oracle_compute_unit_in_gbs': 'memoryPerOracleComputeUnitInGBs',
             'autonomous_data_storage_size_in_tbs': 'autonomousDataStorageSizeInTBs',
             'maintenance_window_details': 'maintenanceWindowDetails',
             'freeform_tags': 'freeformTags',
-            'defined_tags': 'definedTags'
+            'defined_tags': 'definedTags',
+            'scan_listener_port_tls': 'scanListenerPortTls',
+            'scan_listener_port_non_tls': 'scanListenerPortNonTls',
+            'is_mtls_enabled': 'isMtlsEnabled'
         }
 
         self._compartment_id = None
@@ -127,11 +160,15 @@ class CreateAutonomousVmClusterDetails(object):
         self._license_model = None
         self._total_container_databases = None
         self._cpu_core_count_per_node = None
+        self._compute_model = None
         self._memory_per_oracle_compute_unit_in_gbs = None
         self._autonomous_data_storage_size_in_tbs = None
         self._maintenance_window_details = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._scan_listener_port_tls = None
+        self._scan_listener_port_non_tls = None
+        self._is_mtls_enabled = None
 
     @property
     def compartment_id(self):
@@ -353,7 +390,7 @@ class CreateAutonomousVmClusterDetails(object):
     def cpu_core_count_per_node(self):
         """
         Gets the cpu_core_count_per_node of this CreateAutonomousVmClusterDetails.
-        The number of OCPU cores to enable per VM cluster node.
+        The number of CPU cores to enable per VM cluster node.
 
 
         :return: The cpu_core_count_per_node of this CreateAutonomousVmClusterDetails.
@@ -365,13 +402,45 @@ class CreateAutonomousVmClusterDetails(object):
     def cpu_core_count_per_node(self, cpu_core_count_per_node):
         """
         Sets the cpu_core_count_per_node of this CreateAutonomousVmClusterDetails.
-        The number of OCPU cores to enable per VM cluster node.
+        The number of CPU cores to enable per VM cluster node.
 
 
         :param cpu_core_count_per_node: The cpu_core_count_per_node of this CreateAutonomousVmClusterDetails.
         :type: int
         """
         self._cpu_core_count_per_node = cpu_core_count_per_node
+
+    @property
+    def compute_model(self):
+        """
+        Gets the compute_model of this CreateAutonomousVmClusterDetails.
+        The compute model of the Autonomous VM Cluster.
+
+        Allowed values for this property are: "ECPU", "OCPU"
+
+
+        :return: The compute_model of this CreateAutonomousVmClusterDetails.
+        :rtype: str
+        """
+        return self._compute_model
+
+    @compute_model.setter
+    def compute_model(self, compute_model):
+        """
+        Sets the compute_model of this CreateAutonomousVmClusterDetails.
+        The compute model of the Autonomous VM Cluster.
+
+
+        :param compute_model: The compute_model of this CreateAutonomousVmClusterDetails.
+        :type: str
+        """
+        allowed_values = ["ECPU", "OCPU"]
+        if not value_allowed_none_or_none_sentinel(compute_model, allowed_values):
+            raise ValueError(
+                "Invalid value for `compute_model`, must be None or one of {0}"
+                .format(allowed_values)
+            )
+        self._compute_model = compute_model
 
     @property
     def memory_per_oracle_compute_unit_in_gbs(self):
@@ -504,6 +573,78 @@ class CreateAutonomousVmClusterDetails(object):
         :type: dict(str, dict(str, object))
         """
         self._defined_tags = defined_tags
+
+    @property
+    def scan_listener_port_tls(self):
+        """
+        Gets the scan_listener_port_tls of this CreateAutonomousVmClusterDetails.
+        The SCAN Listener TLS port number. Default value is 2484.
+
+
+        :return: The scan_listener_port_tls of this CreateAutonomousVmClusterDetails.
+        :rtype: int
+        """
+        return self._scan_listener_port_tls
+
+    @scan_listener_port_tls.setter
+    def scan_listener_port_tls(self, scan_listener_port_tls):
+        """
+        Sets the scan_listener_port_tls of this CreateAutonomousVmClusterDetails.
+        The SCAN Listener TLS port number. Default value is 2484.
+
+
+        :param scan_listener_port_tls: The scan_listener_port_tls of this CreateAutonomousVmClusterDetails.
+        :type: int
+        """
+        self._scan_listener_port_tls = scan_listener_port_tls
+
+    @property
+    def scan_listener_port_non_tls(self):
+        """
+        Gets the scan_listener_port_non_tls of this CreateAutonomousVmClusterDetails.
+        The SCAN Listener Non TLS port number. Default value is 1521.
+
+
+        :return: The scan_listener_port_non_tls of this CreateAutonomousVmClusterDetails.
+        :rtype: int
+        """
+        return self._scan_listener_port_non_tls
+
+    @scan_listener_port_non_tls.setter
+    def scan_listener_port_non_tls(self, scan_listener_port_non_tls):
+        """
+        Sets the scan_listener_port_non_tls of this CreateAutonomousVmClusterDetails.
+        The SCAN Listener Non TLS port number. Default value is 1521.
+
+
+        :param scan_listener_port_non_tls: The scan_listener_port_non_tls of this CreateAutonomousVmClusterDetails.
+        :type: int
+        """
+        self._scan_listener_port_non_tls = scan_listener_port_non_tls
+
+    @property
+    def is_mtls_enabled(self):
+        """
+        Gets the is_mtls_enabled of this CreateAutonomousVmClusterDetails.
+        Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
+
+
+        :return: The is_mtls_enabled of this CreateAutonomousVmClusterDetails.
+        :rtype: bool
+        """
+        return self._is_mtls_enabled
+
+    @is_mtls_enabled.setter
+    def is_mtls_enabled(self, is_mtls_enabled):
+        """
+        Sets the is_mtls_enabled of this CreateAutonomousVmClusterDetails.
+        Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
+
+
+        :param is_mtls_enabled: The is_mtls_enabled of this CreateAutonomousVmClusterDetails.
+        :type: bool
+        """
+        self._is_mtls_enabled = is_mtls_enabled
 
     def __repr__(self):
         return formatted_flat_dict(self)

@@ -1,5 +1,5 @@
 ##########################################################################
-# Copyright (c) 2016, 2020, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 #
 # showoci_data.py
@@ -127,6 +127,8 @@ class ShowOCIData(object):
             'disclaimer': "This is not an official Oracle application, it is not supported by Oracle. It should NOT be used for utilization calculation purposes. If you run into issues using this, please file an issue at https://github.com/oracle/oci-python-sdk/issues rather than contacting support",
             'config_file': self.service.flags.config_file,
             'config_profile': self.service.flags.config_section,
+            'connection_timeout': self.service.flags.connection_timeout,
+            'read_timeout': self.service.flags.read_timeout,
             'use_instance_principals': self.service.flags.use_instance_principals,
             'use_delegation_token': self.service.flags.use_delegation_token,
             'use_security_token': self.service.flags.use_security_token,
@@ -595,6 +597,9 @@ class ShowOCIData(object):
 
             for subnet in subnets:
 
+                # get the list of private_ips
+                private_ips = self.service.search_multi_items(self.service.C_NETWORK, self.service.C_NETWORK_SUBNET_PIP, 'subnet_id', subnet['id'])
+
                 # get the list of security lists
                 sec_lists = []
                 if 'security_list_ids' in subnet:
@@ -635,7 +640,9 @@ class ShowOCIData(object):
                     'route_table_id': subnet['route_table_id'],
                     'time_created': subnet['time_created'],
                     'defined_tags': subnet['defined_tags'],
-                    'freeform_tags': subnet['freeform_tags']
+                    'freeform_tags': subnet['freeform_tags'],
+                    'private_ips': private_ips,
+                    'logs': self.service.get_logging_log(subnet['id'])
                 })
                 data.append(val)
             return data
@@ -1370,14 +1377,15 @@ class ShowOCIData(object):
     # get Core Block boot volume
     ##########################################################################
 
-    def __get_core_block_volume_boot(self, boot_volume_id, compartment_name):
+    def __get_core_block_volume_boot(self, bva, compartment_name):
         try:
             value = {}
             comp_text = ""
             volume_group = ""
+            encrypted = ""
 
             # get block volume
-            bv = self.service.search_unique_item(self.service.C_BLOCK, self.service.C_BLOCK_BOOT, 'id', boot_volume_id)
+            bv = self.service.search_unique_item(self.service.C_BLOCK, self.service.C_BLOCK_BOOT, 'id', bva['boot_volume_id'])
             if bv:
 
                 # check if different compartment
@@ -1387,18 +1395,23 @@ class ShowOCIData(object):
                 if bv['volume_group_name']:
                     volume_group = " - Group " + bv['volume_group_name']
 
+                if bva['is_pv_encryption_in_transit_enabled']:
+                    encrypted = " - TransitEncrypted=" + bva['is_pv_encryption_in_transit_enabled']
+
                 value = {
                     'id': bv['id'],
                     'sum_info': 'Compute - Block Storage (GB)',
                     'sum_size_gb': bv['size_in_gbs'],
                     'size': bv['size_in_gbs'],
-                    'desc': (str(bv['size_in_gbs']) + "GB - " + str(bv['display_name']) + " (" + bv['vpus_per_gb'] + " vpus) " + bv['backup_policy'] + volume_group + comp_text),
+                    'desc': (str(bv['size_in_gbs']) + "GB - " + str(bv['display_name']) + " (" + bv['vpus_per_gb'] + " vpus) " + bv['backup_policy'] + volume_group + comp_text + encrypted),
                     'backup_policy': "None" if bv['backup_policy'] == "" else bv['backup_policy'],
                     'vpus_per_gb': bv['vpus_per_gb'],
                     'volume_group_name': bv['volume_group_name'],
                     'compartment_name': bv['compartment_name'],
                     'compartment_path': bv['compartment_path'],
                     'is_hydrated': bv['is_hydrated'],
+                    'encryption_in_transit_type': bva['encryption_in_transit_type'],
+                    'is_pv_encryption_in_transit_enabled': bva['is_pv_encryption_in_transit_enabled'],
                     'time_created': bv['time_created'],
                     'display_name': bv['display_name'],
                     'defined_tags': bv['defined_tags'],
@@ -1413,14 +1426,15 @@ class ShowOCIData(object):
     # get Core Block boot volume
     ##########################################################################
 
-    def __get_core_block_volume(self, volume_id, compartment_name):
+    def __get_core_block_volume(self, bva, compartment_name):
         try:
             value = {}
             comp_text = ""
             volume_group = ""
+            encrypted = ""
 
             # get block volume
-            bv = self.service.search_unique_item(self.service.C_BLOCK, self.service.C_BLOCK_VOL, 'id', volume_id)
+            bv = self.service.search_unique_item(self.service.C_BLOCK, self.service.C_BLOCK_VOL, 'id', bva['volume_id'])
             if bv:
 
                 # check if different compartment
@@ -1430,11 +1444,14 @@ class ShowOCIData(object):
                 if bv['volume_group_name']:
                     volume_group = " - Group " + bv['volume_group_name']
 
+                if bva['is_pv_encryption_in_transit_enabled']:
+                    encrypted = " - TransitEncrypted=" + bva['is_pv_encryption_in_transit_enabled']
+
                 value = {
                     'id': bv['id'],
                     'sum_info': 'Compute - Block Storage (GB)',
                     'sum_size_gb': bv['size_in_gbs'],
-                    'desc': (str(bv['size_in_gbs']) + "GB - " + str(bv['display_name']) + " (" + bv['vpus_per_gb'] + " vpus) " + bv['backup_policy'] + volume_group + comp_text),
+                    'desc': (str(bv['size_in_gbs']) + "GB - " + str(bv['display_name']) + " (" + bv['vpus_per_gb'] + " vpus) " + bv['backup_policy'] + volume_group + comp_text + encrypted),
                     'time_created': bv['time_created'],
                     'compartment_name': bv['compartment_name'],
                     'compartment_path': bv['compartment_path'],
@@ -1445,6 +1462,11 @@ class ShowOCIData(object):
                     'volume_group_name': bv['volume_group_name'],
                     'is_hydrated': bv['is_hydrated'],
                     'size': str(bv['size_in_gbs']),
+                    'is_read_only': str(bva['is_read_only']),
+                    'is_shareable': str(bva['is_shareable']),
+                    'is_pv_encryption_in_transit_enabled': str(bva['is_pv_encryption_in_transit_enabled']),
+                    'is_multipath': str(bva['is_multipath']),
+                    'iscsi_login_state': str(bva['iscsi_login_state']),
                     'defined_tags': bv['defined_tags'],
                     'freeform_tags': bv['freeform_tags']
                 }
@@ -1710,8 +1732,7 @@ class ShowOCIData(object):
 
                 bv = []
                 for bva in boot_vol_attachement:
-                    bvval = {'id': bva['boot_volume_id']}
-                    bvval = self.__get_core_block_volume_boot(bva['boot_volume_id'], instance['compartment_name'])
+                    bvval = self.__get_core_block_volume_boot(bva, instance['compartment_name'])
                     if 'display_name' in bvval:
                         bv.append(bvval)
 
@@ -1723,8 +1744,7 @@ class ShowOCIData(object):
                 bvol = []
                 for bvola in block_vol_attaches:
                     if bvola['lifecycle_state'] == "ATTACHED":
-                        bvval = {'id': bvola['volume_id']}
-                        bvval = self.__get_core_block_volume(bvola['volume_id'], instance['compartment_name'])
+                        bvval = self.__get_core_block_volume(bvola, instance['compartment_name'])
                         if 'display_name' in bvval:
                             bvol.append(bvval)
 
@@ -2282,6 +2302,7 @@ class ShowOCIData(object):
                     'sum_info_storage': 'Database - Storage (GB)',
                     'sum_size_gb': dbs['total_storage_size_in_gbs'],
                     'data': str(dbs['available_storage_size_in_gbs']) + "GB",
+                    'db_servers': [] if not dbs['db_servers'] else sorted(dbs['db_servers'], key=lambda i: i['desc']),
                     'vm_clusters': []
                 }
 
@@ -2682,6 +2703,7 @@ class ShowOCIData(object):
                 value = {'id': str(infra['id']),
                          'name': str(infra['display_name']) + " - " + str(infra['license_model']) + " - " + infra['shape'] + " - " + str(infra['lifecycle_state']),
                          'availability_domain': infra['availability_domain'],
+                         'display_name': infra['display_name'],
                          'subnet_id': infra['subnet_id'],
                          'subnet_name': infra['subnet_name'],
                          'nsg_ids': infra['nsg_ids'],
@@ -3513,6 +3535,7 @@ class ShowOCIData(object):
                            'time_created': fn['time_created'],
                            'defined_tags': fn['defined_tags'],
                            'freeform_tags': fn['freeform_tags'],
+                           'functions': fn['functions'],
                            'compartment_name': fn['compartment_name'],
                            'compartment_path': fn['compartment_path'],
                            'compartment_id': fn['compartment_id'],
@@ -3576,7 +3599,16 @@ class ShowOCIData(object):
             data = {}
             # if events add it
             if events:
-                data['events'] = events
+                data['events'] = []
+                for event in events:
+                    for action in event['actions']:
+                        if action['action_type'] == 'ONS':
+                            action['dest_name'] = self.__get_notification_topic_name(action['dest_id'])
+                        if action['action_type'] == 'OSS':
+                            action['dest_name'] = self.__get_streaming_stream_name(action['dest_id'])
+                        if action['action_type'] == 'FAAS':
+                            action['dest_name'] = self.__get_function_name(action['dest_id'])
+                    data['events'].append(event)
 
             # if agents add it
             if agents:
@@ -3595,15 +3627,56 @@ class ShowOCIData(object):
 
                     # find the topics
                     for dest in alarm['destinations']:
-                        topic = self.service.search_unique_item(self.service.C_NOTIFICATIONS, self.service.C_NOTIFICATIONS_TOPICS, 'topic_id', dest)
-                        if topic:
-                            val['destinations_names'].append(topic['name'] + " - " + topic['description'])
+                        if dest:
+                            val['destinations_names'].append(self.__get_notification_topic_name(dest))
 
                     data['alarms'].append(val)
             return data
 
         except Exception as e:
             self.__print_error("__get_monitoring_main", e)
+            pass
+
+    ##########################################################################
+    # get topic name
+    ##########################################################################
+    def __get_notification_topic_name(self, topic_id):
+        try:
+            topic = self.service.search_unique_item(self.service.C_NOTIFICATIONS, self.service.C_NOTIFICATIONS_TOPICS, 'topic_id', topic_id)
+            if topic:
+                if topic['description'] != 'None':
+                    return topic['name'] + " - " + topic['description']
+                else:
+                    return topic['name']
+            return topic_id
+        except Exception as e:
+            self.__print_error("__get_notification_topic_name", e)
+            pass
+
+    ##########################################################################
+    # get stream name
+    ##########################################################################
+    def __get_streaming_stream_name(self, stream_id):
+        try:
+            stream = self.service.search_unique_item(self.service.C_STREAMS, self.service.C_STREAMS_STREAMS, 'id', stream_id)
+            if stream:
+                return stream['name']
+            return stream_id
+        except Exception as e:
+            self.__print_error("__get_streaming_stream_name", e)
+            pass
+
+    ##########################################################################
+    # get function name
+    ##########################################################################
+    def __get_function_name(self, function_id):
+        try:
+            function = self.service.search_unique_item(self.service.C_FUNCTION, self.service.C_FUNCTION_FUNCTIONS, 'id', function_id)
+            if function:
+                return function['display_name']
+            return function_id
+        except Exception as e:
+            self.__print_error("__get_function_name", e)
             pass
 
     ##########################################################################
@@ -3803,6 +3876,11 @@ class ShowOCIData(object):
             dc = self.service.search_multi_items(self.service.C_DATA_AI, self.service.C_DATA_AI_CATALOG, 'region_name', region_name, 'compartment_id', compartment['id'])
             if dc:
                 data_ai['data_catalog'] = dc
+
+            # Data Connectivity Registry
+            dc = self.service.search_multi_items(self.service.C_DATA_AI, self.service.C_DATA_AI_DCREGISTRY, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if dc:
+                data_ai['data_connectivity_registry'] = dc
 
             # Data Integration
             di = self.service.search_multi_items(self.service.C_DATA_AI, self.service.C_DATA_AI_DI, 'region_name', region_name, 'compartment_id', compartment['id'])

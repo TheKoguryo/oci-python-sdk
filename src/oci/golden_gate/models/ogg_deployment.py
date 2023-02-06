@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -58,7 +58,8 @@ class OggDeployment(object):
     def deployment_name(self):
         """
         **[Required]** Gets the deployment_name of this OggDeployment.
-        The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
+        The name given to the GoldenGate service deployment.
+        The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
 
 
         :return: The deployment_name of this OggDeployment.
@@ -70,7 +71,8 @@ class OggDeployment(object):
     def deployment_name(self, deployment_name):
         """
         Sets the deployment_name of this OggDeployment.
-        The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
+        The name given to the GoldenGate service deployment.
+        The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
 
 
         :param deployment_name: The deployment_name of this OggDeployment.

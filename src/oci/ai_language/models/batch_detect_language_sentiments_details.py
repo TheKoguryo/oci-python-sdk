@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -18,20 +18,55 @@ class BatchDetectLanguageSentimentsDetails(object):
         Initializes a new BatchDetectLanguageSentimentsDetails object with values from keyword arguments.
         The following keyword arguments are supported (corresponding to the getters/setters of this class):
 
+        :param compartment_id:
+            The value to assign to the compartment_id property of this BatchDetectLanguageSentimentsDetails.
+        :type compartment_id: str
+
         :param documents:
             The value to assign to the documents property of this BatchDetectLanguageSentimentsDetails.
-        :type documents: list[oci.ai_language.models.SentimentsDocument]
+        :type documents: list[oci.ai_language.models.TextDocument]
 
         """
         self.swagger_types = {
-            'documents': 'list[SentimentsDocument]'
+            'compartment_id': 'str',
+            'documents': 'list[TextDocument]'
         }
 
         self.attribute_map = {
+            'compartment_id': 'compartmentId',
             'documents': 'documents'
         }
 
+        self._compartment_id = None
         self._documents = None
+
+    @property
+    def compartment_id(self):
+        """
+        Gets the compartment_id of this BatchDetectLanguageSentimentsDetails.
+        The `OCID`__ of the compartment that calls the API, inference will be served from pre trained model
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :return: The compartment_id of this BatchDetectLanguageSentimentsDetails.
+        :rtype: str
+        """
+        return self._compartment_id
+
+    @compartment_id.setter
+    def compartment_id(self, compartment_id):
+        """
+        Sets the compartment_id of this BatchDetectLanguageSentimentsDetails.
+        The `OCID`__ of the compartment that calls the API, inference will be served from pre trained model
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :param compartment_id: The compartment_id of this BatchDetectLanguageSentimentsDetails.
+        :type: str
+        """
+        self._compartment_id = compartment_id
 
     @property
     def documents(self):
@@ -41,7 +76,7 @@ class BatchDetectLanguageSentimentsDetails(object):
 
 
         :return: The documents of this BatchDetectLanguageSentimentsDetails.
-        :rtype: list[oci.ai_language.models.SentimentsDocument]
+        :rtype: list[oci.ai_language.models.TextDocument]
         """
         return self._documents
 
@@ -53,7 +88,7 @@ class BatchDetectLanguageSentimentsDetails(object):
 
 
         :param documents: The documents of this BatchDetectLanguageSentimentsDetails.
-        :type: list[oci.ai_language.models.SentimentsDocument]
+        :type: list[oci.ai_language.models.TextDocument]
         """
         self._documents = documents
 

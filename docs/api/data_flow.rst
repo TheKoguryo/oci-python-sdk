@@ -28,13 +28,23 @@ Data Flow
     oci.data_flow.models.CreateApplicationDetails
     oci.data_flow.models.CreatePrivateEndpointDetails
     oci.data_flow.models.CreateRunDetails
+    oci.data_flow.models.CreateStatementDetails
+    oci.data_flow.models.ImagePngStatementOutputData
     oci.data_flow.models.PrivateEndpoint
     oci.data_flow.models.PrivateEndpointCollection
     oci.data_flow.models.PrivateEndpointSummary
     oci.data_flow.models.Run
     oci.data_flow.models.RunLogSummary
     oci.data_flow.models.RunSummary
+    oci.data_flow.models.Scan
     oci.data_flow.models.ShapeConfig
+    oci.data_flow.models.Statement
+    oci.data_flow.models.StatementCollection
+    oci.data_flow.models.StatementOutput
+    oci.data_flow.models.StatementOutputData
+    oci.data_flow.models.StatementSummary
+    oci.data_flow.models.TextHtmlStatementOutputData
+    oci.data_flow.models.TextPlainStatementOutputData
     oci.data_flow.models.UpdateApplicationDetails
     oci.data_flow.models.UpdatePrivateEndpointDetails
     oci.data_flow.models.UpdateRunDetails

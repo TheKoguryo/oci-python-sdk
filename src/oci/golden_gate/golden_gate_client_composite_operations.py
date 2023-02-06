@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 import oci  # noqa: F401
@@ -45,6 +45,49 @@ class GoldenGateClientCompositeOperations(object):
             as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
         """
         operation_result = self.client.cancel_deployment_backup(deployment_backup_id, cancel_deployment_backup_details, **operation_kwargs)
+        if not wait_for_states:
+            return operation_result
+
+        lowered_wait_for_states = [w.lower() for w in wait_for_states]
+        wait_for_resource_id = operation_result.headers['opc-work-request-id']
+
+        try:
+            waiter_result = oci.wait_until(
+                self.client,
+                self.client.get_work_request(wait_for_resource_id),
+                evaluate_response=lambda r: getattr(r.data, 'status') and getattr(r.data, 'status').lower() in lowered_wait_for_states,
+                **waiter_kwargs
+            )
+            result_to_return = waiter_result
+
+            return result_to_return
+        except Exception as e:
+            raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
+
+    def change_connection_compartment_and_wait_for_state(self, connection_id, change_connection_compartment_details, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
+        """
+        Calls :py:func:`~oci.golden_gate.GoldenGateClient.change_connection_compartment` and waits for the :py:class:`~oci.golden_gate.models.WorkRequest`
+        to enter the given state(s).
+
+        :param str connection_id: (required)
+            The `OCID`__ of a Connection.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param oci.golden_gate.models.ChangeConnectionCompartmentDetails change_connection_compartment_details: (required)
+            Properties to change the compartment of a Connection.
+
+        :param list[str] wait_for_states:
+            An array of states to wait on. These should be valid values for :py:attr:`~oci.golden_gate.models.WorkRequest.status`
+
+        :param dict operation_kwargs:
+            A dictionary of keyword arguments to pass to :py:func:`~oci.golden_gate.GoldenGateClient.change_connection_compartment`
+
+        :param dict waiter_kwargs:
+            A dictionary of keyword arguments to pass to the :py:func:`oci.wait_until` function. For example, you could pass ``max_interval_seconds`` or ``max_interval_seconds``
+            as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
+        """
+        operation_result = self.client.change_connection_compartment(connection_id, change_connection_compartment_details, **operation_kwargs)
         if not wait_for_states:
             return operation_result
 
@@ -127,6 +170,123 @@ class GoldenGateClientCompositeOperations(object):
             as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
         """
         operation_result = self.client.change_deployment_compartment(deployment_id, change_deployment_compartment_details, **operation_kwargs)
+        if not wait_for_states:
+            return operation_result
+
+        lowered_wait_for_states = [w.lower() for w in wait_for_states]
+        wait_for_resource_id = operation_result.headers['opc-work-request-id']
+
+        try:
+            waiter_result = oci.wait_until(
+                self.client,
+                self.client.get_work_request(wait_for_resource_id),
+                evaluate_response=lambda r: getattr(r.data, 'status') and getattr(r.data, 'status').lower() in lowered_wait_for_states,
+                **waiter_kwargs
+            )
+            result_to_return = waiter_result
+
+            return result_to_return
+        except Exception as e:
+            raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
+
+    def collect_deployment_diagnostic_and_wait_for_state(self, deployment_id, collect_deployment_diagnostic_details, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
+        """
+        Calls :py:func:`~oci.golden_gate.GoldenGateClient.collect_deployment_diagnostic` and waits for the :py:class:`~oci.golden_gate.models.WorkRequest`
+        to enter the given state(s).
+
+        :param str deployment_id: (required)
+            A unique Deployment identifier.
+
+        :param oci.golden_gate.models.CollectDeploymentDiagnosticDetails collect_deployment_diagnostic_details: (required)
+            Metadata about the deployment diagnostic. This also includes the Object storage information where the diagnostic will be uploaded
+
+        :param list[str] wait_for_states:
+            An array of states to wait on. These should be valid values for :py:attr:`~oci.golden_gate.models.WorkRequest.status`
+
+        :param dict operation_kwargs:
+            A dictionary of keyword arguments to pass to :py:func:`~oci.golden_gate.GoldenGateClient.collect_deployment_diagnostic`
+
+        :param dict waiter_kwargs:
+            A dictionary of keyword arguments to pass to the :py:func:`oci.wait_until` function. For example, you could pass ``max_interval_seconds`` or ``max_interval_seconds``
+            as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
+        """
+        operation_result = self.client.collect_deployment_diagnostic(deployment_id, collect_deployment_diagnostic_details, **operation_kwargs)
+        if not wait_for_states:
+            return operation_result
+
+        lowered_wait_for_states = [w.lower() for w in wait_for_states]
+        wait_for_resource_id = operation_result.headers['opc-work-request-id']
+
+        try:
+            waiter_result = oci.wait_until(
+                self.client,
+                self.client.get_work_request(wait_for_resource_id),
+                evaluate_response=lambda r: getattr(r.data, 'status') and getattr(r.data, 'status').lower() in lowered_wait_for_states,
+                **waiter_kwargs
+            )
+            result_to_return = waiter_result
+
+            return result_to_return
+        except Exception as e:
+            raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
+
+    def create_connection_and_wait_for_state(self, create_connection_details, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
+        """
+        Calls :py:func:`~oci.golden_gate.GoldenGateClient.create_connection` and waits for the :py:class:`~oci.golden_gate.models.WorkRequest`
+        to enter the given state(s).
+
+        :param oci.golden_gate.models.CreateConnectionDetails create_connection_details: (required)
+            Specification of the Connection to create.
+
+        :param list[str] wait_for_states:
+            An array of states to wait on. These should be valid values for :py:attr:`~oci.golden_gate.models.WorkRequest.status`
+
+        :param dict operation_kwargs:
+            A dictionary of keyword arguments to pass to :py:func:`~oci.golden_gate.GoldenGateClient.create_connection`
+
+        :param dict waiter_kwargs:
+            A dictionary of keyword arguments to pass to the :py:func:`oci.wait_until` function. For example, you could pass ``max_interval_seconds`` or ``max_interval_seconds``
+            as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
+        """
+        operation_result = self.client.create_connection(create_connection_details, **operation_kwargs)
+        if not wait_for_states:
+            return operation_result
+
+        lowered_wait_for_states = [w.lower() for w in wait_for_states]
+        wait_for_resource_id = operation_result.headers['opc-work-request-id']
+
+        try:
+            waiter_result = oci.wait_until(
+                self.client,
+                self.client.get_work_request(wait_for_resource_id),
+                evaluate_response=lambda r: getattr(r.data, 'status') and getattr(r.data, 'status').lower() in lowered_wait_for_states,
+                **waiter_kwargs
+            )
+            result_to_return = waiter_result
+
+            return result_to_return
+        except Exception as e:
+            raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
+
+    def create_connection_assignment_and_wait_for_state(self, create_connection_assignment_details, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
+        """
+        Calls :py:func:`~oci.golden_gate.GoldenGateClient.create_connection_assignment` and waits for the :py:class:`~oci.golden_gate.models.WorkRequest`
+        to enter the given state(s).
+
+        :param oci.golden_gate.models.CreateConnectionAssignmentDetails create_connection_assignment_details: (required)
+            Specification of the connection assignment to create.
+
+        :param list[str] wait_for_states:
+            An array of states to wait on. These should be valid values for :py:attr:`~oci.golden_gate.models.WorkRequest.status`
+
+        :param dict operation_kwargs:
+            A dictionary of keyword arguments to pass to :py:func:`~oci.golden_gate.GoldenGateClient.create_connection_assignment`
+
+        :param dict waiter_kwargs:
+            A dictionary of keyword arguments to pass to the :py:func:`oci.wait_until` function. For example, you could pass ``max_interval_seconds`` or ``max_interval_seconds``
+            as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
+        """
+        operation_result = self.client.create_connection_assignment(create_connection_assignment_details, **operation_kwargs)
         if not wait_for_states:
             return operation_result
 
@@ -241,6 +401,102 @@ class GoldenGateClientCompositeOperations(object):
             as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
         """
         operation_result = self.client.create_deployment_backup(create_deployment_backup_details, **operation_kwargs)
+        if not wait_for_states:
+            return operation_result
+
+        lowered_wait_for_states = [w.lower() for w in wait_for_states]
+        wait_for_resource_id = operation_result.headers['opc-work-request-id']
+
+        try:
+            waiter_result = oci.wait_until(
+                self.client,
+                self.client.get_work_request(wait_for_resource_id),
+                evaluate_response=lambda r: getattr(r.data, 'status') and getattr(r.data, 'status').lower() in lowered_wait_for_states,
+                **waiter_kwargs
+            )
+            result_to_return = waiter_result
+
+            return result_to_return
+        except Exception as e:
+            raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
+
+    def delete_connection_and_wait_for_state(self, connection_id, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
+        """
+        Calls :py:func:`~oci.golden_gate.GoldenGateClient.delete_connection` and waits for the :py:class:`~oci.golden_gate.models.WorkRequest`
+        to enter the given state(s).
+
+        :param str connection_id: (required)
+            The `OCID`__ of a Connection.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param list[str] wait_for_states:
+            An array of states to wait on. These should be valid values for :py:attr:`~oci.golden_gate.models.WorkRequest.status`
+
+        :param dict operation_kwargs:
+            A dictionary of keyword arguments to pass to :py:func:`~oci.golden_gate.GoldenGateClient.delete_connection`
+
+        :param dict waiter_kwargs:
+            A dictionary of keyword arguments to pass to the :py:func:`oci.wait_until` function. For example, you could pass ``max_interval_seconds`` or ``max_interval_seconds``
+            as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
+        """
+        operation_result = None
+        try:
+            operation_result = self.client.delete_connection(connection_id, **operation_kwargs)
+        except oci.exceptions.ServiceError as e:
+            if e.status == 404:
+                return WAIT_RESOURCE_NOT_FOUND
+            else:
+                raise e
+
+        if not wait_for_states:
+            return operation_result
+
+        lowered_wait_for_states = [w.lower() for w in wait_for_states]
+        wait_for_resource_id = operation_result.headers['opc-work-request-id']
+
+        try:
+            waiter_result = oci.wait_until(
+                self.client,
+                self.client.get_work_request(wait_for_resource_id),
+                evaluate_response=lambda r: getattr(r.data, 'status') and getattr(r.data, 'status').lower() in lowered_wait_for_states,
+                **waiter_kwargs
+            )
+            result_to_return = waiter_result
+
+            return result_to_return
+        except Exception as e:
+            raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
+
+    def delete_connection_assignment_and_wait_for_state(self, connection_assignment_id, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
+        """
+        Calls :py:func:`~oci.golden_gate.GoldenGateClient.delete_connection_assignment` and waits for the :py:class:`~oci.golden_gate.models.WorkRequest`
+        to enter the given state(s).
+
+        :param str connection_assignment_id: (required)
+            The `OCID`__ of the Connection Assignment.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param list[str] wait_for_states:
+            An array of states to wait on. These should be valid values for :py:attr:`~oci.golden_gate.models.WorkRequest.status`
+
+        :param dict operation_kwargs:
+            A dictionary of keyword arguments to pass to :py:func:`~oci.golden_gate.GoldenGateClient.delete_connection_assignment`
+
+        :param dict waiter_kwargs:
+            A dictionary of keyword arguments to pass to the :py:func:`oci.wait_until` function. For example, you could pass ``max_interval_seconds`` or ``max_interval_seconds``
+            as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
+        """
+        operation_result = None
+        try:
+            operation_result = self.client.delete_connection_assignment(connection_assignment_id, **operation_kwargs)
+        except oci.exceptions.ServiceError as e:
+            if e.status == 404:
+                return WAIT_RESOURCE_NOT_FOUND
+            else:
+                raise e
+
         if not wait_for_states:
             return operation_result
 
@@ -502,6 +758,49 @@ class GoldenGateClientCompositeOperations(object):
             as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
         """
         operation_result = self.client.stop_deployment(deployment_id, stop_deployment_details, **operation_kwargs)
+        if not wait_for_states:
+            return operation_result
+
+        lowered_wait_for_states = [w.lower() for w in wait_for_states]
+        wait_for_resource_id = operation_result.headers['opc-work-request-id']
+
+        try:
+            waiter_result = oci.wait_until(
+                self.client,
+                self.client.get_work_request(wait_for_resource_id),
+                evaluate_response=lambda r: getattr(r.data, 'status') and getattr(r.data, 'status').lower() in lowered_wait_for_states,
+                **waiter_kwargs
+            )
+            result_to_return = waiter_result
+
+            return result_to_return
+        except Exception as e:
+            raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
+
+    def update_connection_and_wait_for_state(self, connection_id, update_connection_details, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
+        """
+        Calls :py:func:`~oci.golden_gate.GoldenGateClient.update_connection` and waits for the :py:class:`~oci.golden_gate.models.WorkRequest`
+        to enter the given state(s).
+
+        :param str connection_id: (required)
+            The `OCID`__ of a Connection.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param oci.golden_gate.models.UpdateConnectionDetails update_connection_details: (required)
+            The new Connection specifications to apply.
+
+        :param list[str] wait_for_states:
+            An array of states to wait on. These should be valid values for :py:attr:`~oci.golden_gate.models.WorkRequest.status`
+
+        :param dict operation_kwargs:
+            A dictionary of keyword arguments to pass to :py:func:`~oci.golden_gate.GoldenGateClient.update_connection`
+
+        :param dict waiter_kwargs:
+            A dictionary of keyword arguments to pass to the :py:func:`oci.wait_until` function. For example, you could pass ``max_interval_seconds`` or ``max_interval_seconds``
+            as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
+        """
+        operation_result = self.client.update_connection(connection_id, update_connection_details, **operation_kwargs)
         if not wait_for_states:
             return operation_result
 
