@@ -973,7 +973,7 @@ def main_process():
 
             while True:
                 for item in list_resource_actions_response.data.items:
-                    #print("name: " + item.name)
+                    print("name: " + item.name)
                     #print("resource_id: " + item.resource_id)
                     print("timeCreated: " + item.extended_metadata['timeCreated'])
                     print("unattachedSince: " + item.extended_metadata['unattachedSince'])
@@ -1000,6 +1000,13 @@ def main_process():
                             volume_id = item.resource_id)
                     except Exception as e:
                         print("\nError appeared - " + str(e))
+                        continue
+
+                    #print(get_volume_response.data)
+
+                    print(get_volume_response.data.lifecycle_state)
+                    if get_volume_response.data.lifecycle_state == 'TERMINATED':
+                        continue
 
                     try:
                         defined_tags = get_volume_response.data.defined_tags
@@ -1132,9 +1139,9 @@ def main_process():
                             start_user = ""
                             start_time = ""
 
-                            update_date = check_existing_update_date(connection, instance.id)
-                            if update_date:
-                                to_time_limit = update_date.replace(tzinfo=utc)
+                            #update_date = check_existing_update_date(connection, instance.id)
+                            #if update_date:
+                            #    to_time_limit = update_date.replace(tzinfo=utc)
                             
                             while to_time_limit < to_time and counter < 2:
                                 from_time = to_time + datetime.timedelta(days=-14)
@@ -1175,10 +1182,10 @@ def main_process():
                                 
                                 to_time = from_time
 
-                            if update_date:
-                                if to_time_limit >= to_time:
-                                    update_existing_update_date(connection, instance.id, today)
-                                    continue
+                            #if update_date:
+                            #    if to_time_limit >= to_time:
+                            #        update_existing_update_date(connection, instance.id, today)
+                            #        continue
 
                             #print("Region " + instance.region)
                             #print("CompartmentPath " + compartment_path)
@@ -1222,20 +1229,30 @@ def main_process():
                             except Exception as e:
                                 created_by = ''      
 
-                            owner_email = ''
-                            if created_by != '':
-                                owner_email = created_by.split('/')[-1]
-                            elif start_user != '':
-                                owner_email = start_user.split('/')[-1]
-                            
+                            try:
+                                defined_tags = instance.defined_tags
+                                owner_email = defined_tags['Oracle-Standard']['OwnerEmail']
+                            except Exception as e:
+                                owner_email = ''      
+
                             obj = re.search(r'[\w.]+\@[\w.]+', owner_email)
                             if not obj:
                                 owner_email = ''
 
+                            if owner_email == '':
+                                if created_by != '':
+                                    owner_email = created_by.split('/')[-1]
+                                elif start_user != '':
+                                    owner_email = start_user.split('/')[-1]
+                            
+                                obj = re.search(r'[\w.]+\@[\w.]+', owner_email)
+                                if not obj:
+                                   owner_email = ''
+
                             row_data = (
                                 str(tenancy.name),
                                 short_tenant_id,
-                                instance.region,
+                                current_region,
                                 compartment_path,
                                 current_compartment_name,
                                 compartment_id,
