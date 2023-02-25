@@ -4,6 +4,56 @@ All notable changes to this project will be documented in this file.
 
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 ====================
+2.93.0 - 2023-02-21
+====================
+
+Added
+-----
+* Support for async jobs in the AI Anomaly Detection service
+* Support for specifying algorithm hints and windows sizes during model training in the AI Anomaly Detection service
+* Support for specifying a sensitivity value during model detection in the AI Anomaly Detection service
+* Support for discovery and monitoring of external Oracle database infrastructure components in the Database Management service
+ 
+Breaking
+--------
+* The type for property `system_tags` was changed from a dict of string to another dict to a dict of a string to object for `project_summary`, `project`, `model_summary`, `model`, `data_asset_summary`, `data_asset`, `ai_private_endpoint_summary`, `ai_private_endpoint` models in the AI Anomaly Detection service
+* Support for retries by default on operations of the AI Anomaly Detection service
+ 
+====================
+2.92.0 - 2023-02-14
+====================
+
+Added
+-----
+* Support for the Visual Builder Studio service
+* Support for the Autonomous Recovery service
+* Support for retries by default on operations of the Compute service
+* Support for selecting specific database servers when creating autonomous VM clusters in the Database service
+* Support for creating autonomous VMs during the creation of autonomous VM clusters in the Database service
+
+Breaking
+--------
+* Support for retries by default on operations of the Compute service
+
+====================
+2.91.0 - 2023-02-07
+====================
+
+Added
+-----
+* Support for changing Data Guard role of a database instance within the Database service
+* Support for listing autonomous container database versions in the Database service
+* Support for specifying a database version when creating or updating an autonomous container database in the Database service
+* Support for specifying an eCPU count when creating or updating autonomous shared databases in the Database service
+* Support for Helm attestation and Helm arguments on deploy operations in the DevOps service
+* Support for uploading master key wallets for deployments in the GoldenGate service
+* Support for custom configurations in the Operations Insights service  
+ 
+Breaking
+--------
+* Field `cpu_core_count` has been made optional in the models `AutonomousDatabaseSummary` and `AutonomousDatabase` in the Database service
+ 
+====================
 2.90.4 - 2023-01-31
 ====================
 
@@ -11,8 +61,8 @@ Added
 -----
 * Support for ECPU billing for autonomous databases and dedicated autonomous databases on Exadata Cloud at Customer in the Database service
 * Support for providing a vault secret ID when creating or updating autonomous shared databases in the Database service
-* Support for including machine learning notebook, ORDS, and database transform URLs as autonomous database connections in the Database service
-* Support for role*based access control on OpenSearch clusters in the Search service
+* Support for including ORDS and database transform URLs as autonomous database connections in the Database service
+* Support for role-based access control on OpenSearch clusters in the Search service
 * Support for managed shell stages on deployments in the DevOps service
 * Support for memory encryption on confidential VMs in the Compute service
 * Support for configuration items, and reporting ownership of configuration items, in the Application Performance Monitoring service
@@ -51,6 +101,8 @@ Added
 Security
 --------
 * Upgrade wheel version for applicable Python versions to fix security vulnerability as mentioned in https://github.com/oracle/oci-python-sdk/pull/502
+
+====================
 2.90.0 - 2022-12-13
 ====================
 
